@@ -1,0 +1,201 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    height: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
+.action-bar {
+    margin: 10px 0;
+    text-align: right;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-block {
+    display: block;
+}
+
+.icfa {
+    margin-right: 10px;
+}
+
+/* CSS for form */
+.img-uploaded {
+    // width: 86px;
+    height: 86px;
+}
+
+.avatar-contain {
+    img {
+        object-fit: contain;
+    }
+}
+
+.custom-fieldset {
+    padding: 1em;
+    border: 1px solid #f0f0f0;
+    legend {
+        font-size: 16px;
+        display: unset;
+        width: unset;
+        padding: 0 10px;
+        border-bottom: unset;
+        margin: unset;
+    }
+}
+/* End css for form*/
+
+/* CSS for base table*/
+.base-table {
+    .ant-table-row {
+        td {
+            padding: 4px 8px !important;
+        }
+        .img-col {
+            width: 70px;
+            height: 50px;
+        }
+        .empty-img-col {
+            font-size: 68px;
+            color: #c1c1c1;
+        }
+        .tag-status {
+            width: 60px;
+            display: flex;
+            justify-content: center;
+        }
+    }
+    .ant-table-row:nth-child(odd) td{
+        background-color: #fff;
+    }
+    .ant-table-row:nth-child(even) td{
+        background-color:#f9f9f9;
+    }
+}
+
+/* End css for base table*/
+
+.quill {
+    .ql-toolbar {
+        line-height: 22px;
+    }
+    .ql-editor{
+        min-height: 300px !important;
+        max-height: 500px;
+    }
+}
+
+.pre-line {
+    white-space: pre-line;
+}
+
+.word-break {
+    word-break: break-all;
+}
+
+.serch-customer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.happy-hours-table {
+    // border-collapse: collapse;
+    // border: 1px solid #d9d9d9;
+    text-align: center;
+    width: 100%;
+    td, th {
+        border: 1px solid #d9d9d9;
+        // display: flex;
+    }
+    .days-of-weeks-col {
+        text-align: center;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+    }
+    .ant-form-item {
+        margin: 0 4px;
+    }
+}
+
+.addition-foods {
+    .ant-form-item {
+        margin-bottom: 0;
+    }
+}
+
+.token-form {
+    .ant-descriptions-item-label {
+        color: rgba(0,0,0,.85);
+        font-weight: 700;
+    }
+}
+
+
+.beilage-items, .happy-hours-items {
+    .ant-form-item {
+        margin-bottom: 8px;
+    }
+}
+
+.food-data-fieldset {
+    margin-top: -12px;
+}
+
+.color-picker {
+    width: 100%;
+    .rc-color-picker-trigger {
+        width: 100% !important;
+        height: 30px !important;
+    }
+}
+
+.list-qrcode {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    #gen-qrcode {
+        width: 21cm;
+    }
+}
+
+.qrcode-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-feat {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #d8d8d8;
+    background: #f2f2f2;
+    color: #333;
+    height: 100%;
+}

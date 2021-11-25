@@ -1,0 +1,4 @@
+REACT_APP_API = https://digi.api.developteam.net/digi-api
+GENERATE_SOURCEMAP=true
+REACT_APP_PORTAL_URL = https://hqqrcode.developteam.info
+REACT_APP_KEY_HASH_QRCODE = LALKKJPO6H8VH7QI

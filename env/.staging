@@ -1,0 +1,4 @@
+REACT_APP_API = https://hqqrcode.api.developteam.info/hq-qrcode-api
+GENERATE_SOURCEMAP=false
+REACT_APP_PORTAL_URL = https://hqqrcode.developteam.info
+REACT_APP_KEY_HASH_QRCODE = LALKKJPO6H8VH7QI
