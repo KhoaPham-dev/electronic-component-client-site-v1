@@ -16,8 +16,9 @@
         background: #fff;
         display: flex;
         flex-direction: row;
-        height: 84px;
+        height: 150px;
         line-height: 84px;
+        align-items: center;
 
         .logo {
             height: 100%;
@@ -31,47 +32,126 @@
         .app-menu {
             flex: 1;
             border-bottom: 0;
+            margin-left: 310px;
+            align-items: center;
+
+            .searchbar {
+                width: 500px;
+            }
 
             .menu-right-logged {
                 float: right;
+                padding-right: 50px;
+            }
+        }
+    }
+    .app-header-navbar {
+        background: #fff;
+        display: flex;
+        flex-direction: row;
+        height: 100px;
+        line-height: 64px;
+        padding-left: 80px;
+
+        .app-menu {
+            flex: 1;
+            border-bottom: 0;
+
+            .menu-right-logged {
+                float: right;
+                padding-right: 50px;
             }
         }
     }
 
-    .app-title {
-        height: 25vh;
-        display: flex;
-        justify-content: center;
+    .app-banner {
+        background: #fff;
+        height: 400px;
+        line-height: 100px;
         align-items: center;
-        font-size: 3rem;
-        line-height: 1.25;
-        font-weight: 700;
-        color: white;
+        justify-content: center;
+        margin-top: 25px;
+
+    }
+    .app-banner > div {
+        text-align:center; 
+        height:100%;
+    }
+    .slick-slide img {
+        margin: auto;
+        height: 100%;
     }
     /* End Styles Header */
     .app-breadcrumb {
         margin: 16px 20px
     }
     /* Styles Sider*/
-    .nav-sider {
-        overflow: auto;
-        height: 100vh;
-        position: fixed;
-        left: 0px;
-        z-index: 2;
-        &__collapsed {
-            flex: 0 0 $navSiderCollapsedWidth;
-            max-width: $navSiderCollapsedWidth;
-            min-width: $navSiderCollapsedWidth;
-            width: $navSiderCollapsedWidth;
-        }
-        &__expanded {
-            flex: 0 0 $navSiderExpandedWidth !important;
-            max-width: $navSiderExpandedWidth !important;
-            min-width: $navSiderExpandedWidth !important;
-            width: $navSiderExpandedWidth !important;
+    .containtersider {
+        background: #fff;
+        margin-top: 25px;
+
+        .nav-sider {
+            overflow: auto;
+            height: 100%;
+            
+            &__collapsed {
+                flex: 0 0 $navSiderCollapsedWidth;
+                max-width: $navSiderCollapsedWidth;
+                min-width: $navSiderCollapsedWidth;
+                width: $navSiderCollapsedWidth;
+            }
+            &__expanded {
+                flex: 0 0 $navSiderExpandedWidth !important;
+                max-width: $navSiderExpandedWidth !important;
+                min-width: $navSiderExpandedWidth !important;
+                width: $navSiderExpandedWidth !important;
+            }
+            .ant-menu-submenu-title {
+                display: flex;
+                align-items: center;
+                .ant-spin-spinning {
+                    flex-shrink: 0;
+                    width: fit-content;
+                    margin-left: auto;
+                }
+                .title {
+                    flex: 1;
+                    max-width: 89%;
+                    overflow: hidden;
+                }
+            }
+            .redirect-login {
+                padding: 2px;
+                margin-right: 4px;
+                transition: all 0.2s;
+                border-radius: 3px;
+                color: #fff;
+            }
+            .redirect-login:hover {
+                background-color: #e6e6e6;
+                color: #000C17;
+            }
         }
     }
+
+    .app-content {
+        height: 100%;
+        overflow-y: auto;
+        .content-wrapper {
+            padding: 24px;
+            // min-height: 360px;
+            min-height: calc(100vh - 170px);
+            background: #fff;  
+        }
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #e6e6e6;
+        }
+    }
+    
     .logo {
         // height: $heighAppHeader;
         //padding: 9px;
@@ -95,22 +175,18 @@
         }
     }
     /* End Styles Sider*/
-    .app-content {
-        padding: 24px 50px;
-
-        &::-webkit-scrollbar-thumb {
-            background-color: #e6e6e6;
-        }
-    }
+    
 
     .app-footer {
         background: white;
     }
 
     .app-header, .app-footer {
-        padding-left: 24px;
+        padding-left: 60px;
         padding-right: 24px;
     }
+    
+    
 }
 
 .overlay-panel-submenu {

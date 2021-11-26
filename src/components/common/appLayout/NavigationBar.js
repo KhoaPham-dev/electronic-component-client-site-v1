@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Menu, Space, Typography, Avatar, Input } from 'antd'
+import { Layout, Menu, Space, Typography, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 
 import { sitePathConfig } from '../../../constants/sitePathConfig'
@@ -7,20 +7,18 @@ import { useLocation } from 'react-router'
 
 import { UserOutlined } from '@ant-design/icons'
 import logo from '../../../assets/images/logoelectronic.jpg'
-import cart from '../../../assets/images/cart.jpg'
 
 const { Header } = Layout
 const { Text } = Typography
 const { SubMenu } = Menu
-const {Search} = Input
 
 const menus = [
     {
-        title: 'Về chúng tôi',
+        title: 'Trang chủ',
         path: sitePathConfig.aboutUs.path,
     },
     {
-        title: 'Hồ sơ',
+        title: 'Sản phẩm',
         subs: [
             {
                 title: 'Hồ sơ cá nhân',
@@ -33,33 +31,44 @@ const menus = [
         ],
     },
     {
-        title: 'Khảo sát',
+        title: 'Tin tức',
         path: sitePathConfig.exams.path,
     },
+    {
+        title: 'Giỏ hàng',
+        path: '/'
+    }
 ]
 
-const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
+const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
     const location = useLocation()
 
     return (
-        <Header className="app-header">
-            <div className="logo">
-                <img src={logo} alt=''/>
-            </div>
+        <Header className="app-header-navbar">
             <Menu
                 className="app-menu"
                 theme="light"
                 mode="horizontal"
                 selectedKeys={[location.pathname]}
             >
-            <Search
-                placeholder="Nhập tên sản phẩm muốn tìm"
-                allowClear
-                enterButton="Search"
-                size="large"
-                className='searchbar'
-            />
-                {isAuth && (
+                {menus.map(menu =>
+                    menu.subs ? (
+                        <SubMenu key="SubMenu" title={menu.title}>
+                            {menu.subs.map(subMenu => (
+                                <Menu.Item key={subMenu.path}>
+                                    <Link to={subMenu.path}>
+                                        {subMenu.title}
+                                    </Link>
+                                </Menu.Item>
+                            ))}
+                        </SubMenu>
+                    ) : (
+                        <Menu.Item key={menu.path}>
+                            <Link to={menu.path}>{menu.title}</Link>
+                        </Menu.Item>
+                    )
+                )}
+                {/* {isAuth && (
                     <SubMenu
                         key="logged-subMenu"
                         title={<Text strong>{shortName}</Text>}
@@ -83,9 +92,9 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                             <Text strong>Đăng xuất</Text>
                         </Menu.Item>
                     </SubMenu>
-                )}
+                )} */}
             </Menu>
-            {!isAuth && (
+            {/* {!isAuth && (
                 <Menu
                     className="app-menu-right"
                     theme="light"
@@ -103,15 +112,10 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                             <Text strong>Đăng ký</Text>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item to="/" key="2">
-                        <img className="ant-menu-item" src= {cart} alt='cart'/>
-                        <span>Shopify</span>
-                        <Link to="/">Home</Link>
-                    </Menu.Item>
                 </Menu>
-            )}
+            )} */}
         </Header>
     )
 }
 
-export default AppHeader
+export default NavigationBar

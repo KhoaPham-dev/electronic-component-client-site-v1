@@ -1,5 +1,5 @@
-import { Layout } from 'antd'
-import React, { useEffect, useMemo } from 'react'
+import { Layout, Breadcrumb } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions } from '../../../actions/account'
 import sitePathConfig from '../../../constants/sitePathConfig'
@@ -8,7 +8,10 @@ import { clsx } from '../../../utils/helper'
 import Utils from '../../../utils/index'
 import AppFooter from './AppFooter'
 import AppHeader from './AppHeader'
+import NavigationBar from './NavigationBar'
 import AppTitle from './AppTitle'
+import NavSider from './NavSider'
+import { Link } from 'react-router-dom';
 
 const { Content } = Layout
 
@@ -16,6 +19,7 @@ const MasterLayout = ({ children, history }) => {
     const dispatch = useDispatch()
     const isAuth = useSelector(isAuthentication)
     const userData = useSelector(userDataSelector)
+    const [breadcrumbs, setBreadCumbs] = useState([]);
     const { contentClass } = useMemo(() => {
         const { layoutConfig = {} } =
             Object.values(sitePathConfig).find(
@@ -26,6 +30,10 @@ const MasterLayout = ({ children, history }) => {
 
     const onLogout = () => {
         dispatch(actions.logout())
+    }
+
+    const onChangeBreadcrumb = (breadcrumbs) => {
+        setBreadCumbs({ breadcrumbs });
     }
 
     useEffect(() => {
@@ -46,10 +54,51 @@ const MasterLayout = ({ children, history }) => {
                 }
                 avatar={Utils.getFileUrl(userData?.avatarPath)}
             />
+            <NavigationBar></NavigationBar>
             <AppTitle />
-            <Content className={clsx('app-content', contentClass)}>
-                {React.cloneElement(children, {})}
-            </Content>
+            <Layout className='containtersider'>
+                <NavSider>              
+                </NavSider>
+                <Layout>
+                                <Content className="app-content">
+                                    <Breadcrumb className="app-breadcrumb" separator=">">
+                                        <Breadcrumb.Item>
+                                            {/* <Link to="/">Home</Link> */}
+                                            Trang chủ
+                                        </Breadcrumb.Item>
+                                        {
+                                            breadcrumbs
+                                            ?
+                                            breadcrumbs.map(breadcrumb => 
+                                                <Breadcrumb.Item key={breadcrumb.name}>
+                                                    {
+                                                        breadcrumb.path
+                                                        ?
+                                                            <Link className="routing" to={breadcrumb.path}>{breadcrumb.name}</Link>
+                                                        :
+                                                            breadcrumb.name
+                                                    }
+                                                </Breadcrumb.Item>
+                                            )
+                                            :
+                                            null
+                                        }
+                            
+                                        {/* <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
+                                    </Breadcrumb>
+                                    <div className="content-wrapper">
+                                        {React.cloneElement(children, {
+                                            // changeUserData: this.onChangeUserData,
+                                            currentUser: userData,
+                                            changeBreadcrumb: onChangeBreadcrumb,
+                                            // showFullScreenLoading,
+                                            // hideFullScreenLoading
+                                        })}
+                                        
+                                    </div>
+                                </Content>
+                    </Layout>
+                </Layout>
             <AppFooter />
         </Layout>
     )

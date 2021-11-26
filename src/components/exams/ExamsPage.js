@@ -61,7 +61,7 @@ const ExamsPage = () => {
 
             <div className="mt-8 text-center">
                 <Button size="large" type="primary">
-                    Bắt đầu >
+                    Bắt đầu
                 </Button>
             </div>
         </div>
