@@ -28,7 +28,7 @@ class Login extends Component {
         login({
             params: valueForm,
             onCompleted: () => {
-                this.props.history.push(sitePathConfig.exams.path)
+                this.props.history.push(sitePathConfig.news.path)
             },
             onError,
         })

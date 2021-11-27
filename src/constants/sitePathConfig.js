@@ -15,16 +15,16 @@ export const sitePathConfig = {
         title: 'Cập nhật hồ sơ điện tử',
     },
     homePage: {
-        path: '/',
+        path: '/home',
         title: 'Trang chủ',
     },
     aboutUs: {
         path: '/about',
         title: 'Về chúng tôi',
     },
-    exams: {
-        path: '/exams',
-        title: 'Khảo sát',
+    news: {
+        path: '/news',
+        title: 'Tin tức',
     },
     forbidden: {
         path: '/forbidden',

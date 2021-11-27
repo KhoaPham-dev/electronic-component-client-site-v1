@@ -14,29 +14,7 @@ const { Text } = Typography
 const { SubMenu } = Menu
 const {Search} = Input
 
-const menus = [
-    {
-        title: 'Về chúng tôi',
-        path: sitePathConfig.aboutUs.path,
-    },
-    {
-        title: 'Hồ sơ',
-        subs: [
-            {
-                title: 'Hồ sơ cá nhân',
-                path: sitePathConfig.updateProfile.path,
-            },
-            {
-                title: 'Hồ sơ năng lực',
-                path: sitePathConfig.competences.path,
-            },
-        ],
-    },
-    {
-        title: 'Khảo sát',
-        path: sitePathConfig.exams.path,
-    },
-]
+
 
 const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
     const location = useLocation()
@@ -46,19 +24,18 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
             <div className="logo">
                 <img src={logo} alt=''/>
             </div>
-            <Menu
-                className="app-menu"
-                theme="light"
-                mode="horizontal"
-                selectedKeys={[location.pathname]}
-            >
-            <Search
+            <div class="app-menu">
+            <div class="searchbar">
+                <input type="text" placeholder="Nhập tên sản phẩm muốn tìm"/>
+                <button>Tìm kiếm</button>
+            </div>
+            {/* <Search
                 placeholder="Nhập tên sản phẩm muốn tìm"
                 allowClear
                 enterButton="Search"
                 size="large"
                 className='searchbar'
-            />
+            /> */}
                 {isAuth && (
                     <SubMenu
                         key="logged-subMenu"
@@ -84,7 +61,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                         </Menu.Item>
                     </SubMenu>
                 )}
-            </Menu>
+            </div>
             {!isAuth && (
                 <Menu
                     className="app-menu-right"
@@ -98,11 +75,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                             <Text strong>Đăng nhập</Text>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key={sitePathConfig.register.path}>
-                        <Link to={sitePathConfig.register.path}>
-                            <Text strong>Đăng ký</Text>
-                        </Link>
-                    </Menu.Item>
+                    
                     <Menu.Item to="/" key="2">
                         <img className="ant-menu-item" src= {cart} alt='cart'/>
                         <span>Shopify</span>

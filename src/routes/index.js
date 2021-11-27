@@ -21,7 +21,7 @@ const RootRoute = () => {
         forbidden,
         homePage,
         aboutUs,
-        exams,
+        news,
         register,
         updateProfile,
         competences,
@@ -36,11 +36,7 @@ const RootRoute = () => {
                 render={props => (
                     <MasterLayout {...props}>
                         <Switch>
-                            <Redirect
-                                exact
-                                path={homePage.path}
-                                to={exams.path}
-                            />
+                            
                             <PublicRoute
                                 exact
                                 path={login.path}
@@ -54,7 +50,7 @@ const RootRoute = () => {
                             />
                             <PublicRoute
                                 exact
-                                path={exams.path}
+                                path={news.path}
                                 component={Exams}
                                 accessAuth
                             />

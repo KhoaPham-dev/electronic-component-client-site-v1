@@ -15,7 +15,7 @@ const { SubMenu } = Menu
 const menus = [
     {
         title: 'Trang chủ',
-        path: sitePathConfig.aboutUs.path,
+        path: sitePathConfig.homePage.path,
     },
     {
         title: 'Sản phẩm',
@@ -32,7 +32,7 @@ const menus = [
     },
     {
         title: 'Tin tức',
-        path: sitePathConfig.exams.path,
+        path: sitePathConfig.news.path,
     },
     {
         title: 'Giỏ hàng',
@@ -63,8 +63,8 @@ const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
                             ))}
                         </SubMenu>
                     ) : (
-                        <Menu.Item key={menu.path}>
-                            <Link to={menu.path}>{menu.title}</Link>
+                        <Menu.Item key={menu.path} >
+                            <Link className="app-menu" to={menu.path}>{menu.title}</Link>
                         </Menu.Item>
                     )
                 )}
