@@ -74,6 +74,17 @@ class NavSider extends Component {
                         mode="inline"
                         className="custom-nav"
                     >
+                        <Menu.Item
+                                className="custom-nav-item"
+                                key= 'getall'
+                                onClick={(e) => {
+                                    this.getList()
+                                }}
+                                >
+                                <Link to={`/productList`}>
+                                    <span>Tất cả sản phẩm</span>
+                                </Link>
+                            </Menu.Item>
                         {!loading && CategoryList.map((navMenuItem, idx) =>
                             
                             <Menu.Item

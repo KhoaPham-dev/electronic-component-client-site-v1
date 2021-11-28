@@ -6,7 +6,7 @@ import { sitePathConfig } from '../../../constants/sitePathConfig'
 import { useLocation } from 'react-router'
 
 import { UserOutlined } from '@ant-design/icons'
-import logo from '../../../assets/images/logoelectronic.jpg'
+import logo from '../../../assets/images/logo.png'
 import cart from '../../../assets/images/cart.jpg'
 
 const { Header } = Layout
@@ -25,42 +25,48 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                 <img src={logo} alt=''/>
             </div>
             <div class="app-menu">
-            <div class="searchbar">
-                <input type="text" placeholder="Nhập tên sản phẩm muốn tìm"/>
-                <button>Tìm kiếm</button>
-            </div>
-            {/* <Search
-                placeholder="Nhập tên sản phẩm muốn tìm"
-                allowClear
-                enterButton="Search"
-                size="large"
-                className='searchbar'
-            /> */}
-                {isAuth && (
-                    <SubMenu
-                        key="logged-subMenu"
-                        title={<Text strong>{shortName}</Text>}
-                        icon={
-                            <Avatar
-                                size={24}
-                                src={avatar}
-                                icon={<UserOutlined />}
-                            />
-                        }
-                        className="menu-right-logged"
-                    >
-                        <Menu.Item
-                            key={sitePathConfig.updateProfile.path + '2'}
+                <div class="searchbar">
+                    <Layout style={{height: '100%'}}>
+                        <Layout.Header style={{ display: "flex", alignItems: "center", background: 'white', height: '100%' }}>
+                            <Search placeholder="Nhập tên sản phẩm muốn tìm"
+                                    allowClear
+                                    enterButton="Tìm kiếm"
+                                    size="large"/>
+                        </Layout.Header>
+                    </Layout>
+                </div>
+                {/* <Search
+                    placeholder="Nhập tên sản phẩm muốn tìm"
+                    allowClear
+                    enterButton="Search"
+                    size="large"
+                    className='searchbar'
+                /> */}
+                    {isAuth && (
+                        <SubMenu
+                            key="logged-subMenu"
+                            title={<Text strong>{shortName}</Text>}
+                            icon={
+                                <Avatar
+                                    size={24}
+                                    src={avatar}
+                                    icon={<UserOutlined />}
+                                />
+                            }
+                            className="menu-right-logged"
                         >
-                            <Link to={sitePathConfig.updateProfile.path}>
-                                <Text strong>Hồ sơ</Text>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="#" onClick={onLogout}>
-                            <Text strong>Đăng xuất</Text>
-                        </Menu.Item>
-                    </SubMenu>
-                )}
+                            <Menu.Item
+                                key={sitePathConfig.updateProfile.path + '2'}
+                            >
+                                <Link to={sitePathConfig.updateProfile.path}>
+                                    <Text strong>Hồ sơ</Text>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key="#" onClick={onLogout}>
+                                <Text strong>Đăng xuất</Text>
+                            </Menu.Item>
+                        </SubMenu>
+                    )}
             </div>
             {!isAuth && (
                 <Menu

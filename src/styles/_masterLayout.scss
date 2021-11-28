@@ -11,13 +11,18 @@
         }
     }
     /* End Styles NavSider */
+    .helloheader {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 8px;
+    }
     /* Styles Header */
     .app-header {
         background: #fff;
         display: flex;
         flex-direction: row;
         height: 150px;
-        // line-height: 84px;
         align-items: center;
 
         .logo {
@@ -25,74 +30,30 @@
 
             img {
                 width: auto;
-                height: 80%;
+                height: 100%;
             }
         }
 
         .app-menu {
             flex: 1;
             border-bottom: 0;
-            margin-left: 310px;
             align-items: center;
+            max-height: 100%;
             .searchbar {
-                margin-top: 30px;
-                input[type=text], select, textarea{
-                    // position: relative;
-                    // padding: 10px;
-                    font-size: 17px;
-                    border-top-style: groove;
-                    border-left-style: groove;
-                    border-right-style: hidden;
-                    border-bottom-style:groove;
-                    // background-color: blue;
-                    // float: left;
-                    width: 400px;
-                    
-                    height: 60px;
-                    // background: #f1f1f1;
-                    // border-width: 10px;
-                    
-                }
-                input:focus{
-                    outline: none;
-                    color:black;
-                }
-                button{
-                    height: 56px;
-                    width: 11%;
-                    text-align: center;
-                    padding-bottom: 65px;
-                    // padding-top: 5px;
-                    // float: right;
-                
-
-                    background: white;
-                    color: #2196F3;
-                    font-size: 17px;
-                    border: 1px solid #2196F3;
-                    border-radius: 2px;
-                    cursor: pointer;
-                }
-                button:hover{
-                    // outline: none;
-                    background-color: #2196F3;
-                    color: white;
-                    border:none;
-                }
-                
+                width: 100%;
             }
 
             .menu-right-logged {
                 float: right;
-                padding-right: 50px;
+                padding-right: 4px;
             }
         }
     }
     .app-menu-right {
-        padding-right: 80px;
 
         img {
-            height: 50px;
+            height: 60px;
+            justify-content: center;
         }
     }
     .app-header-navbar {
@@ -101,7 +62,10 @@
         flex-direction: row;
         // height: 100px;
         line-height: 64px;
-        // padding-right: 80px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0;
         
         .app-menu {
             flex: 1;
@@ -109,6 +73,7 @@
             background:#2196F3;
             border:1px;
             color:white;
+            font-size: medium;
             // .menu-right-logged {
             //     float: right;
             //     padding-right: 50px;
@@ -136,10 +101,10 @@
         background: #fff;
         height: 400px;
         padding-top: 10px;
-        line-height: 100px;
-        align-items: center;
-        justify-content: center;
-        // margin-top: 25px;
+        line-height: 120px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
 
     }
     .app-banner > div {
@@ -148,6 +113,7 @@
     }
     .slick-slide img {
         margin: auto;
+        width: 100%;
         height: 100%;
     }
     /* End Styles Header */
@@ -157,8 +123,9 @@
     /* Styles Sider*/
     .containtersider {
         background: #fff;
-        margin: 25px;
-        padding: 15px 0;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
 
         .nav-sider {
             overflow: auto;
@@ -208,10 +175,10 @@
         height: 100%;
         overflow-y: auto;
         .content-wrapper {
-            padding: 24px;
+            padding: 0 24px 24px 24px;
             // min-height: 360px;
             min-height: calc(100vh - 170px);
-            background: #fff;  
+            background: #fff;
         }
         &::-webkit-scrollbar {
             width: 8px;
@@ -251,9 +218,10 @@
         background: white;
     }
 
-    .app-header, .app-footer {
-        padding-left: 60px;
-        padding-right: 24px;
+    .app-header{
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
     }
     
     

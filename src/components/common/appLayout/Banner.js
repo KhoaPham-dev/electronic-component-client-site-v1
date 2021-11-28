@@ -8,20 +8,19 @@ import Slider from "react-slick";
 
 const { Title } = Typography
 
-const AppTitle = ({ title }) => {
+const Banner = ({ title }) => {
 
     const settings = {
-        dots: true,
         infinite: true,
-        speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        autoPlay: true
+        autoplay: true,
+        autoplaySpeed: 2000,
       };
     return (
-    <div>
+    <div style={{background: 'white'}}>
         <div className="app-banner">
-                <Slider {...settings} >
+                <Slider {...settings} pauseOnDotsHover={false}>
                     <div>
                         <img src = {imgslide1}></img>
                     </div>
@@ -34,4 +33,4 @@ const AppTitle = ({ title }) => {
     )
 }
 
-export default AppTitle
+export default Banner

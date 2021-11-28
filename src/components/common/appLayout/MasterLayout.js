@@ -9,7 +9,7 @@ import Utils from '../../../utils/index'
 import AppFooter from './AppFooter'
 import AppHeader from './AppHeader'
 import NavigationBar from './NavigationBar'
-import AppTitle from './AppTitle'
+import Banner from './Banner'
 import NavSider from './NavSider'
 import { Link } from 'react-router-dom';
 
@@ -44,7 +44,11 @@ const MasterLayout = ({ children, history }) => {
 
     return (
         <Layout className="master-layout">
-            <AppHeader
+            <div style={{
+                background: 'white'
+            }}>
+                <div className='helloheader'>Chào mừng đến với thế giới linh kiện điện tử...</div>
+                <AppHeader
                 onLogout={onLogout}
                 isAuth={isAuth}
                 shortName={
@@ -54,26 +58,30 @@ const MasterLayout = ({ children, history }) => {
                 }
                 avatar={Utils.getFileUrl(userData?.avatarPath)}
             />
+            </div>
+            
             <NavigationBar></NavigationBar>
-            <AppTitle />
-            <Layout className='containtersider'>
-                <NavSider>              
-                </NavSider>
-                <Layout>
-                                <Content className="app-content">
-                                    <div className="content-wrapper">
-                                        {React.cloneElement(children, {
-                                            // changeUserData: this.onChangeUserData,
-                                            currentUser: userData,
-                                            changeBreadcrumb: onChangeBreadcrumb,
-                                            // showFullScreenLoading,
-                                            // hideFullScreenLoading
-                                        })}
-                                        
-                                    </div>
-                                </Content>
-                    </Layout>
+            <Banner />
+            <div  style={{background: 'white'}}>
+                <Layout className='containtersider'>
+                    <NavSider>              
+                    </NavSider>
+                    <Layout>
+                                    <Content className="app-content">
+                                        <div className="content-wrapper">
+                                            {React.cloneElement(children, {
+                                                // changeUserData: this.onChangeUserData,
+                                                currentUser: userData,
+                                                changeBreadcrumb: onChangeBreadcrumb,
+                                                // showFullScreenLoading,
+                                                // hideFullScreenLoading
+                                            })}
+                                            
+                                        </div>
+                                    </Content>
+                        </Layout>
                 </Layout>
+            </div>
             <AppFooter />
         </Layout>
     )

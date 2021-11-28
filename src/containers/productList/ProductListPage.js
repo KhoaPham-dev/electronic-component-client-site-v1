@@ -8,7 +8,7 @@ import {ShoppingCartOutlined} from '@ant-design/icons'
 const { Meta } = Card;
 
 const ProductListPage = () => {
-    const [actualList, setActualList] = useState([]);
+
     const productList = useSelector(productListSelector)
     const isLoading = useSelector(tbproductListLoadingSelector);
     console.log(isLoading);
@@ -31,7 +31,14 @@ const ProductListPage = () => {
         <Spin size="large" wrapperClassName="full-screen-loading" spinning={isLoading}>
             {
                 <List
-                grid={{ gutter: 16, column: 4 }}
+                grid={{ 
+                  gutter: 8, 
+                  column: 4,
+                  xs: 1,
+                  sm: 2,
+                  md: 3,
+                  lg: 4,
+                  xxl: 3, }}
                 dataSource={data}
                 pagination={{
                     onChange: page => {
@@ -43,7 +50,7 @@ const ProductListPage = () => {
                   <List.Item>
                     <Card 
                         title={item.productName} 
-                        style={{ width: 280}} 
+                        style={{ width: 250, border: 'solid'}}
                         hoverable
                         cover={<img alt="example" src="https://i.pinimg.com/564x/75/b6/f8/75b6f831a9c0b392cc15befc2ae110fd.jpg" style={{height: '200px'}} />}
                         actions={[<ShoppingCartOutlined key = 'Shopping cart'/>]}
