@@ -25,6 +25,13 @@ class NavSider extends Component {
         return true;
     }
 
+    getList(categoryId) {
+        const { getDataList } = this.props;
+            const page = 0;
+            const params = { page, size: 13, categoryId: categoryId};
+            getDataList({ params });
+      }
+
     getCategoryTypeProducts() {
         const {getCategoryTypeProducts} = this.props;
         const params = {kind: categoryKinds.CATEGORY_KIND_PRODUCT};
@@ -72,20 +79,15 @@ class NavSider extends Component {
                             <Menu.Item
                                 className="custom-nav-item"
                                 key={navMenuItem.value}
+                                onClick={(e) => {
+                                    this.getList(navMenuItem.value)
+                                }}
                                 >
-                                <Link to={navMenuItem.value}>
+                                <Link to={`/productList?categoryId=${navMenuItem.value}`}>
                                     <span>{navMenuItem.label}</span>
                                 </Link>
                             </Menu.Item>
                         )}
-                        <Menu.Item
-                        className="custom-nav-item"
-                        key={'test'}
-                        style={!navSidercollapsed ? { paddingLeft: '0 34px 0 10px' } : null}>
-                            <Link to = {'/productList'}>
-                                <span>TestGrid</span>
-                            </Link>
-                        </Menu.Item>
                     </Menu>
                 </Sider>
             </Spin>
@@ -95,10 +97,12 @@ class NavSider extends Component {
 
 const mapStateToProps = (state) => ({
     loading: state.product.tbproductLoading,
+    dataList: state.product.productData || {},
     categoryList: state.product.productCategoryType || {}
   });
   
   const mapDispatchToProps = (dispatch) => ({
+    getDataList: (payload) => dispatch(actions.getProductListClient(payload)),
     getCategoryTypeProducts: (payload) => dispatch(actions.getCategoryTypeProducts(payload)),
   });
 

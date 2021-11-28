@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { productListSelector } from "../../selectors/product";
+import { productListSelector, tbproductListLoadingSelector } from "../../selectors/product";
 import {actions} from '../../actions/product';
-import { List, Card, Avatar } from 'antd';
+import { List, Card, Spin } from 'antd';
 import {ShoppingCartOutlined} from '@ant-design/icons'
 
 const { Meta } = Card;
 
 const ProductListPage = () => {
-
+    const [actualList, setActualList] = useState([]);
     const productList = useSelector(productListSelector)
+    const isLoading = useSelector(tbproductListLoadingSelector);
+    console.log(isLoading);
     const dispatch = useDispatch();
     console.log(productList);
     useEffect(() => {
@@ -26,7 +28,7 @@ const ProductListPage = () => {
     
     const { data = [] } = productList || {}
     return (
-        <div>
+        <Spin size="large" wrapperClassName="full-screen-loading" spinning={isLoading}>
             {
                 <List
                 grid={{ gutter: 16, column: 4 }}
@@ -50,7 +52,7 @@ const ProductListPage = () => {
                 )}
               />
             }
-        </div>
+        </Spin>
     )
 }
 

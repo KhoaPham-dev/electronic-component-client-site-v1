@@ -9,3 +9,8 @@ export const categoryListSelector = createSelector(
     [state => state.product],
     product => product.productCategoryType
 )
+
+export const tbproductListLoadingSelector = createSelector(
+    [state => state.product],
+    product => product.tbproductLoading
+)
