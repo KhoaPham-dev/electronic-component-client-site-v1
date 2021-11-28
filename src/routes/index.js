@@ -14,6 +14,7 @@ import Competences from '../containers/competences/Competences'
 import VerifyAccount from '../containers/account/VerifyAccount'
 import ForgotPassword from '../containers/account/ForgotPassword'
 import MasterLayout from '../components/common/appLayout/MasterLayout'
+import ProductListPage from '../containers/productList/ProductListPage'
 
 const RootRoute = () => {
     const {
@@ -27,6 +28,7 @@ const RootRoute = () => {
         competences,
         verifyAccount,
         forgotPassword,
+        product
     } = sitePathConfig
 
     return (
@@ -86,6 +88,10 @@ const RootRoute = () => {
                                 exact
                                 path={forbidden.path}
                                 component={Forbidden}
+                            />
+                            <PublicRoute 
+                            exact path = {product.path} 
+                            component={ProductListPage}
                             />
                             <PublicRoute component={NotFound} accessAuth />
                         </Switch>

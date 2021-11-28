@@ -78,8 +78,6 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                     
                     <Menu.Item to="/" key="2">
                         <img className="ant-menu-item" src= {cart} alt='cart'/>
-                        <span>Shopify</span>
-                        <Link to="/">Home</Link>
                     </Menu.Item>
                 </Menu>
             )}

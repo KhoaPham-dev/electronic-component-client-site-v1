@@ -36,7 +36,7 @@ const menus = [
     },
     {
         title: 'Giỏ hàng',
-        path: '/'
+        path: sitePathConfig.product.path
     }
 ]
 
