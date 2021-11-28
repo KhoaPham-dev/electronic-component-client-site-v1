@@ -61,31 +61,6 @@ const MasterLayout = ({ children, history }) => {
                 </NavSider>
                 <Layout>
                                 <Content className="app-content">
-                                    <Breadcrumb className="app-breadcrumb" separator=">">
-                                        <Breadcrumb.Item>
-                                            {/* <Link to="/">Home</Link> */}
-                                            Trang chủ
-                                        </Breadcrumb.Item>
-                                        {
-                                            breadcrumbs
-                                            ?
-                                            breadcrumbs.map(breadcrumb => 
-                                                <Breadcrumb.Item key={breadcrumb.name}>
-                                                    {
-                                                        breadcrumb.path
-                                                        ?
-                                                            <Link className="routing" to={breadcrumb.path}>{breadcrumb.name}</Link>
-                                                        :
-                                                            breadcrumb.name
-                                                    }
-                                                </Breadcrumb.Item>
-                                            )
-                                            :
-                                            null
-                                        }
-                            
-                                        {/* <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
-                                    </Breadcrumb>
                                     <div className="content-wrapper">
                                         {React.cloneElement(children, {
                                             // changeUserData: this.onChangeUserData,

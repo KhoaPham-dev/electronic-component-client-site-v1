@@ -66,6 +66,20 @@ const apiConfig = {
             headers: baseHeader,
         },
     },
+    category: {
+        getCategoryList: {
+            path: '/v1/category/auto-complete',
+            method: 'GET',
+            headers: baseHeader
+        }
+    },
+    product:  {
+        getProductClientList: {
+            path: '/v1/product/client-list',
+            method: 'GET',
+            headers: baseHeader
+        }
+    }
 }
 
 export default apiConfig

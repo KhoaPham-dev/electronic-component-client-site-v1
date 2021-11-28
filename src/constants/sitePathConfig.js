@@ -1,3 +1,5 @@
+import apiConfig from './apiConfig';
+
 export const sitePathConfig = {
     login: {
         path: '/login',
@@ -42,6 +44,9 @@ export const sitePathConfig = {
         path: '/forgot-password',
         title: 'Quên mật khẩu',
     },
+    product: {
+        path: '/productList',
+    }
 }
 
 export default sitePathConfig

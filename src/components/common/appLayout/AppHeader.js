@@ -98,15 +98,8 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                             <Text strong>Đăng nhập</Text>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key={sitePathConfig.register.path}>
-                        <Link to={sitePathConfig.register.path}>
-                            <Text strong>Đăng ký</Text>
-                        </Link>
-                    </Menu.Item>
                     <Menu.Item to="/" key="2">
                         <img className="ant-menu-item" src= {cart} alt='cart'/>
-                        <span>Shopify</span>
-                        <Link to="/">Home</Link>
                     </Menu.Item>
                 </Menu>
             )}
