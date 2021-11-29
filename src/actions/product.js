@@ -8,9 +8,11 @@ const { defineAction, createActionWithLoading, createAction } = reduxUtil
 export const actionTypes = {
     GET_PRODUCT_LIST_CLIENT: defineAction('GET_PRODUCT_LIST_CLIENT'),
     GET_CATEGORY_TYPE_PRODUCTS: defineAction('GET_CATEGORY_TYPE_PRODUCTS'),
+    GET_PRODUCT_AUTO_COMPLETE: defineAction('GET_PRODUCT_AUTO_COMPLETE'),
 }
 
 export const actions = {
     getProductListClient: createActionWithLoading(actionTypes.GET_PRODUCT_LIST_CLIENT),
     getCategoryTypeProducts: createActionWithLoading(actionTypes.GET_CATEGORY_TYPE_PRODUCTS),
+    getProductAutoComplete: createAction(actionTypes.GET_PRODUCT_AUTO_COMPLETE),
 }

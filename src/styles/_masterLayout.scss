@@ -48,6 +48,7 @@
             padding: 0 50px;
             .searchbar {
                 width: 100%;
+                position: relative;
 
                 .ant-input-affix-wrapper-lg {
                     padding: 10.5px 11px;
@@ -55,6 +56,46 @@
 
                 .ant-input-search-button {
                     height: 48.2px;
+                }
+
+                .search-result {
+                    width: calc(100% - 100px);
+                    position: absolute;
+                    left: 50%;
+                    top: 48.19px;
+                    background-color: #fff;
+                    transform: translateX(-50%);
+                    z-index: 9999;
+                    border: #e6e6e6 1px solid;
+                    .item {
+                        display: flex;
+                        align-items: center;
+                        padding: 8px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        border-bottom: 1px solid #ccc;
+                        line-height: 1;
+                        min-height: 49px;
+                        transition: all 0.2s;
+                        .image {
+                            width: 32px;
+                            margin-right: 16px;
+                            flex-shrink: 0;
+                            img {
+                                width: 100%;
+                            }
+                        }
+                        .name {
+                            flex: 1;
+                        }
+                        .price {
+                            flex-shrink: 0;
+                            color: #2196F3;
+                        }
+                    }
+                    .item:hover {
+                        background-color: #e6e6e6;
+                    }
                 }
             }
 

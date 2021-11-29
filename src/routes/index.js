@@ -7,10 +7,7 @@ import PublicRoute from './PublicRoute'
 import Login from '../containers/account/Login'
 import NotFound from '../components/common/NotFound'
 import Forbidden from '../containers/Forbidden'
-import AboutUS from '../containers/about/AboutUS'
-import Exams from '../containers/exams/Exams'
 import Register from '../containers/account/Register'
-import Competences from '../containers/competences/Competences'
 import VerifyAccount from '../containers/account/VerifyAccount'
 import ForgotPassword from '../containers/account/ForgotPassword'
 import MasterLayout from '../components/common/appLayout/MasterLayout'
@@ -46,20 +43,8 @@ const RootRoute = () => {
                             />
                             <PublicRoute
                                 exact
-                                path={aboutUs.path}
-                                component={AboutUS}
-                                accessAuth
-                            />
-                            <PublicRoute
-                                exact
                                 path={'/'}
                                 component={ProductListPage}
-                            />
-                            <PublicRoute
-                                exact
-                                path={news.path}
-                                component={Exams}
-                                accessAuth
                             />
                             <PublicRoute
                                 exact
@@ -83,11 +68,6 @@ const RootRoute = () => {
                                     isEditing: true,
                                 }}
                                 component={Register}
-                            />
-                            <PrivateRoute
-                                exact
-                                path={competences.path}
-                                component={Competences}
                             />
                             <PrivateRoute
                                 exact

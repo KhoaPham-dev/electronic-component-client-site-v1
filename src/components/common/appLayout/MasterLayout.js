@@ -72,7 +72,7 @@ const MasterLayout = ({ children, history }) => {
                     <NavSider>              
                     </NavSider>
                     <Layout>
-                                    <Content className="app-content">
+                                    <Content className="app-content" id="app-content">
                                         <div className="content-wrapper">
                                             {React.cloneElement(children, {
                                                 // changeUserData: this.onChangeUserData,

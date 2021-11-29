@@ -1,4 +1,5 @@
-import { AppConstants, STATUS_DELETE } from '../constants'
+import { actions } from '../actions'
+import { AppConstants, CurrentcyPositions, STATUS_DELETE } from '../constants'
 import { showErrorMessage } from '../services/notifyService'
 
 const Utils = {
@@ -75,6 +76,31 @@ const Utils = {
     },
     getFileUrl: shortUrl =>
         shortUrl ? AppConstants.contentRootUrl + shortUrl : '',
+    formatMoney(value, setting){
+        if(!setting) setting = actions.getUserData()?.settings?.["Money and Number"] || {};
+        if((value || value === 0) && !isNaN(value)) {
+            const groupSeparator = setting.groupSeparator || ',';
+            const decimalSeparator = setting.decimalSeparator || '.';
+            const currentcy = 'Đ';
+            const currencySymbolPosition = setting.currencySymbolPosition;
+            if(value.toString().indexOf(decimalSeparator) === -1) {
+                value = value / 1;
+                value = value.toFixed(Number(setting.decimal) || 0);
+                const decimalIndex = value.toString().lastIndexOf(".");
+                if(decimalIndex > -1) {
+                    value = value.toString().substring(0, decimalIndex) + decimalSeparator + value.toString().substring(decimalIndex + 1);
+                }
+            }
+            value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, groupSeparator);
+            if(currencySymbolPosition === CurrentcyPositions.FRONT) {
+                return `${currentcy} ${value}`;
+            }
+            else {
+                return `${value} ${currentcy}`;
+            }
+        }
+        return '';
+    },
 }
 
 export default Utils

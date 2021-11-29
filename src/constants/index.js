@@ -40,4 +40,9 @@ export const AREA_KIND = {
     WARD: 'PROVINCE_KIND_WARD',
 }
 
+export const CurrentcyPositions = {
+    FRONT: 0,
+    BACK: 1,
+}
+
 export { AppConstants, StorageKeys, LayoutConfigs, UploadFileTypes }

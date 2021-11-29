@@ -9,7 +9,8 @@ const { defineActionLoading, defineActionSuccess, defineActionFailed } = reduxUt
 
 const {
     GET_CATEGORY_TYPE_PRODUCTS,
-    GET_PRODUCT_LIST_CLIENT
+    GET_PRODUCT_LIST_CLIENT,
+    GET_PRODUCT_AUTO_COMPLETE,
 } = actionTypes;
 
 
@@ -34,13 +35,11 @@ function* getCategoryTypeProducts({payload: {params}}) {
     }
 }
 
-function* getProductListClient({ payload: { params } }) {
+function* getProductListClient({ payload: { params, onCompleted } }) {
     const apiParams = apiConfig.product.getProductClientList;
     const searchParams = { page: params.page, size: params.size };
-    if(params.search) {
-        if(params.search.name) {
-            searchParams.name = params.search.name
-        }
+    if(params.name) {
+        searchParams.name = params.name
     }
     if(params.categoryId) {
         searchParams.categoryId = params.categoryId
@@ -48,11 +47,14 @@ function* getProductListClient({ payload: { params } }) {
 
 
     try {
-        const result = yield call(sendRequest, apiParams, searchParams);
-        yield put({
-            type: defineActionSuccess(GET_PRODUCT_LIST_CLIENT),
-            productData: result.responseData && result.responseData.data,
-        });
+        const { success, responseData } = yield call(sendRequest, apiParams, searchParams);
+        if(success && responseData.result) {
+            yield put({
+                type: defineActionSuccess(GET_PRODUCT_LIST_CLIENT),
+                productData: responseData.data,
+            });
+            onCompleted && onCompleted()
+        }
     }
     catch(error) {
         console.log(error);
@@ -60,10 +62,27 @@ function* getProductListClient({ payload: { params } }) {
     }
 }
 
+function* getProductAutoComplete({ payload: { params } }) {
+    const apiParams = apiConfig.product.getProductClientList;
+    try {
+        const { success, responseData } = yield call(sendRequest, apiParams);
+        if(success && responseData.result) {
+            yield put({
+                type: defineActionSuccess(GET_PRODUCT_AUTO_COMPLETE),
+                productSearchList: responseData.data && responseData.data.data,
+            });
+        }
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
 
 const sagas = [
     takeLatest(defineActionLoading(GET_CATEGORY_TYPE_PRODUCTS), getCategoryTypeProducts),
-    takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT), getProductListClient)
+    takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT), getProductListClient),
+    takeLatest(GET_PRODUCT_AUTO_COMPLETE, getProductAutoComplete),
 ]
 
 export default sagas;

@@ -4,13 +4,15 @@ const { createReducer, defineActionSuccess, defineActionLoading, defineActionFai
 
 const {
     GET_CATEGORY_TYPE_PRODUCTS,
-    GET_PRODUCT_LIST_CLIENT
+    GET_PRODUCT_LIST_CLIENT,
+    GET_PRODUCT_AUTO_COMPLETE,
 } = actionTypes;
 
 const initialState = { 
     productCategoryType: [],
     productData: [],
     tbproductLoading: false,
+    productSearchList: []
 };
 
 const reducer = createReducer({
@@ -38,10 +40,15 @@ const reducer = createReducer({
         return {
             ...state,
             productCategoryType,
-            tbproductLoading: false            
+            tbproductLoading: false
         }
     },
-    
+    [defineActionSuccess(GET_PRODUCT_AUTO_COMPLETE)]: (state, { productSearchList }) => {
+        return {
+            ...state,
+            productSearchList,
+        }
+    },
 }, initialState)
 
 export default {

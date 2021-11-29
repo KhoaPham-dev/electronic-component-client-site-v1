@@ -8,11 +8,11 @@ import { useLocation } from 'react-router'
 import { UserOutlined } from '@ant-design/icons'
 import logo from '../../../assets/images/logo.png'
 import cart from '../../../assets/images/cart.jpg'
+import SearchBar from './SearchBar'
 
 const { Header } = Layout
 const { Text } = Typography
 const { SubMenu } = Menu
-const {Search} = Input
 
 
 
@@ -25,23 +25,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                 <img src={logo} alt=''/>
             </div>
             <div class="app-menu">
-                <div class="searchbar">
-                    <Layout style={{height: '100%'}}>
-                        <Layout.Header style={{ display: "flex", alignItems: "center", background: 'white', height: '100%' }}>
-                            <Search placeholder="Nhập tên sản phẩm muốn tìm"
-                                    allowClear
-                                    enterButton="Tìm kiếm"
-                                    size="large"/>
-                        </Layout.Header>
-                    </Layout>
-                </div>
-                {/* <Search
-                    placeholder="Nhập tên sản phẩm muốn tìm"
-                    allowClear
-                    enterButton="Search"
-                    size="large"
-                    className='searchbar'
-                /> */}
+                <SearchBar />
                     {isAuth && (
                         <SubMenu
                             key="logged-subMenu"

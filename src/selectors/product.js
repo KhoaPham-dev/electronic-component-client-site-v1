@@ -14,3 +14,8 @@ export const tbproductListLoadingSelector = createSelector(
     [state => state.product],
     product => product.tbproductLoading
 )
+
+export const productSearchListSelector = createSelector(
+    [state => state.product],
+    product => product.productSearchList
+)
