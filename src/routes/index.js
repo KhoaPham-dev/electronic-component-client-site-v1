@@ -52,6 +52,11 @@ const RootRoute = () => {
                             />
                             <PublicRoute
                                 exact
+                                path={'/'}
+                                component={ProductListPage}
+                            />
+                            <PublicRoute
+                                exact
                                 path={news.path}
                                 component={Exams}
                                 accessAuth

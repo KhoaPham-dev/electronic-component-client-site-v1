@@ -46,6 +46,7 @@ export const sitePathConfig = {
     },
     product: {
         path: '/productList',
+        title: 'Danh sách sản phẩm'
     }
 }
 
