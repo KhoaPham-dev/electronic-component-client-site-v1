@@ -12,18 +12,24 @@
     }
     /* End Styles NavSider */
     .helloheader {
+        display: flex;
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
         padding: 8px;
+
+        .toplefttext {
+            flex-grow: 1
+        }
     }
     /* Styles Header */
     .app-header {
         background: #fff;
         display: flex;
         flex-direction: row;
-        height: 150px;
+        height: 110px;
         align-items: center;
+        padding: 0;
 
         .logo {
             height: 100%;
@@ -39,14 +45,27 @@
             border-bottom: 0;
             align-items: center;
             max-height: 100%;
+            padding: 0 50px;
             .searchbar {
                 width: 100%;
+
+                .ant-input-affix-wrapper-lg {
+                    padding: 10.5px 11px;
+                }
+
+                .ant-input-search-button {
+                    height: 48.2px;
+                }
             }
 
             .menu-right-logged {
                 float: right;
                 padding-right: 4px;
             }
+        }
+
+        .ant-menu {
+            border-bottom: none;
         }
     }
     .app-menu-right {
@@ -56,38 +75,48 @@
             justify-content: center;
         }
     }
-    .app-header-navbar {
-        background: #2196F3;
-        display: flex;
-        flex-direction: row;
-        // height: 100px;
-        line-height: 64px;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0;
-        
-        .app-menu {
-            flex: 1;
-            border-bottom: 0;
-            background:#2196F3;
-            border:1px;
-            color:white;
-            font-size: medium;
-            // .menu-right-logged {
-            //     float: right;
-            //     padding-right: 50px;
-            // }
-        }
-       
-        .app-menu :hover{
-            background-color: white;
-            color:#2196F3;
-        }
-        .app-menu ::after{
-            border:none;
+    .header-menu-container {
+        .app-header-navbar {
+            background: #2196F3;
+            display: flex;
+            flex-direction: row;
+            // height: 100px;
+            line-height: 64px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            
+            
+            .container-menu {
+                flex: 1;
+                border-bottom: 0;
+                background:#2196F3;
+                border:1px;
+                font-size: medium;
+    
+                .app-menu {
+    
+                    color: white;
+                    .app-menu-text{
+                        color: white;
+                    }
+                }
+    
+                .app-menu:hover {
+                    background-color: white;
+    
+                }
+                .app-menu:hover .app-menu-text {
+                    color:#2196F3
+                }
+                .app-menu ::after{
+                    border:none;
+                }
+            }
         }
     }
+    
     
     // .app-menu-right{
     //     .ant-menu-item a::before {
@@ -126,6 +155,11 @@
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
+
+        .ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
+            color: rgba(255, 255, 255, 0.65);
+            background: #2196F3;
+        }
 
         .nav-sider {
             overflow: auto;
@@ -179,6 +213,53 @@
             // min-height: 360px;
             min-height: calc(100vh - 170px);
             background: #fff;
+
+            .ant-card-bordered .ant-card-cover {
+                margin-top: 0px;
+                margin-right: 0px;
+                margin-left: 0px;
+            }
+
+            .ant-list-grid .ant-col > .ant-list-item {
+                display: block;
+                width: 100%;
+                max-width: 450px;
+                margin-bottom: 16px;
+                padding-top: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .ant-card-meta-title {
+                overflow: hidden;
+                color: rgba(0, 0, 0, 0.85);
+                font-weight: 500;
+                font-size: 16px;
+                white-space: nowrap;
+                text-align: center;
+                text-overflow: ellipsis;
+            }
+
+            .ant-card-meta-description {
+                color: #2196F3;
+                text-align: center;
+            }
+
+            .ant-card-actions {
+                margin: 0;
+                padding: 0;
+                color: #2196F3;
+                list-style: none;
+                background: #fff;
+                border: 1px solid #2196F3;
+            }
+
+            .ant-card-actions > li {
+                float: left;
+                margin: 12px 0;
+                color: #2196F3;
+                text-align: center;
+            }
         }
         &::-webkit-scrollbar {
             width: 8px;

@@ -47,7 +47,12 @@ const MasterLayout = ({ children, history }) => {
             <div style={{
                 background: 'white'
             }}>
-                <div className='helloheader'>Chào mừng đến với thế giới linh kiện điện tử...</div>
+                <div style={{'border-bottom': '1px solid #d9d9d9'}}>
+                    <div className='helloheader'>
+                        <div className='toplefttext'>Chào mừng đến với thế giới linh kiện điện tử...</div>
+                        <div>Mở cửa: 7h30 - 12h, 13h30 - 19h</div>             
+                    </div>
+                </div>
                 <AppHeader
                 onLogout={onLogout}
                 isAuth={isAuth}

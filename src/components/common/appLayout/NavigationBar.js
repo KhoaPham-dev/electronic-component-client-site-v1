@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { sitePathConfig } from '../../../constants/sitePathConfig'
 import { useLocation } from 'react-router'
 
-import { UserOutlined } from '@ant-design/icons'
+import { PhoneOutlined} from '@ant-design/icons'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -43,17 +43,17 @@ const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
     const location = useLocation()
 
     return (
-        <div style={{background: '#2196F3'}}>
+        <div style={{background: '#2196F3'}} className='header-menu-container'>
             <Header className="app-header-navbar">
                 <Menu
-                    className="app-menu"
+                    className="container-menu"
                     theme="light"
                     mode="horizontal"
                     selectedKeys={[location.pathname]}
                 >
                     {menus.map(menu =>
                         menu.subs ? (
-                            <SubMenu key="SubMenu" title={menu.title}>
+                            <SubMenu key="SubMenu" title={menu.title}  className="app-menu">
                                 {menu.subs.map(subMenu => (
                                     <Menu.Item key={subMenu.path}>
                                         <Link to={subMenu.path}>
@@ -63,8 +63,8 @@ const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
                                 ))}
                             </SubMenu>
                         ) : (
-                            <Menu.Item key={menu.path} >
-                                <Link className="app-menu" to={menu.path}>{menu.title}</Link>
+                            <Menu.Item key={menu.path} className="app-menu" >
+                                <Link to={menu.path} className='app-menu-text'>{menu.title}</Link>
                             </Menu.Item>
                         )
                     )}
@@ -114,6 +114,7 @@ const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
                         </Menu.Item>
                     </Menu>
                 )} */}
+                <div style={{'font-size': 'medium', color: 'white'}}><PhoneOutlined/> Hotline: (028) 64700104</div>
             </Header>
         </div>
     )

@@ -32,7 +32,7 @@ const ProductListPage = () => {
             {
                 <List
                 grid={{ 
-                  gutter: 8, 
+                  gutter: 16, 
                   column: 4,
                   xs: 1,
                   sm: 2,
@@ -49,12 +49,17 @@ const ProductListPage = () => {
                 renderItem={item => (
                   <List.Item>
                     <Card 
-                        title={item.productName} 
-                        style={{ width: 250, border: 'solid'}}
+                        style={{border: '1px solid #d9d9d'}}
                         hoverable
-                        cover={<img alt="example" src="https://i.pinimg.com/564x/75/b6/f8/75b6f831a9c0b392cc15befc2ae110fd.jpg" style={{height: '200px'}} />}
-                        actions={[<ShoppingCartOutlined key = 'Shopping cart'/>]}
-                        >{`${item.productPrice} Đ`}</Card>
+                        cover={<img alt="example" src="https://i.pinimg.com/564x/75/b6/f8/75b6f831a9c0b392cc15befc2ae110fd.jpg" />}
+                        actions={[`Thêm vào giỏ hàng`]}
+                        >
+                          <Meta
+                            style={{alignItems: 'center'}}
+                            title={item.productName} 
+                            description={`${item.productPrice} Đ`}
+                          />
+                        </Card>
                   </List.Item>
                 )}
               />
