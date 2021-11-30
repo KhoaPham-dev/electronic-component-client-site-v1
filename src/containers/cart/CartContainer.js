@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import Cart from '../../components/cart/Cart'
 
-import { selectedItemsSelector } from '../../selectors/cart'
+import { itemsCartSelector } from '../../selectors/cart'
 import { productListSelector } from '../../selectors/product'
 import { actions } from '../../actions'
 
-function CartContainer() {
+function CartContainer({
+    setShow,
+}) {
     const dispatch = useDispatch()
     const history = useHistory()
-    const selectedItems = useSelector(selectedItemsSelector)
+    const selectedItems = useSelector(itemsCartSelector)
     const productList = useSelector(productListSelector)
     const [totalPrice, setTotalPrice] = useState(0)
 
@@ -54,7 +56,11 @@ function CartContainer() {
     }
 
     const deleteItem = (index) => {
-        setSelectedItems(selectedItems.filter((item, i) => i !== index))
+        const newSelectedItems = selectedItems.filter((item, i) => i !== index)
+        setSelectedItems(newSelectedItems)
+        if(newSelectedItems.length <= 0) {
+            setShow(false)
+        }
     }
 
     const calculateTotalPrice = () => {
@@ -69,9 +75,6 @@ function CartContainer() {
 
     useEffect(() => {
         calculateTotalPrice()
-        if(selectedItems.length <= 0) {
-            setShowModal(false)
-        }
     }, [selectedItems, productList])
 
     return (
@@ -85,8 +88,7 @@ function CartContainer() {
         deleteItem={deleteItem}
         handleGoToPayment={handleGoToPayment}
         handleSubmitNote={handleSubmitNote}
-        setShow={setShowModal}
-        show={showModal}
+        setShow={setShow}
         />
     )
 }

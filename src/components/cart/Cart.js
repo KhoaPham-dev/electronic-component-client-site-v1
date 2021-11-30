@@ -5,6 +5,7 @@ import { DeleteFilled, EditOutlined, PlusOutlined, ShoppingOutlined } from '@ant
 import BasicModal from '../common/modal/BasicModal'
 import Utils from '../../utils'
 import { getObjectData } from '../../utils/localStorageHelper'
+import {ReactComponent as ShoppingSVG} from '../../assets/images/shopping.svg';
 
 const { TextArea } = Input
 const { confirm } = Modal
@@ -20,13 +21,10 @@ function Cart({
     handleGoToPayment,
     handleSubmitNote,
     setShow,
-    show,
 }) {
     const VAT = 10
-    const saleOffPrice = totalPrice * (saleOff / 100)
-    const totalSaleOffPrice = totalPrice - saleOffPrice
-    const vatPrice = totalSaleOffPrice * (VAT / 100)
-    const finalPrice = totalSaleOffPrice + vatPrice
+    const vatPrice = totalPrice * (VAT / 100)
+    const finalPrice = totalPrice + vatPrice
 
     const handleDeleteItem = (index) => {
         confirm({
@@ -49,18 +47,15 @@ function Cart({
         <BasicModal
             className="cart-modal"
             title="Giỏ hàng"
-            visible={show}
-            onOk={onSubmit}
+            visible={true}
             onCancel={() => {
                 setShow(false)
             }}
-            formId="cart-form"
             centered
+            maskClosable
+            noFooter
         >
-            <div className='cart'>
-                <div className="header">
-                    <h2>Giỏ hàng</h2>
-                </div>
+            <div className="cart">
                 <div className="list">
                     <ul className="items">
                         {
@@ -71,7 +66,7 @@ function Cart({
                                     ...productList.find(p => p.id === item.id)
                                 }
                                 const productSaleOffPrice = product.productPrice - (product.productPrice * (product.saleoff / 100))
-                                return (<li ref={refItems[item.id]} key={product.id} className="item">
+                                return (<li key={product.id} className="item">
                                     <div className="item-content">
                                         <div className="col col-1">
                                             <p className="title">
@@ -85,7 +80,7 @@ function Cart({
                                                         type="ghost"
                                                         onClick={() => editNoteItem(index)}
                                                         >
-                                                            {t("common:add")} {t("translation:cart.note")}
+                                                            Thêm ghi chú
                                                             <PlusOutlined />
                                                         </Button>
                                                     ) : null
@@ -168,7 +163,7 @@ function Cart({
                                             noStyle
                                             >
                                                 <TextArea
-                                                placeholder={t("translation:cart.typeHere")}
+                                                placeholder="Nhập vào đây"
                                                 value={product.note}
                                                 onPressEnter={(e) =>  handleSubmitNote(e.target.value, index)}
                                                 />
@@ -180,13 +175,13 @@ function Cart({
                                         type="primary"
                                         form={"form-" + product.id}
                                         >
-                                        {t("common:accept")}
+                                        Đồng ý
                                         </Button>
                                     </div>
                                 </li>
                                 )
                             })
-                            : (<Empty image={<ShoppingSVG />} description={t("translation:cart.empty")}/>)
+                            : (<Empty image={<ShoppingSVG />} description="Giỏ hàng trống"/>)
                         }
                     </ul>
                 </div>
@@ -195,21 +190,11 @@ function Cart({
                     ? (
                         <div className="bottom">
                             <div className="calculate-total product">
-                                <div className="title">{t("translation:cart.totalProductPrice")}</div>
+                                <div className="title">Tổng tiền hàng</div>
                                 <div className="total">
                                     {Utils.formatMoney(totalPrice)}
                                 </div>
                             </div>
-                            {
-                                saleOff > 0 ? (
-                                    <div className="calculate-total sale-off-price">
-                                        <div className="title">{t("translation:cart.saleOffPrice")} ({saleOff}%):</div>
-                                        <div className="total">
-                                            {Utils.formatMoney(saleOffPrice)}
-                                        </div>
-                                    </div>
-                                ) : null
-                            }
                             {
                                 VAT > 0 ? (
                                     <div className="calculate-total vat">
@@ -221,7 +206,7 @@ function Cart({
                                 ) : null
                             }
                             <div className="calculate-total product-vat">
-                                <div className="title">{t("translation:cart.totalPayment")}</div>
+                                <div className="title">Tổng tiền thanh toán:</div>
                                 <div className="total">
                                     {Utils.formatMoney(finalPrice)}
                                 </div>

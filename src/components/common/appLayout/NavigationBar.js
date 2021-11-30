@@ -18,25 +18,12 @@ const menus = [
     },
     {
         title: 'Sản phẩm',
-        subs: [
-            {
-                title: 'Hồ sơ cá nhân',
-                path: sitePathConfig.updateProfile.path,
-            },
-            {
-                title: 'Hồ sơ năng lực',
-                path: sitePathConfig.competences.path,
-            },
-        ],
+        path: sitePathConfig.product.path,
     },
     {
         title: 'Tin tức',
         path: sitePathConfig.news.path,
     },
-    {
-        title: 'Giỏ hàng',
-        path: sitePathConfig.product.path
-    }
 ]
 
 const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {

@@ -17,3 +17,6 @@ export const categoryKinds = {
     CATEGORY_KIND_PRODUCT,
     CATEGORY_KIND_NEWS,
 }
+
+export const CART_MODAL = 1
+export const LOGIN_MODAL = 2

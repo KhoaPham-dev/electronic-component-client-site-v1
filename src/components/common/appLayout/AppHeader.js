@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, Menu, Space, Typography, Avatar, Input } from 'antd'
 import { Link } from 'react-router-dom'
 
@@ -8,6 +8,9 @@ import { useLocation } from 'react-router'
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import logo from '../../../assets/images/logo.png'
 import SearchBar from './SearchBar'
+import CartContainer from '../../../containers/cart/CartContainer'
+import { CART_MODAL, LOGIN_MODAL } from '../../../constants/masterData'
+import LoginContainer from '../../../containers/account/LoginContainer'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -17,6 +20,7 @@ const { SubMenu } = Menu
 
 const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
     const location = useLocation()
+    const [showModal, setShowModal] = useState(-1)
 
     return (
         <Header className="app-header">
@@ -59,18 +63,26 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                     selectedKeys={[location.pathname]}
                     key="menu-right"
                 >
-                    <Menu.Item key={sitePathConfig.login.path}>
-                        <Link to={sitePathConfig.login.path}>
-                            <UserOutlined />
-                            <Text strong>Đăng nhập</Text>
-                        </Link>
+                    <Menu.Item key="1" onClick={() => setShowModal(LOGIN_MODAL)}>
+                        <UserOutlined />
+                        <Text strong>Đăng nhập</Text>
                     </Menu.Item>
-                    <Menu.Item to="/" key="2">
+                    <Menu.Item key="2" onClick={() => setShowModal(CART_MODAL)}>
                         <ShoppingCartOutlined />
                         <Text strong>Giỏ hàng</Text>
                     </Menu.Item>
                 </Menu>
             )}
+            {
+                ({
+                    [CART_MODAL]: <CartContainer
+                    setShow={setShowModal}
+                    />,
+                    [LOGIN_MODAL]: <LoginContainer
+                    setShow={setShowModal}
+                    />,
+                })[showModal] ?? null
+            }
         </Header>
     )
 }

@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import { Button, Modal } from 'antd';
-import { withTranslation } from "react-i18next";
 
 class BasicModal extends Component {
 
     getTitle() {
-        const { hiddenTile, title, isEditing, objectName, t, emptyTitle } = this.props;
+        const { hiddenTile, title, isEditing, objectName, emptyTitle } = this.props;
         if(hiddenTile)
             return null;
         else if(title) {
             return title;
         }
         const name = objectName || '';
-        return emptyTitle ? " " : isEditing ? t('updateTitle', { objectName: name}) : t('createTitle', { objectName: name});
+        return emptyTitle ? " " : isEditing ? "Cập nhật " + name : "Thêm mới " + name;
     }
 
     render() {
@@ -84,4 +83,4 @@ class BasicModal extends Component {
     }
 }
 
-export default withTranslation('basicModal')(BasicModal);
+export default BasicModal;

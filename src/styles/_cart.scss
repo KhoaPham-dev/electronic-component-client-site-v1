@@ -1,5 +1,4 @@
-.cart {
-    height: 100%;
+.cart-modal {
     display: flex;
     flex-direction: column;
     ul {
@@ -229,5 +228,8 @@
             text-transform: uppercase;
             font-weight: bold;
         }
+    }
+    .ant-modal-footer {
+        display: none;
     }
 }
