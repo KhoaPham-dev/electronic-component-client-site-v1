@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { productListSelector, tbproductListLoadingSelector } from "../../selectors/product";
-import {actions} from '../../actions/product';
+import {itemsCartSelector} from '../../selectors/cart';
+import {actions} from '../../actions';
 import { List, Card, Spin } from 'antd';
 import {AppConstants} from '../../constants/index';
 import noimage from '../../assets/images/noimage.png';
@@ -13,9 +14,32 @@ const ProductListPage = () => {
 
     const productList = useSelector(productListSelector)
     const isLoading = useSelector(tbproductListLoadingSelector);
-    console.log(isLoading);
+    const itemsCart = useSelector(itemsCartSelector);
+    console.log(itemsCart);
     const dispatch = useDispatch();
-    console.log(productList);
+
+    const handleClickItem = (id) => {
+      const index = itemsCart.findIndex((item) => {
+        return item.id === id
+      })
+
+      if(index == -1)
+      {
+        const newItemsCart = JSON.parse(JSON.stringify(itemsCart));
+        newItemsCart.push({
+          id,
+          quantity: 1
+        })
+
+        setItemsCart(newItemsCart);
+      }
+    }
+    const setItemsCart = (newItemsCart) => {
+      dispatch(actions.setItemsCart({
+          itemsCart: newItemsCart
+      }))
+  }
+
     useEffect(() => {
         dispatch(actions.getProductListClient(
             {
@@ -54,7 +78,7 @@ const ProductListPage = () => {
                         style={{border: '1px solid #d9d9d'}}
                         hoverable
                         cover={<img alt="example" src= {item.productImage ? `${AppConstants.contentRootUrl}${item.productImage}` : noimage} />}
-                        actions={[`Thêm vào giỏ hàng`]}
+                        onClick={() => {console.log('Card clicked!')}}
                         >
                           <Meta
                             style={{alignItems: 'center'}}
@@ -62,6 +86,9 @@ const ProductListPage = () => {
                             description={`${item.productPrice} Đ`}
                           />
                         </Card>
+                        <div className="button-add-to-cart" onClick={() => {handleClickItem(item.id)}}>
+                          <div>Thêm vào giỏ hàng</div>
+                        </div>
                   </List.Item>
                 )}
               />

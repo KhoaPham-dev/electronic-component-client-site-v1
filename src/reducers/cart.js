@@ -26,7 +26,7 @@ const initialState = {
 
 const reducer = createReducer({
 
-    [SET_ITEMS_CART]: (state, { itemsCart, selectedItem }) => {
+    [SET_ITEMS_CART]: (state, {itemsCart}) => {
         const userData = getSessionObjectData(StorageKeys.userData) || {}
         setSessionObjectData(StorageKeys.userData, {
             ...userData,
@@ -34,8 +34,7 @@ const reducer = createReducer({
         })
         return {
             ...state,
-            itemsCart,
-            selectedItem,
+            itemsCart
         }
     },
     [SET_SELECTED_ITEM]: (state, payload) => {
