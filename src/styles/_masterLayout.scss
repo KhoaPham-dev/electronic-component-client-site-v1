@@ -17,6 +17,7 @@
         max-width: 1200px;
         margin: 0 auto;
         padding: 8px;
+        color: #8C8C8C;
 
         .toplefttext {
             flex-grow: 1
@@ -168,7 +169,7 @@
     // }
     
     .app-banner {
-        background: #fff;
+        background: #F5F5F5;
         height: 400px;
         padding-top: 10px;
         line-height: 120px;
@@ -187,19 +188,41 @@
         height: 100%;
     }
     /* End Styles Header */
-    .app-breadcrumb {
-        margin: 16px 20px
-    }
+
     /* Styles Sider*/
     .containtersider {
-        background: #fff;
+        background: #F5F5F5;
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
 
+        .app-breadcrumb {
+            margin: 16px 0;
+        }
+
+        .ant-breadcrumb > span:last-child {
+            color: #2196F3;
+        }
+
         .ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
-            color: rgba(255, 255, 255, 0.65);
-            background: #2196F3;
+            color: #333;
+            background: #fff;
+        }
+
+        .ant-menu-dark .ant-menu-item > span > a {
+            color: black;
+        }
+
+        .ant-menu-item-selected {
+            background-color: #2196F3 !important;
+          }
+
+          .ant-menu-dark .ant-menu-item:hover {
+            background-color: #2196F3;
+        }
+
+        .ant-menu-dark .ant-menu-item:hover a {
+            color: #fff;
         }
 
         .nav-sider {
@@ -253,12 +276,14 @@
             padding: 0 0 24px 24px;
             // min-height: 360px;
             min-height: calc(100vh - 170px);
-            background: #fff;
+            background: #F5F5F5;
 
             .ant-card-bordered .ant-card-cover {
                 margin-top: 0px;
                 margin-right: 0px;
                 margin-left: 0px;
+                width: 225px;
+                height: 225px;
             }
 
             .ant-list-grid .ant-col > .ant-list-item {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Spin } from 'antd';
+import { Layout, Menu, Spin, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { navMenuConfig } from '../../../constants/menuConfig';
 import { AppConstants } from '../../../constants'
 import {actions} from '../../../actions';
 import { connect, useDispatch } from "react-redux";
 import { categoryKinds } from '../../../constants/masterData';
+import {CaretRightOutlined, BarsOutlined} from '@ant-design/icons'
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,7 +17,9 @@ class NavSider extends Component {
         super(props)
         this.state = {
             loadingMenuItem: null,
+            breadcrumbs: [],
         }
+        this.breadcrumbs = [];
         this.getCategoryTypeProducts();
     }
 
@@ -38,10 +41,15 @@ class NavSider extends Component {
         getCategoryTypeProducts({params});
       }
 
+    onChangeBreadcrumb(breadcrumbs) {
+        this.setState({ breadcrumbs });
+    }
+
     render() {
         const { onToggleNavSide, currentPathname, navSidercollapsed, userData, categoryList, loading } = this.props;
         const {
             loadingMenuItem,
+            breadcrumbs
         } = this.state;
 
         let CategoryList = [];
@@ -61,6 +69,32 @@ class NavSider extends Component {
         }
 
         return (
+            <div>
+            <Breadcrumb className="app-breadcrumb" separator=">">
+                                <Breadcrumb.Item>
+                                    {/* <Link to="/">Home</Link> */}
+                                    Trang chủ
+                                </Breadcrumb.Item>
+                                {
+                                    breadcrumbs
+                                    ?
+                                    breadcrumbs.map(breadcrumb => 
+                                        <Breadcrumb.Item key={breadcrumb.name}>
+                                            {
+                                                breadcrumb.path
+                                                ?
+                                                    <Link className="routing" to={breadcrumb.path}>{breadcrumb.name}</Link>
+                                                :
+                                                    breadcrumb.name
+                                            }
+                                        </Breadcrumb.Item>
+                                    )
+                                    :
+                                    null
+                                }
+                    
+                                {/* <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
+                        </Breadcrumb>
             <Spin size="small" wrapperClassName="full-screen-loading" spinning={loading}>
                 <Sider
                     width={200}
@@ -78,11 +112,12 @@ class NavSider extends Component {
                                 className="custom-nav-item"
                                 key= 'getall'
                                 onClick={(e) => {
+                                    this.onChangeBreadcrumb([{name: 'Tất cả'}])
                                     this.getList()
                                 }}
                                 >
                                 <Link to={`/productList`}>
-                                    <span>Tất cả sản phẩm</span>
+                                    <span><BarsOutlined/> Tất cả sản phẩm</span>
                                 </Link>
                             </Menu.Item>
                         {!loading && CategoryList.map((navMenuItem, idx) =>
@@ -91,17 +126,19 @@ class NavSider extends Component {
                                 className="custom-nav-item"
                                 key={navMenuItem.value}
                                 onClick={(e) => {
+                                    this.onChangeBreadcrumb([{name: navMenuItem.label}])
                                     this.getList(navMenuItem.value)
                                 }}
                                 >
                                 <Link to={`/productList?categoryId=${navMenuItem.value}`}>
-                                    <span>{navMenuItem.label}</span>
+                                    <span><CaretRightOutlined/> {`${navMenuItem.label}`}</span>
                                 </Link>
                             </Menu.Item>
                         )}
                     </Menu>
                 </Sider>
             </Spin>
+            </div>
         )
     }
 }
