@@ -10,15 +10,21 @@ import {
     actions as productActions,
     actionTypes as productTypes,
 } from './product'
+import {
+    actions as cartActions,
+    actionTypes as cartTypes,
+} from './cart'
 
 export const actions = {
     ...appCommonActions,
     ...accountActions,
-    ...productActions
+    ...productActions,
+    ...cartActions,
 }
 
 export const types = {
     ...appCommonTypes,
     ...accountTypes,
-    ...productTypes
+    ...productTypes,
+    ...cartTypes,
 }

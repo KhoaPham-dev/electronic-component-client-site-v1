@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom'
 import { sitePathConfig } from '../../../constants/sitePathConfig'
 import { useLocation } from 'react-router'
 
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import logo from '../../../assets/images/logo.png'
-import cart from '../../../assets/images/cart.jpg'
 import SearchBar from './SearchBar'
 
 const { Header } = Layout
@@ -62,12 +61,13 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                 >
                     <Menu.Item key={sitePathConfig.login.path}>
                         <Link to={sitePathConfig.login.path}>
+                            <UserOutlined />
                             <Text strong>Đăng nhập</Text>
                         </Link>
                     </Menu.Item>
-                    
                     <Menu.Item to="/" key="2">
-                        <img className="ant-menu-item" src= {cart} alt='cart'/>
+                        <ShoppingCartOutlined />
+                        <Text strong>Giỏ hàng</Text>
                     </Menu.Item>
                 </Menu>
             )}
