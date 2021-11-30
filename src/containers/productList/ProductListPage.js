@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { productListSelector, tbproductListLoadingSelector } from "../../selectors/product";
 import {actions} from '../../actions/product';
 import { List, Card, Spin } from 'antd';
-import {ShoppingCartOutlined} from '@ant-design/icons'
+import {AppConstants} from '../../constants/index';
+import noimage from '../../assets/images/noimage.png';
+
 
 const { Meta } = Card;
 
@@ -51,7 +53,7 @@ const ProductListPage = () => {
                     <Card 
                         style={{border: '1px solid #d9d9d'}}
                         hoverable
-                        cover={<img alt="example" src="https://i.pinimg.com/564x/75/b6/f8/75b6f831a9c0b392cc15befc2ae110fd.jpg" />}
+                        cover={<img alt="example" src= {item.productImage ? `${AppConstants.contentRootUrl}${item.productImage}` : noimage} />}
                         actions={[`Thêm vào giỏ hàng`]}
                         >
                           <Meta

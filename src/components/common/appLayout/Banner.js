@@ -18,7 +18,7 @@ const Banner = ({ title }) => {
         autoplaySpeed: 2000,
       };
     return (
-    <div style={{background: 'white'}}>
+    <div style={{background: '#F5F5F5'}}>
         <div className="app-banner">
                 <Slider {...settings} pauseOnDotsHover={false}>
                     <div>

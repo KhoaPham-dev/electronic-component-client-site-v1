@@ -67,7 +67,7 @@ const MasterLayout = ({ children, history }) => {
             
             <NavigationBar></NavigationBar>
             <Banner />
-            <div  style={{background: 'white'}}>
+            <div  style={{background: '#F5F5F5'}}>
                 <Layout className='containtersider'>
                     <NavSider>              
                     </NavSider>
