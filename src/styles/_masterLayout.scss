@@ -129,17 +129,25 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0;
+            border-bottom: none;
+
+            .ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu {
+                position: relative;
+                top: 0px;
+                display: inline-block;
+                vertical-align: bottom;
+            }
             
             
             .container-menu {
                 flex: 1;
                 border-bottom: 0;
                 background:#2196F3;
-                border:1px;
+                border: none;
                 font-size: medium;
-    
+
                 .app-menu {
-    
+
                     color: white;
                     .app-menu-text{
                         color: white;
