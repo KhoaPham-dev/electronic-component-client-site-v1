@@ -53,7 +53,12 @@ function Cart({
             }}
             centered
             maskClosable
-            noFooter
+            onOk={handleGoToPayment}
+            customOkButton={
+                <Button className="modal-btn-save" key="submit" htmlType="submit" type="primary">
+                    Thanh toán
+                </Button>
+            }
         >
             <div className="cart">
                 <div className="list">

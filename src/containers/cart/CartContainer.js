@@ -13,12 +13,12 @@ function CartContainer({
     const dispatch = useDispatch()
     const history = useHistory()
     const selectedItems = useSelector(itemsCartSelector)
-    const productList = useSelector(productListSelector)
+    const productList = useSelector(productListSelector)?.data || []
     const [totalPrice, setTotalPrice] = useState(0)
 
     const setSelectedItems = (newItems) => {
         dispatch(actions.setItemsCart({
-            selectedItems: newItems
+            itemsCart: newItems
         }))
     }
 
@@ -66,7 +66,7 @@ function CartContainer({
     const calculateTotalPrice = () => {
         setTotalPrice(selectedItems.reduce((acc, cur) => {
             const product = productList.find(p => p.id === cur.id) || {}
-            return acc + (cur.quantity * (product.productPrice - product.productPrice * (product.saleoff / 100)))
+            return acc + (cur.quantity * (product.productPrice - product.productPrice * ((product.saleoff || 0) / 100)))
         }, 0))
     }
 
