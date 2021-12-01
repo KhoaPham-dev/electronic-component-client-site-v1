@@ -63,7 +63,7 @@ const MasterLayout = ({ children, history }) => {
                 shortName={
                     (userData.customerFullName || "Khách").split(' ').pop()
                 }
-                avatar={Utils.getFileUrl(userData?.avatarPath)}
+                avatar={Utils.getFileUrl(userData?.customerAvatarPath)}
             />
             </div>
             
