@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { productListSelector, tbproductListLoadingSelector } from "../../selectors/product";
 import {itemsCartSelector} from '../../selectors/cart';
 import {actions} from '../../actions';
-import { List, Card, Spin } from 'antd';
+import { List, Card, Spin, Button } from 'antd';
 import {AppConstants} from '../../constants/index';
 import noimage from '../../assets/images/noimage.png';
+import Utils from '../../utils';
+import {DEFAULT_PAGE_SIZE} from '../../constants';
 
 
 const { Meta } = Card;
@@ -18,12 +20,22 @@ const ProductListPage = () => {
     console.log(itemsCart);
     const dispatch = useDispatch();
 
-    const handleClickItem = (id) => {
+    const pagination = { pageSize: DEFAULT_PAGE_SIZE }
+
+    const AvailableItem = (id) => {
+      const indexItemsCart = itemsCart.findIndex((item) => {
+        return item.id === id;
+      })
+
+      return indexItemsCart;
+    }
+
+    const handleClickAddToCart = (id) => {
       const index = itemsCart.findIndex((item) => {
         return item.id === id
       })
 
-      if(index == -1)
+      if(index === -1)
       {
         const newItemsCart = JSON.parse(JSON.stringify(itemsCart));
         newItemsCart.push({
@@ -34,6 +46,39 @@ const ProductListPage = () => {
         setItemsCart(newItemsCart);
       }
     }
+
+      const addItem = (index) => {
+        let newItemsCart = JSON.parse(JSON.stringify(itemsCart));
+
+        newItemsCart = newItemsCart.map(el =>
+          el.id !== index ? el : {id: el.id, quantity: el.quantity + 1}
+        )
+        setItemsCart(newItemsCart);
+    }
+
+      const minusItem = (index) => {
+        let newItemsCart = JSON.parse(JSON.stringify(itemsCart));
+
+        for (let i =0; i < newItemsCart.length; i++)
+        {
+          if(newItemsCart[i].id === index)
+          {
+            if(newItemsCart[i].quantity > 1)
+            {
+              newItemsCart[i] = {...newItemsCart[i], quantity: newItemsCart[i].quantity -1}
+              setItemsCart(newItemsCart);
+              break;
+            }
+            else 
+            {
+              newItemsCart = newItemsCart.filter(el => el !== newItemsCart[i]);
+              setItemsCart(newItemsCart);
+              break;
+            }
+          }
+        }
+    }
+
     const setItemsCart = (newItemsCart) => {
       dispatch(actions.setItemsCart({
           itemsCart: newItemsCart
@@ -41,18 +86,21 @@ const ProductListPage = () => {
   }
 
     useEffect(() => {
+      const page = pagination.current ? pagination.current - 1 : 0;
         dispatch(actions.getProductListClient(
             {
                 params: {
                     // categoryId: 88,
-                    page: 0,
-                    size: 13,
+                    page: page,
+                    size: pagination.pageSize,
                 }
             }
         ))
     }, [])
     
     const { data = [] } = productList || {}
+    pagination.total = productList.totalElements;
+    console.log(pagination.total);
     return (
         <Spin size="large" wrapperClassName="full-screen-loading" spinning={isLoading}>
             {
@@ -68,9 +116,17 @@ const ProductListPage = () => {
                 dataSource={data}
                 pagination={{
                     onChange: page => {
-                      console.log(page);
+                      dispatch(actions.getProductListClient(
+                          {
+                              params: {
+                                  // categoryId: 88,
+                                  page: page -1,
+                                  size: pagination.pageSize,
+                              }
+                          }
+                      ))
                     },
-                    pageSize: 12,
+                    ...pagination
                   }}
                 renderItem={item => (
                   <List.Item>
@@ -83,12 +139,23 @@ const ProductListPage = () => {
                           <Meta
                             style={{alignItems: 'center'}}
                             title={item.productName} 
-                            description={`${item.productPrice} Đ`}
+                            description={`${Utils.formatNumber(item.productPrice)} Đ`}
                           />
                         </Card>
-                        <div className="button-add-to-cart" onClick={() => {handleClickItem(item.id)}}>
-                          <div>Thêm vào giỏ hàng</div>
-                        </div>
+                          { AvailableItem(item.id) === -1 ? 
+                            <div className="button-add-to-cart" onClick={() => {handleClickAddToCart(item.id)}}>
+                              <div>Thêm vào giỏ hàng</div>
+                            </div>
+                          :
+                            <div className="container-plus-minus-buttons">
+                              <div className="inline-buttons">
+                                <Button danger = {true} size="large" onClick={() => {minusItem(item.id)}}>-</Button>
+                              </div>
+                              <div className="inline-buttons">
+                                <Button size="large" onClick={() => {addItem(item.id)}}>+</Button>
+                              </div>
+                            </div>
+                          }
                   </List.Item>
                 )}
               />

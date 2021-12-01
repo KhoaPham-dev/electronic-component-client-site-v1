@@ -11,16 +11,16 @@ const {
 
 
 const initialState = {
-    // itemsCart: getSessionObjectData(StorageKeys.userData)?.itemsCart || [],
-    itemsCart: [
-        {
-            id: 93,
-            isShowNote: false,
-            note: '',
-            quantity: 2,
-            parentId: 100,
-        },
-    ],
+    itemsCart: getSessionObjectData(StorageKeys.userData)?.itemsCart || [],
+    // itemsCart: [
+    //     {
+    //         id: 93,
+    //         isShowNote: false,
+    //         note: '',
+    //         quantity: 2,
+    //         parentId: 100,
+    //     },
+    // ],
     selectedItem: null,
 }
 

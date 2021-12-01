@@ -234,6 +234,21 @@
             color: #fff;
         }
 
+        .container-plus-minus-buttons {
+
+            text-align: center;
+            .inline-buttons {
+                display: inline-block;
+
+                .ant-btn {
+                    max-width: 114px;
+                    width: 113.5px;
+                }
+            }
+        }
+
+        
+
         .nav-sider {
             overflow: auto;
             height: 100%;
