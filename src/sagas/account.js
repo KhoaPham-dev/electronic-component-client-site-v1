@@ -44,13 +44,14 @@ function* login({ payload: { params, onCompleted, onError } }) {
     }
 }
 
-function* logout() {
+function* logout({ payload: { onCompleted }}) {
     try {
         // yield call(sendRequest, apiConfig.account.logout)
         removeStorageItem(StorageKeys.userToken)
         yield put({
             type: defineActionSuccess(LOGOUT),
         })
+        onCompleted && onCompleted()
     } catch (error) {
         // onError(error);
     }
@@ -187,7 +188,7 @@ function* changePassword({ payload: { params, onError, onCompleted } }) {
 }
 
 const sagas = [
-    takeLatest(defineActionLoading(LOGIN), login),
+    takeLatest(LOGIN, login),
     takeLatest(defineActionLoading(REGISTER), register),
     takeLatest(LOGOUT, logout),
     takeLatest(actionTypes.VERIFY_ACCOUNT, verifyAccount),

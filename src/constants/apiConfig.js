@@ -17,7 +17,7 @@ const apiConfig = {
     },
     account: {
         login: {
-            path: '/v1/account/login',
+            path: '/v1/account/client-login',
             method: 'POST',
             headers: baseHeader,
         },
@@ -44,7 +44,7 @@ const apiConfig = {
     },
     customer: {
         getProfile: {
-            path: '/v1/customer/get-profile',
+            path: '/v1/customer/profile',
             method: 'GET',
             headers: baseHeader,
         },

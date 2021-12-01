@@ -2,12 +2,13 @@ import React from 'react'
 import { Button } from 'antd';
 
 import BasicModal from '../../components/common/modal/BasicModal'
+import LoginForm from './LoginForm';
+import { REGISTER_MODAL, REQUEST_RECOVERY_MODAL } from '../../constants/masterData'
 
 function LoginModal({
     isModalLoading,
     setShow,
     onSubmit,
-    logoPath,
 }) {
     return (<>
         <BasicModal
@@ -19,33 +20,30 @@ function LoginModal({
             onCancel={() => setShow(-1)}
             maskClosable
             customOkButton={<div>
-                {/* <Button className="modal-btn-save" key="submit" htmlType="submit" type="primary" loading={isModalLoading} form="login-form">
-                   {t("login.saveButtonName")}
+                <Button className="modal-btn-save" key="submit" htmlType="submit" type="primary" loading={isModalLoading} form="login-form">
+                   Đăng nhập
                 </Button>
                 <div className="options">
                     <div className="forgot-password" onClick={() => {
-                        setShowRequestForgotPasswordModal(true)
+                        setShow(REQUEST_RECOVERY_MODAL)
                     }}>
-                        {t("login.forgotPassword")}
+                        Quên mật khẩu?
                     </div>
                     <div className="register" onClick={() => {
-                        setShowModal(REGISTER_MODAL)
+                        setShow(REGISTER_MODAL)
                     }}>
-                        {t("login.register")}
+                        Đăng ký
                     </div>
-                </div> */}
                 </div>
+            </div>
             }
             width={500}
             formId="login-form"
             centered
         >
-            {/* <LoginForm
-                t={t}
+            <LoginForm
                 loadingSave={isModalLoading}
-                logoPath={logoPath}
-            /> */}
-            <div>hello</div>
+            />
         </BasicModal>
     </>)
 }

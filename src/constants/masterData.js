@@ -20,3 +20,6 @@ export const categoryKinds = {
 
 export const CART_MODAL = 1
 export const LOGIN_MODAL = 2
+export const REGISTER_MODAL = 3
+export const REQUEST_RECOVERY_MODAL = 4
+export const RECOVERY_MODAL = 5

@@ -29,7 +29,11 @@ const MasterLayout = ({ children, history }) => {
     }, [history.location.pathname])
 
     const onLogout = () => {
-        dispatch(actions.logout())
+        dispatch(actions.logout({
+            onCompleted: () => {
+                window.location.href = window.location.origin
+            }
+        }))
     }
 
     const onChangeBreadcrumb = (breadcrumbs) => {
