@@ -101,6 +101,26 @@ const ProductListPage = () => {
     const { data = [] } = productList || {}
     pagination.total = productList.totalElements;
     console.log(pagination.total);
+    console.log(data);
+
+    function areEquals(a, b) {
+      var keys1 = Object.keys(a)
+      var keys2 = Object.keys(b)
+
+      if(a['categoryId'] !== b['categoryId'])
+      {
+        return false;
+      }
+      return true ;
+    }
+    function checkArray(arr) {
+      for (var i = 1; i < data.length; i++) {
+        if (!areEquals(arr[0], arr[i])) return false
+      }
+      return true
+    }
+
+    console.log(checkArray(data));
     return (
         <Spin size="large" wrapperClassName="full-screen-loading" spinning={isLoading}>
             {
@@ -119,14 +139,16 @@ const ProductListPage = () => {
                       dispatch(actions.getProductListClient(
                           {
                               params: {
-                                  // categoryId: 88,
+                                  categoryId: checkArray(data) ? data[0].categoryId : null,
                                   page: page -1,
                                   size: pagination.pageSize,
                               }
                           }
                       ))
                     },
-                    ...pagination
+                    ...pagination,
+                    showSizeChanger: false, 
+                    hideOnSinglePage: true
                   }}
                 renderItem={item => (
                   <List.Item>
@@ -150,6 +172,9 @@ const ProductListPage = () => {
                             <div className="container-plus-minus-buttons">
                               <div className="inline-buttons">
                                 <Button danger = {true} size="large" onClick={() => {minusItem(item.id)}}>-</Button>
+                              </div>
+                              <div className="inline-buttons">
+                                <div>{itemsCart[AvailableItem(item.id)].quantity}</div>
                               </div>
                               <div className="inline-buttons">
                                 <Button size="large" onClick={() => {addItem(item.id)}}>+</Button>
