@@ -59,7 +59,7 @@ const apiConfig = {
             headers: baseHeader,
         },
         updateProfile: {
-            path: 'v1/customer/update-profile',
+            path: 'v1/customer/update_profile',
             method: 'PUT',
             headers: baseHeader,
         },

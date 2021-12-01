@@ -17,10 +17,6 @@ const menus = [
         path: sitePathConfig.homePage.path,
     },
     {
-        title: 'Sản phẩm',
-        path: sitePathConfig.product.path,
-    },
-    {
         title: 'Tin tức',
         path: sitePathConfig.news.path,
     },

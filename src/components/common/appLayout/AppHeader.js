@@ -16,9 +16,10 @@ import {
 import logo from '../../../assets/images/logo.png'
 import SearchBar from './SearchBar'
 import CartContainer from '../../../containers/cart/CartContainer'
-import { CART_MODAL, LOGIN_MODAL, REGISTER_MODAL } from '../../../constants/masterData'
+import { CART_MODAL, LOGIN_MODAL, PROFILE_MODAL, REGISTER_MODAL } from '../../../constants/masterData'
 import LoginContainer from '../../../containers/account/LoginContainer'
 import RegisterContainer from '../../../containers/account/RegisterContainer'
+import ProfileContainer from '../../../containers/account/ProfileContainer'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -52,17 +53,17 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                         <span style={{
                             marginRight: "0.5em"
                         }}>Xin chào, {shortName}</span>
-                        <CaretDownFilled />
+                        <Avatar src={avatar} size="large"/>
                     </div>
                 }
             >
                 {
                     isAuth ? (<>
-                        <Menu.Item key="1" onClick={() => setShowModal(CART_MODAL)}>
+                        <Menu.Item key={CART_MODAL} onClick={() => setShowModal(CART_MODAL)}>
                             <ShoppingCartOutlined />
                             <Text strong>Giỏ hàng</Text>
                         </Menu.Item>
-                        <Menu.Item key="2">
+                        <Menu.Item key={PROFILE_MODAL} onClick={() => setShowModal(PROFILE_MODAL)}>
                             <UserOutlined />
                             <Text strong>Hồ sơ</Text>
                         </Menu.Item>
@@ -79,11 +80,11 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                             <Text strong>Đăng xuất</Text>
                         </Menu.Item>
                     </>) : (<>
-                        <Menu.Item key="1" onClick={() => setShowModal(LOGIN_MODAL)}>
+                        <Menu.Item key={LOGIN_MODAL} onClick={() => setShowModal(LOGIN_MODAL)}>
                             <UserOutlined />
                             <Text strong>Đăng nhập</Text>
                         </Menu.Item>
-                        <Menu.Item key="2" onClick={() => setShowModal(CART_MODAL)}>
+                        <Menu.Item key={CART_MODAL} onClick={() => setShowModal(CART_MODAL)}>
                             <ShoppingCartOutlined />
                             <Text strong>Giỏ hàng</Text>
                         </Menu.Item>
@@ -99,6 +100,9 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                     setShow={setShowModal}
                     />,
                     [REGISTER_MODAL]: <RegisterContainer
+                    setShow={setShowModal}
+                    />,
+                    [PROFILE_MODAL]: <ProfileContainer
                     setShow={setShowModal}
                     />,
                 })[showModal] ?? null
