@@ -234,6 +234,21 @@
             color: #fff;
         }
 
+        .container-plus-minus-buttons {
+
+            text-align: center;
+            .inline-buttons {
+                display: inline-block;
+
+                .ant-btn {
+                    max-width: 114px;
+                    width: 113.5px;
+                }
+            }
+        }
+
+        
+
         .nav-sider {
             overflow: auto;
             height: 100%;
@@ -320,21 +335,27 @@
                 text-align: center;
             }
 
-            .ant-card-actions {
+            .button-add-to-cart {
                 margin: 0;
                 padding: 0;
                 color: #2196F3;
                 list-style: none;
                 background: #fff;
                 border: 1px solid #2196F3;
+                text-align: center;
+                padding: 15px 10px;
             }
 
-            .ant-card-actions > li {
-                float: left;
-                margin: 12px 0;
-                color: #2196F3;
-                text-align: center;
+            .button-add-to-cart:hover {
+                cursor: pointer;
+                transition: box-shadow 0.3s, border-color 0.3s;
+                background: #2196F3;
             }
+
+            .button-add-to-cart:hover div {
+                color: #fff;
+            }
+
         }
         &::-webkit-scrollbar {
             width: 8px;

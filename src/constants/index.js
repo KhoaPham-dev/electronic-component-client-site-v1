@@ -23,6 +23,7 @@ const UploadFileTypes = {
 
 // Pagination config
 export const DEFAULT_TABLE_ITEM_SIZE = 10
+export const DEFAULT_PAGE_SIZE = 12
 export const QRCODE_ITEM_PAGE_SIZE = 20
 export const DATE_FORMAT_DISPLAY = 'DD-MM-YYYY'
 export const DATE_FORMAT_VALUE = 'DD/MM/YYYY'
