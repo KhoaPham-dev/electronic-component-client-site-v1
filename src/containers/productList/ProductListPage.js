@@ -189,7 +189,7 @@ const ProductListPage = () => {
                           :
                             <div className="container-plus-minus-buttons">
                               <div className="inline-buttons">
-                                <Button danger = {true} size="large" onClick={() => {
+                                <Button size="large" onClick={() => {
                                   if(itemsCart[AvailableItem(item.id)].quantity > 1)
                                   {
                                     minusItem(item.id)
