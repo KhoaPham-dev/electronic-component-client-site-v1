@@ -235,16 +235,26 @@
         }
 
         .container-plus-minus-buttons {
-
             text-align: center;
+            padding: 10px 10px;
+            border: 1px solid #2196F3;
+
             .inline-buttons {
                 display: inline-block;
 
                 .ant-btn {
-                    max-width: 114px;
-                    width: 113.5px;
+                    max-width: 32px;
+                    max-height: 32px;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: stretch;
+                    justify-content: center;
+                    line-height: 1.2;
                 }
             }
+
+            
         }
 
         

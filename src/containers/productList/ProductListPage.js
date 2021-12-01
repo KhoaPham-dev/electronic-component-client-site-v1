@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { productListSelector, tbproductListLoadingSelector } from "../../selectors/product";
 import {itemsCartSelector} from '../../selectors/cart';
 import {actions} from '../../actions';
-import { List, Card, Spin, Button } from 'antd';
+import { List, Card, Spin, Button, Modal } from 'antd';
 import {AppConstants} from '../../constants/index';
 import noimage from '../../assets/images/noimage.png';
 import Utils from '../../utils';
@@ -11,6 +11,7 @@ import {DEFAULT_PAGE_SIZE} from '../../constants';
 
 
 const { Meta } = Card;
+const { confirm } = Modal
 
 const ProductListPage = () => {
 
@@ -21,6 +22,23 @@ const ProductListPage = () => {
     const dispatch = useDispatch();
 
     const pagination = { pageSize: DEFAULT_PAGE_SIZE }
+
+    const handleDeleteItem = (index) => {
+      confirm({
+          title: 'Xóa',
+          content: "Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?",
+          okText: "Có",
+          okType: 'danger',
+          cancelText: "Không",
+          centered: true,
+          onOk: () => {
+              minusItem(index)
+          },
+          onCancel() {
+            // console.log('Cancel');
+          },
+      });
+  }
 
     const AvailableItem = (id) => {
       const indexItemsCart = itemsCart.findIndex((item) => {
@@ -171,10 +189,20 @@ const ProductListPage = () => {
                           :
                             <div className="container-plus-minus-buttons">
                               <div className="inline-buttons">
-                                <Button danger = {true} size="large" onClick={() => {minusItem(item.id)}}>-</Button>
+                                <Button danger = {true} size="large" onClick={() => {
+                                  if(itemsCart[AvailableItem(item.id)].quantity > 1)
+                                  {
+                                    minusItem(item.id)
+                                  }
+                                  else {
+                                    handleDeleteItem(item.id);
+                                  }
+                                  
+                                }
+                                  }>-</Button>
                               </div>
-                              <div className="inline-buttons">
-                                <div>{itemsCart[AvailableItem(item.id)].quantity}</div>
+                              <div className="inline-buttons" style={{padding: '0 15px'}}>
+                                <div style={{'font-weight': 'bold', color: '#2196F3'}}>{itemsCart[AvailableItem(item.id)].quantity}</div>
                               </div>
                               <div className="inline-buttons">
                                 <Button size="large" onClick={() => {addItem(item.id)}}>+</Button>
