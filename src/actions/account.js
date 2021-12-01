@@ -23,7 +23,7 @@ export const actions = {
     updateProfile: createActionWithLoading(actionTypes.UPDATE_PROFILE),
     getProfile: createAction(actionTypes.GET_PROFILE),
     clearProfile: createAction(actionTypes.CLEAR_PROFILE),
-    register: createActionWithLoading(actionTypes.REGISTER),
+    register: createAction(actionTypes.REGISTER),
     verifyAccount: createAction(actionTypes.VERIFY_ACCOUNT),
     requestForgotPassword: createAction(actionTypes.REQUEST_FORGOT_PASSWORD),
     changePassword: createAction(actionTypes.CHANGE_PASSWORD),

@@ -59,22 +59,19 @@ function* logout({ payload: { onCompleted }}) {
 
 function* register({ payload: { params, onCompleted, onError } }) {
     try {
-        yield put(actions.showFullScreenLoading())
         const { success, responseData } = yield call(
             sendRequest,
             apiConfig.customer.register,
             params
         )
-        console.log({ success, responseData })
         if (success && responseData.result) {
-            onCompleted(responseData)
+            onCompleted && onCompleted(responseData)
         } else {
-            onError(responseData)
+            onError && onError(responseData)
         }
     } catch (error) {
-        onError(error)
+        onError && onError(error)
     } finally {
-        yield put(actions.hideFullScreenLoading())
     }
 }
 
@@ -189,7 +186,7 @@ function* changePassword({ payload: { params, onError, onCompleted } }) {
 
 const sagas = [
     takeLatest(LOGIN, login),
-    takeLatest(defineActionLoading(REGISTER), register),
+    takeLatest(REGISTER, register),
     takeLatest(LOGOUT, logout),
     takeLatest(actionTypes.VERIFY_ACCOUNT, verifyAccount),
     takeLatest(GET_PROFILE, getProfile),

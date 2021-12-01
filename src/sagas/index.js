@@ -1,10 +1,10 @@
 import { all } from 'redux-saga/effects'
 import appCommon from './appCommon'
 import account from './account'
-import area from './area'
+import province from './province'
 import product from './product';
 
-const sagas = [...appCommon, ...account, ...area, ...product]
+const sagas = [...appCommon, ...account, ...province, ...product]
 
 function* rootSaga() {
     yield all(sagas)

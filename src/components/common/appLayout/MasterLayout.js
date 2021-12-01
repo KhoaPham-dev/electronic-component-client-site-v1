@@ -61,9 +61,7 @@ const MasterLayout = ({ children, history }) => {
                 onLogout={onLogout}
                 isAuth={isAuth}
                 shortName={
-                    userData.fullName
-                        ? userData.fullName.split(' ').pop()
-                        : 'Hồ sơ'
+                    (userData.customerFullName || "Khách").split(' ').pop()
                 }
                 avatar={Utils.getFileUrl(userData?.avatarPath)}
             />

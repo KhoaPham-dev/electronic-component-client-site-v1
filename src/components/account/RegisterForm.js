@@ -1,326 +1,146 @@
-import React from 'react'
-import BasicForm from '../common/entryForm/BasicForm'
-import TextField from '../common/entryForm/TextField'
-import DropdownField from '../common/entryForm/DropdownField'
-import DatePickerField from '../common/entryForm/DatePickerField'
-import { Form, Button, Col, Row, Divider } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { genders } from '../../constants/masterData'
-import { AppConstants, AREA_KIND, UploadFileTypes } from '../../constants'
-import { showErrorMessage } from '../../services/notifyService'
-import CropImageFiled from '../common/entryForm/CropImageFiled'
-import Utils from '../../utils'
+import React from "react";
+import { Form, Col, Row } from "antd";
 
-const FormItem = Form.Item
+import BasicForm from "../common/entryForm/BasicForm";
+
+import TextField from "../common/entryForm/TextField";
+import DropdownField from "../common/entryForm/DropdownField";
+import FieldSet from "../common/elements/FieldSet";
+import { PROVINCE_KIND_PROVINCE, PROVINCE_KIND_DISTRICT, PROVINCE_KIND_COMMUNE } from "../../constants/masterData";
 
 class RegisterForm extends BasicForm {
-    constructor(props) {
-        super(props)
-        this.state = {
-            avatar: props.dataDetail.avatarPath
-                ? `${AppConstants.contentRootUrl}${props.dataDetail.avatarPath}`
-                : '',
-            avatarUploading: false,
-        }
+    handleProvinceChange = (parentId) =>{
+        const { fetchProvince } = this.props;
+        fetchProvince(PROVINCE_KIND_DISTRICT, parentId)
+        this.setFieldValue("districtId", undefined);
+        this.setFieldValue("communeId", undefined);
     }
 
-    getInitialFormValues = () => {
-        const { isEditing, dataDetail } = this.props
-        if (!isEditing) {
-            return {}
-        }
-        return dataDetail
+    handleDistrictChange = (parentId) =>{
+        const { fetchProvince } = this.props;
+        fetchProvince(PROVINCE_KIND_COMMUNE, parentId)
+        this.setFieldValue("communeId", undefined);
     }
 
-    validateToConfirmPassword = (rule, value) => {
-        const {
-            current: { validateFields, isFieldTouched },
-        } = this.formRef
-        isFieldTouched('confirmPassword') &&
-            validateFields(['confirmPassword'], { force: true })
-        return Promise.resolve()
+    mappingComboboxListToOptions(comboboxData) {
+        return comboboxData && comboboxData.map(c=>({
+              value: c.id,
+              label: c.provinceName,
+        })) || [];
     }
 
     compareToPassword = (rule, newPassword) => {
-        const password = this.getFieldValue('password')
+        const password = this.getFieldValue("customerPassword");
         if ((password || newPassword) && password !== newPassword) {
-            return Promise.reject('Xác nhận mật khẩu không đúng!')
+            return Promise.reject("Mật khẩu không khớp");
         } else {
-            return Promise.resolve()
+            return Promise.resolve();
         }
-    }
+    };
 
-    handleChangeAvatar = info => {
-        if (info.file.status === 'done') {
-            Utils.getBase64(info.file.originFileObj, avatar =>
-                this.setState({ avatar })
-            )
-        }
-    }
-
-    uploadFileAvatar = (file, onSuccess) => {
-        const { uploadFile } = this.props
-        this.setState({ avatarUploading: true })
-        uploadFile({
-            params: { fileObjects: { file }, type: UploadFileTypes.AVATAR },
-            onCompleted: result => {
-                this.setFieldValue('avatarPath', result.data.filePath)
-                this.setState({ avatarUploading: false })
-                onSuccess()
-            },
-            onError: err => {
-                if (err && err.message) {
-                    showErrorMessage(err.message)
-                    this.setState({ avatarUploading: false })
-                }
-            },
-        })
-    }
-
-    handleAreaChange =
-        (field, resetFields = [], kind) =>
-        value => {
-            this.props.fetchAreasByParentId(kind, value)
-            this.setFieldValue(field, value)
-            for (let f of resetFields) {
-                this.setFieldValue(f, '')
-            }
-        }
-
-    updatePasswordRequire = fields => (rule, value) => {
-        const required = fields.some(field => !!this.getFieldValue(field))
-
-        if (!value && !required) {
-            for (let f of fields) {
-                this.formRef.current.setFields([
-                    {
-                        name: f,
-                        errors: [],
-                    },
-                ])
-            }
-        }
-
-        return required && !value
-            ? Promise.reject('Trường này không được để trống')
-            : Promise.resolve()
-    }
-
-    requiredMatchConfirmPassword = (rule, value) => {
-        const newPassword = this.getFieldValue('newPassword')
-
-        return newPassword && value && newPassword !== value
-            ? Promise.reject('Xác nhận mật khẩu không đúng')
-            : Promise.resolve()
-    }
-
-    render() {
-        const {
-            isEditing,
+	render() {
+		const {
             formId,
-            loadingProvince,
-            loadingDistrict,
-            loadingWard,
-            provinces,
-            districts,
-            wards,
-        } = this.props
-
-        const { avatarUploading, avatar } = this.state
-
-        return (
+            loadingSave,
+            provinceData,
+        } = this.props;
+		return (
             <Form
                 id={formId}
                 ref={this.formRef}
                 layout="vertical"
                 onFinish={this.handleSubmit}
-                initialValues={this.getInitialFormValues()}
             >
-                <Row gutter={24}>
-                    <Col xs={24}>
-                        <CropImageFiled
-                            fieldName="avatarPath"
-                            loading={avatarUploading}
-                            label="Ảnh đại diện"
-                            imageUrl={avatar}
-                            onChange={this.handleChangeAvatar}
-                            uploadFile={this.uploadFileAvatar}
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <TextField
+                            type="number"
+                            fieldName="customerPhone"
+                            label="Số điện thoại"
+                            required
+                            minLength={0}
+                            width="100%"
+                            disabled={loadingSave}
                         />
                     </Col>
-                    {[
-                        {
-                            fieldName: 'username',
-                            label: 'Tên đăng nhập',
-                            required: true,
-                            disabled: isEditing,
-                        },
-                        {
-                            fieldName: 'email',
-                            label: 'Email',
-                            required: true,
-                            type: 'email',
-                            disabled: isEditing,
-                        },
-                        !isEditing && {
-                            fieldName: 'password',
-                            label: 'Mật khẩu',
-                            required: true,
-                            type: 'password',
-                            // validators: [this.validateToConfirmPassword],
-                        },
-                        !isEditing && {
-                            fieldName: 'confirmPassword',
-                            label: 'Xác nhận mật khẩu',
-                            required: true,
-                            type: 'password',
-                            validators: [this.compareToPassword],
-                        },
-                        {
-                            fieldName: 'fullName',
-                            label: 'Họ và tên',
-                            required: true,
-                        },
-                        {
-                            fieldName: 'phone',
-                            label: 'Số điện thoại',
-                            required: true,
-                            type: 'number',
-                        },
-                        {
-                            fieldName: 'sex',
-                            label: 'Giới tính',
-                            component: DropdownField,
-                            options: genders,
-                        },
-                        // {
-                        //     fieldName: 'lang',
-                        //     label: 'lang',
-                        //     required: true,
-                        // },
-                        {
-                            fieldName: 'birthday',
-                            label: 'Ngày sinh',
-                            component: DatePickerField,
-                            width: '100%',
-                        },
-                        {
-                            fieldName: 'provinceId',
-                            label: 'Tỉnh thành',
-                            component: DropdownField,
-                            optionValue: 'provinceId',
-                            optionLabel: 'provinceName',
-                            options: provinces,
-                            loading: loadingProvince,
-                            onChange: this.handleAreaChange(
-                                'provinceId',
-                                ['districtId', 'wardId'],
-                                AREA_KIND.DISTRICT
-                            ),
-                            required: true,
-                        },
-                        {
-                            fieldName: 'districtId',
-                            label: 'Quận',
-                            component: DropdownField,
-                            optionValue: 'provinceId',
-                            optionLabel: 'provinceName',
-                            options: districts,
-                            loading: loadingDistrict,
-                            onChange: this.handleAreaChange(
-                                'districtId',
-                                ['wardId'],
-                                AREA_KIND.WARD
-                            ),
-                            required: true,
-                        },
-                        {
-                            fieldName: 'wardId',
-                            label: 'Phường',
-                            component: DropdownField,
-                            optionValue: 'provinceId',
-                            optionLabel: 'provinceName',
-                            options: wards,
-                            loading: loadingWard,
-                            required: true,
-                        },
-                        {
-                            fieldName: 'address',
-                            label: 'Địa chỉ',
-                            type: 'textarea',
-                        },
-                        isEditing && {
-                            type: 'separate',
-                        },
-                        isEditing && {
-                            fieldName: 'oldPassword',
-                            label: 'Mật khẩu cũ',
-                            type: 'password',
-                            validators: [
-                                this.updatePasswordRequire([
-                                    'newPassword',
-                                    'newPasswordConfirm',
-                                ]),
-                            ],
-                        },
-                        isEditing && {
-                            fieldName: 'newPassword',
-                            label: 'Mật khẩu mới',
-                            type: 'password',
-                            validators: [
-                                this.updatePasswordRequire([
-                                    'oldPassword',
-                                    'newPasswordConfirm',
-                                ]),
-                            ],
-                        },
-                        isEditing && {
-                            fieldName: 'newPasswordConfirm',
-                            label: 'Xác nhận mật khẩu mới',
-                            type: 'password',
-                            validators: [
-                                this.updatePasswordRequire([
-                                    'oldPassword',
-                                    'newPassword',
-                                ]),
-                                this.requiredMatchConfirmPassword,
-                            ],
-                        },
-                    ]
-                        .filter(Boolean)
-                        .map(field => {
-                            const Comp = field.component || TextField
-                            if (field.type === 'separate') {
-                                return (
-                                    <Col xs={24}>
-                                        <Divider />
-                                    </Col>
-                                )
-                            }
-
-                            return (
-                                <Col xs={24} lg={12} xl={8}>
-                                    <Comp
-                                        {...field}
-                                        fieldTitle={field.label}
-                                        size="large"
-                                    />
-                                </Col>
-                            )
-                        })}
+                    <Col span={12}>
+                        <TextField
+                            fieldName="customerFullName"
+                            label="Họ và tên"
+                            required
+                            disabled={loadingSave}
+                        />
+                    </Col>
                 </Row>
-                <FormItem className="text-right">
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        size="large"
-                        className="login-form-button"
-                    >
-                        {isEditing ? 'Cập nhật' : 'Đăng ký'}
-                    </Button>
-                </FormItem>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <TextField
+                            type="password"
+                            fieldName="customerPassword"
+                            label="Mật khẩu"
+                            required
+                            // validators={[this.validateToConfirmPassword]}
+                            minLength={6}
+                            disabled={loadingSave}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <TextField
+                            fieldName="confirmPassword"
+                            type="password"
+                            label="Nhập lại mật khẩu"
+                            required={this.getFieldValue("customerPassword")}
+                            validators={[this.compareToPassword]}
+                            disabled={loadingSave}
+                        />
+                    </Col>
+                </Row>
+                <FieldSet title="Địa chỉ">
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <DropdownField
+                            fieldName="provinceId"
+                            label="Tỉnh/thành"
+                            options={this.mappingComboboxListToOptions(provinceData[PROVINCE_KIND_PROVINCE])}
+                            onChange={this.handleProvinceChange}
+                            disabled={loadingSave || provinceData[PROVINCE_KIND_PROVINCE]?.length <= 0}
+                            required
+                            />
+                        </Col>
+                        <Col span={12}>
+                            <DropdownField
+                            fieldName="districtId"
+                            label="Quận/huyện"
+                            disabled={loadingSave || !this.getFieldValue("provinceId")}
+                            options = {this.mappingComboboxListToOptions(provinceData[PROVINCE_KIND_DISTRICT])}
+                            onChange={this.handleDistrictChange}
+                            required
+                            />
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <DropdownField
+                            fieldName="communeId"
+                            label="Xã/phường"
+                            disabled={loadingSave || !(this.getFieldValue("provinceId") && this.getFieldValue("districtId"))}
+                            options = {this.mappingComboboxListToOptions(provinceData[PROVINCE_KIND_COMMUNE])}
+                            required
+                            />
+                        </Col>
+                        <Col span={12}>
+                            <TextField
+                            fieldName="address"
+                            label="Địa chỉ"
+                            required
+                            disabled={loadingSave}
+                            />
+                        </Col>
+                    </Row>
+                </FieldSet>
             </Form>
-        )
-    }
+		);
+	}
 }
 
-export default RegisterForm
+export default RegisterForm;

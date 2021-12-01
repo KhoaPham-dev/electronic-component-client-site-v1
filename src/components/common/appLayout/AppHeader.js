@@ -5,12 +5,20 @@ import { Link } from 'react-router-dom'
 import { sitePathConfig } from '../../../constants/sitePathConfig'
 import { useLocation } from 'react-router'
 
-import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import {
+    UserOutlined,
+    ShoppingCartOutlined,
+    CaretDownFilled,
+    BankOutlined,
+    CarryOutOutlined,
+    ExportOutlined,
+} from '@ant-design/icons'
 import logo from '../../../assets/images/logo.png'
 import SearchBar from './SearchBar'
 import CartContainer from '../../../containers/cart/CartContainer'
-import { CART_MODAL, LOGIN_MODAL } from '../../../constants/masterData'
+import { CART_MODAL, LOGIN_MODAL, REGISTER_MODAL } from '../../../constants/masterData'
 import LoginContainer from '../../../containers/account/LoginContainer'
+import RegisterContainer from '../../../containers/account/RegisterContainer'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -39,6 +47,14 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                 style={isAuth ? {
                     maxWidth: '200px'
                 } : {}}
+                overflowedIndicator={
+                    <div>
+                        <span style={{
+                            marginRight: "0.5em"
+                        }}>Xin chào, {shortName}</span>
+                        <CaretDownFilled />
+                    </div>
+                }
             >
                 {
                     isAuth ? (<>
@@ -47,15 +63,19 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                             <Text strong>Giỏ hàng</Text>
                         </Menu.Item>
                         <Menu.Item key="2">
+                            <UserOutlined />
                             <Text strong>Hồ sơ</Text>
                         </Menu.Item>
                         <Menu.Item key="3">
+                            <BankOutlined />
                             <Text strong>Quản lý địa chỉ</Text>
                         </Menu.Item>
                         <Menu.Item key="4">
+                            <CarryOutOutlined />
                             <Text strong>Đơn hàng của tôi</Text>
                         </Menu.Item>
                         <Menu.Item key="5" onClick={onLogout}>
+                            <ExportOutlined />
                             <Text strong>Đăng xuất</Text>
                         </Menu.Item>
                     </>) : (<>
@@ -76,6 +96,9 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar }) => {
                     setShow={setShowModal}
                     />,
                     [LOGIN_MODAL]: <LoginContainer
+                    setShow={setShowModal}
+                    />,
+                    [REGISTER_MODAL]: <RegisterContainer
                     setShow={setShowModal}
                     />,
                 })[showModal] ?? null
