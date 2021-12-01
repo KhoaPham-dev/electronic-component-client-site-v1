@@ -7,6 +7,7 @@ import {actions} from '../../../actions';
 import { connect, useDispatch } from "react-redux";
 import { categoryKinds } from '../../../constants/masterData';
 import {CaretRightOutlined, BarsOutlined} from '@ant-design/icons'
+import {DEFAULT_PAGE_SIZE} from '../../../constants';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -20,6 +21,7 @@ class NavSider extends Component {
             breadcrumbs: [],
         }
         this.breadcrumbs = [];
+        this.pagination = { pageSize: DEFAULT_PAGE_SIZE };
         this.getCategoryTypeProducts();
     }
 
@@ -30,8 +32,8 @@ class NavSider extends Component {
 
     getList(categoryId) {
         const { getDataList } = this.props;
-            const page = 0;
-            const params = { page, size: 13, categoryId: categoryId};
+            const page = this.pagination.current ? this.pagination.current - 1 : 0;
+            const params = { page, size: DEFAULT_PAGE_SIZE, categoryId: categoryId};
             getDataList({ params });
       }
 
