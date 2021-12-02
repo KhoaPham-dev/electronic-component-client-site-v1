@@ -23,25 +23,23 @@ const RootRoute = () => {
             <Route
                 path="/"
                 render={props => (
-                    <MasterLayout {...props}>
-                        <Switch>
-                            <PublicRoute
-                                exact
-                                path={'/'}
-                                component={ProductListPage}
-                            />
-                            <PrivateRoute
-                                exact
-                                path={forbidden.path}
-                                component={Forbidden}
-                            />
-                            <PublicRoute
-                            exact path = {product.path}
+                    <Switch>
+                        <PublicRoute
+                            exact
+                            path={homePage.path}
                             component={ProductListPage}
-                            />
-                            <PublicRoute component={NotFound} accessAuth />
-                        </Switch>
-                    </MasterLayout>
+                            layoutComponent={MasterLayout}
+                            {...props}
+                        />
+                        <PublicRoute
+                            exact
+                            path={product.path}
+                            component={ProductListPage}
+                            layoutComponent={MasterLayout}
+                            {...props}
+                        />
+                        <PublicRoute component={NotFound} />
+                    </Switch>
                 )}
             />
         </BrowserRouter>

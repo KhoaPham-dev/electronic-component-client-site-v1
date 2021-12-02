@@ -20,7 +20,7 @@ export const actionTypes = {
 export const actions = {
     login: createAction(actionTypes.LOGIN),
     logout: createAction(actionTypes.LOGOUT),
-    updateProfile: createActionWithLoading(actionTypes.UPDATE_PROFILE),
+    updateProfile: createAction(actionTypes.UPDATE_PROFILE),
     getProfile: createAction(actionTypes.GET_PROFILE),
     clearProfile: createAction(actionTypes.CLEAR_PROFILE),
     register: createAction(actionTypes.REGISTER),

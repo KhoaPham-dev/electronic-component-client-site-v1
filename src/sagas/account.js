@@ -8,7 +8,7 @@ import { removeStorageItem, setStringData } from '../utils/localStorageHelper'
 import { StorageKeys } from '../constants'
 // import { handleApiResponse } from '../utils/apiHelper';
 
-const { LOGIN, LOGOUT, UPDATE_PROFILE, GET_PROFILE, REGISTER } = actionTypes
+const { LOGIN, LOGOUT, UPDATE_PROFILE, GET_PROFILE, REGISTER, REQUEST_FORGOT_PASSWORD, CHANGE_PASSWORD } = actionTypes
 
 const { defineActionLoading, defineActionSuccess, defineActionFailed } =
     reduxUtil
@@ -75,78 +75,42 @@ function* register({ payload: { params, onCompleted, onError } }) {
     }
 }
 
-function* getProfile({ payload: { onDone } }) {
+function* getProfile({ payload: { onCompleted, onError, onDone } }) {
     try {
-        // yield put(actions.clearProfile());
-        const result = yield call(sendRequest, apiConfig.customer.getProfile)
-        yield put({
-            type: defineActionSuccess(GET_PROFILE),
-            data: result.responseData && result.responseData.data,
-        })
-        yield put(actions.hideFullScreenLoading())
+        const { success, responseData } = yield call(sendRequest, apiConfig.customer.getProfile)
+        if(success && responseData.result) {
+            yield put({
+                type: defineActionSuccess(GET_PROFILE),
+                data: responseData.data,
+            })
+            onCompleted && onCompleted();
+        }
+        else {
+            onError && onError()
+        }
     } catch (error) {
         yield put({ type: defineActionFailed(GET_PROFILE) })
     } finally {
-        onDone()
+        onDone && onDone()
     }
 }
 
 function* updateProfile({ payload: { params, onCompleted, onError, onDone } }) {
     try {
-        yield put(actions.showFullScreenLoading())
         const { success, responseData } = yield call(
             sendRequest,
             apiConfig.customer.updateProfile,
             params
         )
-        if (success && responseData.result) {
-            const { provinceId, districtId, wardId, ...data } = params
-            if (provinceId || districtId || wardId) {
-                const { provinces, areas } = yield select(state => state.area)
-
-                const provinceDto = provinces.find(
-                    p => p.provinceId === provinceId
-                )
-                const districtDto =
-                    areas[provinceId] &&
-                    areas[provinceId].find(d => d.provinceId === districtId)
-                const wardDto =
-                    areas[districtId] &&
-                    areas[districtId].find(w => w.provinceId === wardId)
-
-                provinceDto && (data.provinceDto = provinceDto)
-                districtDto && (data.districtDto = districtDto)
-                wardDto && (data.wardDto = wardDto)
-            }
-            yield put({
-                type: defineActionSuccess(actionTypes.UPDATE_PROFILE),
-                data,
-            })
-            onCompleted && onCompleted(responseData)
-        } else {
-            onError(responseData)
+        if(success && responseData.result) {
+            onCompleted && onCompleted();
+        }
+        else {
+            onError && onError()
         }
     } catch (error) {
         onError && onError(error)
     } finally {
-        yield put(actions.hideFullScreenLoading())
-    }
-}
-
-function* verifyAccount({ payload: { params, onError, onCompleted } }) {
-    try {
-        const { success, responseData } = yield call(
-            sendRequest,
-            apiConfig.account.verifyAccount,
-            params
-        )
-        if (success && responseData.result) {
-            onCompleted(responseData)
-        } else {
-            onError(responseData)
-        }
-    } catch (error) {
-        onError(error)
     }
 }
 
@@ -158,12 +122,12 @@ function* requestForgotPassword({ payload: { params, onError, onCompleted } }) {
             params
         )
         if (success && responseData.result) {
-            onCompleted(responseData)
+            onCompleted && onCompleted(responseData.data)
         } else {
-            onError(responseData)
+            onError && onError(responseData)
         }
     } catch (error) {
-        onError(error)
+        onError && onError(error)
     }
 }
 
@@ -188,11 +152,10 @@ const sagas = [
     takeLatest(LOGIN, login),
     takeLatest(REGISTER, register),
     takeLatest(LOGOUT, logout),
-    takeLatest(actionTypes.VERIFY_ACCOUNT, verifyAccount),
     takeLatest(GET_PROFILE, getProfile),
-    takeLatest(defineActionLoading(UPDATE_PROFILE), updateProfile),
-    takeLatest(actionTypes.REQUEST_FORGOT_PASSWORD, requestForgotPassword),
-    takeLatest(actionTypes.CHANGE_PASSWORD, changePassword),
+    takeLatest(UPDATE_PROFILE, updateProfile),
+    takeLatest(REQUEST_FORGOT_PASSWORD, requestForgotPassword),
+    takeLatest(CHANGE_PASSWORD, changePassword),
 ]
 
 export default sagas

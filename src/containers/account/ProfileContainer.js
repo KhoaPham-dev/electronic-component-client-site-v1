@@ -6,6 +6,7 @@ import { actions } from '../../actions'
 import ProfileModal from '../../components/account/ProfileModal'
 import { convertDateTimeToString } from '../../utils/datetimeHelper'
 import { StorageKeys } from '../../constants'
+import { showErrorMessage, showSuccessMessage } from '../../services/notifyService'
 
 function ProfileContainer({
     setShow
@@ -25,6 +26,7 @@ function ProfileContainer({
                 fetchProfile({
                     onCompleted: (responseData) => {
                         setIsModalLoading(false)
+                        showSuccessMessage("Cập nhật hồ sơ thành công!")
                     },
                 })
                 setIsModalLoading(false)
@@ -32,6 +34,7 @@ function ProfileContainer({
             },
             onError: () => {
                 setIsModalLoading(false)
+                showErrorMessage("Cập nhật hồ sơ thất bại, vui lòng thử lại!")
             }
         }))
     }

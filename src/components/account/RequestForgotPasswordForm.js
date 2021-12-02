@@ -1,38 +1,34 @@
-import React from 'react'
-import { Form, Input, Button } from 'antd'
+import React, { Component } from 'react';
+import { Form, Col, Row } from 'antd'
 
-const FormItem = Form.Item
+import BasicForm from '../common/entryForm/BasicForm';
+import TextField from '../common/entryForm/TextField';
 
-const RequestForgotPasswordForm = ({ loading, onSubmitRequest }) => {
-    return (
-        <Form
-            onFinish={onSubmitRequest}
-            className="request-forgot-password-form"
-        >
-            <FormItem
-                name="email"
-                rules={[
-                    {
-                        required: true,
-                        message: 'VUi lòng nhập email!',
-                    },
-                ]}
+class RequestForgotPasswordForm extends BasicForm {
+    render() {
+        const { formId, loadingSave } = this.props;
+        return (
+            <Form
+                id={formId}
+                ref={this.formRef}
+                layout="vertical"
+                onFinish={this.handleSubmit}
             >
-                <Input size="large" name="email" placeholder="Email" />
-            </FormItem>
-            <FormItem className="text-center">
-                <Button
-                    loading={loading}
-                    type="primary"
-                    htmlType="submit"
-                    size="large"
-                    className="request-forgot-password-form-button"
-                >
-                    Gửi
-                </Button>
-            </FormItem>
-        </Form>
-    )
+                <Row gutter={16}>
+                    <Col span={24}>
+                        <TextField
+                            fieldName="email"
+                            label="Email"
+                            required
+                            minLength={0}
+                            width="100%"
+                            disabled={loadingSave}
+                        />
+                    </Col>
+                </Row>
+            </Form>
+        );
+    }
 }
 
-export default RequestForgotPasswordForm
+export default RequestForgotPasswordForm;

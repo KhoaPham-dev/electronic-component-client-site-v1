@@ -4,17 +4,23 @@ import { sitePathConfig } from '../constants/sitePathConfig'
 
 const PublicRoute = ({
     component: Component,
-    siteProps,
-    accessAuth = false,
+    exact,
+    layoutComponent: LayoutComponent,
+    path,
     ...rest
 }) => {
 
     return (
         <Route
-            {...rest}
-            render={props =>
-                <Component {...props} {...siteProps} />
-            }
+        path={path}
+        exact={exact}
+        render={props => (
+            <LayoutComponent {...rest}>
+                <Component {...rest} />
+            </LayoutComponent>
+            )
+        }
+        {...rest}
         />
     )
 }
