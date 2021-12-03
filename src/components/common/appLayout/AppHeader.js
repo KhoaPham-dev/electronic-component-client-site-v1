@@ -16,12 +16,13 @@ import {
 import logo from '../../../assets/images/logo.png'
 import SearchBar from './SearchBar'
 import CartContainer from '../../../containers/cart/CartContainer'
-import { CART_MODAL, LOGIN_MODAL, PROFILE_MODAL, RECOVERY_MODAL, REGISTER_MODAL, REQUEST_RECOVERY_MODAL } from '../../../constants/masterData'
+import { ADDRESS_MODAL, CART_MODAL, LOGIN_MODAL, PROFILE_MODAL, RECOVERY_MODAL, REGISTER_MODAL, REQUEST_RECOVERY_MODAL } from '../../../constants/masterData'
 import LoginContainer from '../../../containers/account/LoginContainer'
 import RegisterContainer from '../../../containers/account/RegisterContainer'
 import ProfileContainer from '../../../containers/account/ProfileContainer'
 import RequestForgotPasswordContainer from '../../../containers/account/RequestForgotPasswordContainer'
 import RecoveryPasswordContainer from '../../../containers/account/RecoveryPasswordContainer'
+import AddressContainer from '../../../containers/address/AddressContainer'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -73,7 +74,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart }) => {
                             <UserOutlined />
                             <Text strong>Hồ sơ</Text>
                         </Menu.Item>
-                        <Menu.Item key="3">
+                        <Menu.Item key={ADDRESS_MODAL} onClick={() => setShowModal(ADDRESS_MODAL)}>
                             <BankOutlined />
                             <Text strong>Quản lý địa chỉ</Text>
                         </Menu.Item>
@@ -118,6 +119,9 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart }) => {
                     [RECOVERY_MODAL]: <RecoveryPasswordContainer
                     setShow={setShowModal}
                     idHash={idHash}
+                    />,
+                    [ADDRESS_MODAL]: <AddressContainer
+                    setShow={setShowModal}
                     />,
                 })[showModal] ?? null
             }

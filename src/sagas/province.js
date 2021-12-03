@@ -45,7 +45,7 @@ function* getProvinceAutoComplete({ payload: { params, onCompleted, onError, onD
 }
 
 const sagas = [
-    takeLatest(GET_PROVINCE_AUTO_COMPLETE, getProvinceAutoComplete),
+    takeEvery(GET_PROVINCE_AUTO_COMPLETE, getProvinceAutoComplete),
 ]
 
 export default sagas

@@ -18,6 +18,10 @@ import {
     actions as provinceActions,
     actionTypes as provinceTypes,
 } from './province'
+import {
+    actions as addressActions,
+    actionTypes as addressTypes,
+} from './address'
 
 export const actions = {
     ...appCommonActions,
@@ -25,6 +29,7 @@ export const actions = {
     ...productActions,
     ...cartActions,
     ...provinceActions,
+    ...addressActions,
 }
 
 export const types = {
@@ -33,4 +38,5 @@ export const types = {
     ...productTypes,
     ...cartTypes,
     ...provinceTypes,
+    ...addressTypes,
 }
