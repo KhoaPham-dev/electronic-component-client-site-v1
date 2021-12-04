@@ -26,6 +26,8 @@ function MakeOrderPage({
     selectedItems,
     isAuth,
     isFormLoading,
+    isOrdersCreated,
+    handleBack,
 }) {
 
     const totalPrice = useMemo(() => {
@@ -57,7 +59,7 @@ function MakeOrderPage({
                 </h2>
                 <FieldSet title="Thông tin liên lạc">
                     {
-                        isAuth && (
+                        isAuth && !isOrdersCreated && (
                         <Row gutter={16}>
                             <Col span={12}>
                                 <DropdownField
@@ -78,7 +80,7 @@ function MakeOrderPage({
                             fieldName="receiverPhone"
                             label="Số điện thoại"
                             required
-                            disabled={isFormLoading}
+                            disabled={isFormLoading || isOrdersCreated}
                             />
                         </Col>
                         <Col span={12}>
@@ -86,7 +88,7 @@ function MakeOrderPage({
                             fieldName="receiverName"
                             label="Họ và tên"
                             required
-                            disabled={isFormLoading}
+                            disabled={isFormLoading || isOrdersCreated}
                             />
                         </Col>
                     </Row>
@@ -97,7 +99,7 @@ function MakeOrderPage({
                             label="Tỉnh/thành"
                             options={mappingComboboxListToOptions(provinceData[PROVINCE_KIND_PROVINCE])}
                             onChange={handleProvinceChange}
-                            disabled={provinceData[PROVINCE_KIND_PROVINCE]?.length <= 0 || isFormLoading}
+                            disabled={provinceData[PROVINCE_KIND_PROVINCE]?.length <= 0 || isFormLoading || isOrdersCreated}
                             required
                             />
                         </Col>
@@ -105,7 +107,7 @@ function MakeOrderPage({
                             <DropdownField
                             fieldName="districtId"
                             label="Quận/huyện"
-                            disabled={!getFieldValue("provinceId") || isFormLoading}
+                            disabled={!getFieldValue("provinceId") || isFormLoading || isOrdersCreated}
                             options = {mappingComboboxListToOptions(provinceData[PROVINCE_KIND_DISTRICT])}
                             onChange={handleDistrictChange}
                             required
@@ -117,7 +119,7 @@ function MakeOrderPage({
                             <DropdownField
                             fieldName="communeId"
                             label="Xã/phường"
-                            disabled={!(getFieldValue("provinceId") && getFieldValue("districtId")) || isFormLoading}
+                            disabled={!(getFieldValue("provinceId") && getFieldValue("districtId")) || isFormLoading || isOrdersCreated}
                             options = {mappingComboboxListToOptions(provinceData[PROVINCE_KIND_COMMUNE])}
                             required
                             />
@@ -127,7 +129,7 @@ function MakeOrderPage({
                             fieldName="address"
                             label="Địa chỉ"
                             required
-                            disabled={isFormLoading}
+                            disabled={isFormLoading || isOrdersCreated}
                             />
                         </Col>
                     </Row>
@@ -141,7 +143,7 @@ function MakeOrderPage({
                         <Radio.Group>
                             <Row gutter={16} align="middle" className="first-row">
                                 <Col span={1}>
-                                    <Radio value={CASH_ON_DELIVERY_PAYMENT_KIND}></Radio>
+                                    <Radio disabled={isOrdersCreated} value={CASH_ON_DELIVERY_PAYMENT_KIND}></Radio>
                                 </Col>
                                 <Col span={23} style={{
                                     cursor: 'pointer',
@@ -162,7 +164,7 @@ function MakeOrderPage({
                             </Row>
                             <Row gutter={16} align="middle">
                                 <Col span={1}>
-                                    <Radio value={CASH_ONLINE_PAYMENT_KIND}></Radio>
+                                    <Radio disabled={isOrdersCreated} value={CASH_ONLINE_PAYMENT_KIND}></Radio>
                                 </Col>
                                 <Col span={23} style={{
                                     cursor: 'pointer',
@@ -187,10 +189,23 @@ function MakeOrderPage({
             </div>
             <div className="section last">
                 <FieldSet>
-                    <Button disabled={!isAllRequiredFieldsValidated || isFormLoading} className="btn-submit" size="large" htmlType="submit" type="primary">
-                        Đặt hàng
-                    </Button>
-                    <div>Bằng việc nhấn vào nút "ĐẶT HÀNG", nghĩa là bạn đã đồng ý với các <span className="policy">Điều khoản và điều kiện</span> bảo vệ dữ liệu của chúng tôi</div>
+                    {
+                        !isOrdersCreated ? (
+                            <>
+                                <Button disabled={!isAllRequiredFieldsValidated || isFormLoading || isOrdersCreated} className="btn-submit" size="large" htmlType="submit" type="primary">
+                                    Đặt hàng
+                                </Button>
+                                <div>Bằng việc nhấn vào nút "ĐẶT HÀNG", nghĩa là bạn đã đồng ý với các <span className="policy">Điều khoản và điều kiện</span> bảo vệ dữ liệu của chúng tôi</div>
+                            </>
+                        ) : (<>
+                                <Button className="btn-submit" size="large" htmlType="submit" type="primary" onClick={handleBack}>
+                                    Quay về
+                                </Button>
+                                <div style={{ color: 'green' }}>Bạn đã đặt hàng thành công!</div>
+                            </>
+                        )
+                    }
+                    
                 </FieldSet>
             </div>
         </Form>
@@ -209,7 +224,7 @@ function MakeOrderPage({
                                     <div className="item-content">
                                         <div className="col col-1">
                                             <p className="title">
-                                                {product.quantity} x {product.parentName ? product.parentName + '-' : ''} {product.productName}
+                                                <span style={{fontWeight: 'normal'}}>{product.quantity} x&nbsp;</span>{product.parentName ? product.parentName + '-' : ''} {product.productName}
                                             </p>
                                             {
                                                 product.note ? (

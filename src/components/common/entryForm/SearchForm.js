@@ -134,13 +134,14 @@ class SearchForm extends BasicForm {
     }
 
     render() {
-        const { searchFields, hiddenAction } = this.props;
+        const { searchFields, hiddenAction, className } = this.props;
 
         return (
             <Form
                 ref={this.formRef}
                 layout="inline"
                 onFinish={this.handleSubmit}
+                className={className || "search-form"}
             >
                 {
                     searchFields.map(fieldItem =>

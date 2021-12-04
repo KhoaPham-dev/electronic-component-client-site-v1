@@ -26,6 +26,8 @@ function MakeOrdersContainer({
     const isAuth = useSelector(isAuthentication)
     const [ isAllRequiredFieldsValidated, setIsAllRequiredFieldsValidated] = useState(false)
     const [isFormLoading, setIsFormLoading] = useState(false)
+    const [isOrdersCreated, setIsOrdersCreated] = useState(false)
+    const [selectedItemsResult, setSelectedItemsResult] = useState()
 
     const fetchAddressList = () => {
         dispatch(actions.getAddressList({}))
@@ -56,10 +58,9 @@ function MakeOrdersContainer({
                 dispatch(actions.setItemsCart({
                     itemsCart: []
                 }))
+                setSelectedItemsResult(selectedItems)
+                setIsOrdersCreated(true)
                 showSuccessMessage("Đơn hàng đã được đặt thành công!")
-                setTimeout(() => {
-                    history.push(`${sitePathConfig.ordersDetail.path}?ordersId=${data.id}`)
-                }, 750)
             },
             onError: () => {
                 setIsFormLoading(false)
@@ -141,6 +142,10 @@ function MakeOrdersContainer({
         return provinceData && provinceData[provinceKind].find(province => province.id === provinceId).provinceName
     }
 
+    const handleBack = () => {
+        history.push(sitePathConfig.homePage.path)
+    }
+
     useEffect(() => {
         changeBreadcrumb(breadcrumbs)
         if(!selectedItems || selectedItems.length <= 0) {
@@ -163,9 +168,10 @@ function MakeOrdersContainer({
         formId={formId}
         isAllRequiredFieldsValidated={isAllRequiredFieldsValidated}
         provinceData={provinceData || []}
-        selectedItems={selectedItems || []}
+        selectedItems={isOrdersCreated ? (selectedItemsResult || []) : (selectedItems || [])}
         isAuth={isAuth}
         isFormLoading={isFormLoading}
+        isOrdersCreated={isOrdersCreated}
         setIsAllRequiredFieldsValidated={handleChangeIsAllRequiredFieldsValidated}
         handleSubmit={handleSubmit}
         handleChangeAddress={handleChangeAddress}
@@ -173,6 +179,7 @@ function MakeOrdersContainer({
         handleProvinceChange={handleProvinceChange}
         getFieldValue={getFieldValue}
         handleDistrictChange={handleDistrictChange}
+        handleBack={handleBack}
         />
     )
 }

@@ -69,7 +69,7 @@ const ProductListPage = () => {
         let newItemsCart = JSON.parse(JSON.stringify(itemsCart));
 
         newItemsCart = newItemsCart.map(el =>
-          el.id !== index ? el : {id: el.id, quantity: el.quantity + 1}
+          el.id !== index ? el : {...el, quantity: el.quantity + 1}
         )
         setItemsCart(newItemsCart);
     }

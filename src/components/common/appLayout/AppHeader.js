@@ -15,7 +15,16 @@ import {
 } from '@ant-design/icons'
 import logo from '../../../assets/images/logo.png'
 import SearchBar from './SearchBar'
-import { ADDRESS_MODAL, CART_MODAL, LOGIN_MODAL, PROFILE_MODAL, RECOVERY_MODAL, REGISTER_MODAL, REQUEST_RECOVERY_MODAL } from '../../../constants/masterData'
+import {
+    ADDRESS_MODAL,
+    CART_MODAL,
+    LOGIN_MODAL,
+    PROFILE_MODAL,
+    RECOVERY_MODAL,
+    REGISTER_MODAL,
+    REQUEST_RECOVERY_MODAL,
+    ORDERS_LIST_MODAL,
+} from '../../../constants/masterData'
 import ModalsFactory from './ModalsFactory'
 
 const { Header } = Layout
@@ -72,7 +81,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart }) => {
                             <BankOutlined />
                             <Text strong>Quản lý địa chỉ</Text>
                         </Menu.Item>
-                        <Menu.Item key="4">
+                        <Menu.Item key={ORDERS_LIST_MODAL} onClick={() => setShowModal(ORDERS_LIST_MODAL)}>
                             <CarryOutOutlined />
                             <Text strong>Đơn hàng của tôi</Text>
                         </Menu.Item>

@@ -15,15 +15,26 @@ const {
 } = actionTypes;
 
 
-function* getList({ payload: { params, onCompleted, onError } }) {
+function* getList({ payload: { params, onCompleted, onError, onDone } }) {
     const apiParams = apiConfig.orders.list;
 
+    const searchParams = {}
+    if(params.code) {
+        searchParams.code = params.code
+    }
+    if(params.size) {
+        searchParams.size = params.size
+    }
+
     try {
-        const { success, responseData } = yield call (sendRequest, apiParams, params);
+        const { success, responseData } = yield call (sendRequest, apiParams, searchParams);
         if(success && responseData.result) {
             yield put({
                 type: defineActionSuccess(GET_ORDERS_LIST),
-                ordersData: responseData.data
+                ordersData: {
+                    ...responseData.data,
+                    size: params.size,
+                }
             })
             onCompleted && onCompleted(responseData)
         }
@@ -34,9 +45,12 @@ function* getList({ payload: { params, onCompleted, onError } }) {
     catch(error) {
         onError && onError()
     }
+    finally {
+        onDone && onDone()
+    }
 }
 
-function* getOrders({ payload: { params, onCompleted, onError } }) {
+function* getOrders({ payload: { params, onCompleted, onError, onDone } }) {
     const apiParams = {
         ...apiConfig.orders.getById,
         path: `${apiConfig.orders.getById.path}/${params.id}`
@@ -45,7 +59,7 @@ function* getOrders({ payload: { params, onCompleted, onError } }) {
     try {
         const { success, responseData } = yield call (sendRequest, apiParams, params);
         if(success && responseData.result) {
-            onCompleted && onCompleted(responseData)
+            onCompleted && onCompleted(responseData.data)
         }
         else {
             onError && onError(responseData)
@@ -53,6 +67,9 @@ function* getOrders({ payload: { params, onCompleted, onError } }) {
     }
     catch(error) {
         onError && onError()
+    }
+    finally {
+        onDone && onDone()
     }
 }
 
@@ -73,7 +90,7 @@ function* createOrders({ payload: { params, onCompleted, onError } }) {
     }
 }
 
-function* cancelOrders({ payload: { params, onCompleted, onError } }) {
+function* cancelOrders({ payload: { params, onCompleted, onError, onDone } }) {
     const apiParams = {
         ...apiConfig.orders.cancel,
         path: `${apiConfig.orders.cancel.path}/${params.id}`
@@ -90,6 +107,9 @@ function* cancelOrders({ payload: { params, onCompleted, onError } }) {
     }
     catch(error) {
         onError && onError()
+    }
+    finally {
+        onDone && onDone()
     }
 }
 

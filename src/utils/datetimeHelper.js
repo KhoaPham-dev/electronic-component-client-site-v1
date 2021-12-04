@@ -1,5 +1,6 @@
 import moment from 'moment';
-import { DATE_FORMAT_VALUE, DATE_FORMAT_DISPLAY } from '../constants';
+import { actions } from '../actions';
+import { DATE_FORMAT_VALUE, DATE_FORMAT_DISPLAY, StorageKeys } from '../constants';
 
 export const convertUtcToLocalTime = (utcTime, format = DATE_FORMAT_DISPLAY) => {
     try {
@@ -58,5 +59,29 @@ export const convertDateTimeToString = (datetime, stringFormat = DATE_FORMAT_VAL
     }
     catch(err) {
         return null
+    }
+}
+
+export const convertUtcToTimezone = (utcTime, format = DATE_FORMAT_DISPLAY) => {
+    const utcOffset = Number(actions.getUserData(StorageKeys.userData)?.settings?.Datetime?.timezone) || 7;
+    try {
+        if(utcTime && format)
+            return moment.utc(utcTime, format).utcOffset(utcOffset).format(format)
+        return '';
+    }
+    catch(err) {
+        return '';
+    }
+}
+
+export const convertTimezoneToUtc = (localTime, format) => {
+    const utcOffset = Number(actions.getUserData(StorageKeys.userData)?.settings?.Datetime?.timezone) || 7;
+    try {
+        if(localTime && format)
+            return moment.utc(localTime, format).utcOffset(-utcOffset).format(format)
+        return '';
+    }
+    catch(err) {
+        return '';
     }
 }

@@ -7,7 +7,17 @@ import RequestForgotPasswordContainer from '../../../containers/account/RequestF
 import RecoveryPasswordContainer from '../../../containers/account/RecoveryPasswordContainer'
 import AddressContainer from '../../../containers/address/AddressContainer'
 import CartContainer from '../../../containers/cart/CartContainer'
-import { ADDRESS_MODAL, CART_MODAL, LOGIN_MODAL, PROFILE_MODAL, RECOVERY_MODAL, REGISTER_MODAL, REQUEST_RECOVERY_MODAL } from '../../../constants/masterData'
+import {
+    ADDRESS_MODAL,
+    CART_MODAL,
+    LOGIN_MODAL,
+    PROFILE_MODAL,
+    RECOVERY_MODAL,
+    REGISTER_MODAL,
+    REQUEST_RECOVERY_MODAL,
+    ORDERS_LIST_MODAL,
+} from '../../../constants/masterData'
+import OrdersListContainer from '../../../containers/orders/OrdersListContainer'
 
 function ModalsFactory({
     idHash,
@@ -37,6 +47,9 @@ function ModalsFactory({
         idHash={idHash}
         />,
         [ADDRESS_MODAL]: <AddressContainer
+        setShow={setShowModal}
+        />,
+        [ORDERS_LIST_MODAL]: <OrdersListContainer
         setShow={setShowModal}
         />,
     })[showModal] ?? null
