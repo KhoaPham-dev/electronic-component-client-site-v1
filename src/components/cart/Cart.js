@@ -13,7 +13,6 @@ const { confirm } = Modal
 function Cart({
     selectedItems,
     totalPrice,
-    productList,
     addItem,
     editNoteItem,
     minusItem,
@@ -55,8 +54,8 @@ function Cart({
             maskClosable
             onOk={handleGoToPayment}
             customOkButton={
-                <Button className="modal-btn-save" key="submit" htmlType="submit" type="primary">
-                    Thanh toán
+                <Button disabled={!selectedItems || selectedItems?.length <= 0} className="modal-btn-save" type="primary" onClick={handleGoToPayment}>
+                    Đặt hàng
                 </Button>
             }
         >
@@ -65,11 +64,7 @@ function Cart({
                     <ul className="items">
                         {
                             selectedItems.length > 0
-                            ? selectedItems.map((item, index) => {
-                                const product = {
-                                    ...item,
-                                    ...productList.find(p => p.id === item.id)
-                                }
+                            ? selectedItems.map((product, index) => {
                                 const productSaleOffPrice = product.productPrice - (product.productPrice * (product.saleoff / 100))
                                 return (<li key={product.id} className="item">
                                     <div className="item-content">

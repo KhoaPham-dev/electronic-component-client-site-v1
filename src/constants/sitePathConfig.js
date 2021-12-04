@@ -16,7 +16,15 @@ export const sitePathConfig = {
     product: {
         path: '/productList',
         title: 'Danh sách sản phẩm'
-    }
+    },
+    makeOrders: {
+        path: '/make-orders',
+        title: 'Đặt hàng'
+    },
+    ordersDetail: {
+        path: '/orders-detail',
+        title: 'Chi tiết đơn hàng',
+    },
 }
 
 export default sitePathConfig

@@ -5,6 +5,7 @@ import product from './product';
 import cart from './cart';
 import province from './province';
 import address from './address';
+import orders from './orders';
 
 const rootReducer = combineReducers({
     appCommon: appCommon.reducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     cart: cart.reducer,
     province: province.reducer,
     address: address.reducer,
+    orders: orders.reducer,
 })
 
 export default rootReducer

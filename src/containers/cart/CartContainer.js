@@ -4,8 +4,8 @@ import { useHistory } from 'react-router'
 import Cart from '../../components/cart/Cart'
 
 import { itemsCartSelector } from '../../selectors/cart'
-import { productListSelector } from '../../selectors/product'
 import { actions } from '../../actions'
+import sitePathConfig from '../../constants/sitePathConfig'
 
 function CartContainer({
     setShow,
@@ -13,7 +13,6 @@ function CartContainer({
     const dispatch = useDispatch()
     const history = useHistory()
     const selectedItems = useSelector(itemsCartSelector)
-    const productList = useSelector(productListSelector)?.data || []
     const [totalPrice, setTotalPrice] = useState(0)
 
     const setSelectedItems = (newItems) => {
@@ -65,23 +64,22 @@ function CartContainer({
 
     const calculateTotalPrice = () => {
         setTotalPrice(selectedItems.reduce((acc, cur) => {
-            const product = productList.find(p => p.id === cur.id) || {}
-            return acc + (cur.quantity * (product.productPrice - product.productPrice * ((product.saleoff || 0) / 100)))
+            return acc + (cur.quantity * (cur.productPrice - cur.productPrice * ((cur.saleoff || 0) / 100)))
         }, 0))
     }
 
     const handleGoToPayment = (value) => {
+        history.push(sitePathConfig.makeOrders.path)
     }
 
     useEffect(() => {
         calculateTotalPrice()
-    }, [selectedItems, productList])
+    }, [selectedItems])
 
     return (
         <Cart
         selectedItems={selectedItems}
         totalPrice={totalPrice}
-        productList={productList}
         addItem={addItem}
         editNoteItem={editNoteItem}
         minusItem={minusItem}

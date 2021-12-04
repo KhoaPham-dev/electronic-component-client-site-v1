@@ -107,6 +107,28 @@ const apiConfig = {
             headers: baseHeader
         },
     },
+    orders: {
+        list: {
+            path: 'v1/orders/client-list-orders',
+            method: 'GET',
+            headers: baseHeader
+        },
+        create: {
+            path: 'v1/orders/client-create',
+            method: 'POST',
+            headers: baseHeader
+        },
+        getById: {
+            path: 'v1/orders/client-get-orders',
+            method: 'GET',
+            headers: baseHeader
+        },
+        cancel: {
+            path: 'v1/orders/client-cancel-orders',
+            method: 'PUT',
+            headers: baseHeader
+        },
+    }
 }
 
 export default apiConfig

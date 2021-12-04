@@ -1,99 +1,100 @@
-import { Layout, Breadcrumb } from 'antd'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Layout, Breadcrumb, Typography, Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions } from '../../../actions/account'
 import sitePathConfig from '../../../constants/sitePathConfig'
 import { isAuthentication, userDataSelector } from '../../../selectors/account'
-import { clsx } from '../../../utils/helper'
-import Utils from '../../../utils/index'
 import AppFooter from './AppFooter'
-import AppHeader from './AppHeader'
-import NavigationBar from './NavigationBar'
-import Banner from './Banner'
-import NavSider from './NavSider'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom'
 import { itemsCartSelector } from '../../../selectors/cart'
+import logo from '../../../assets/images/logo.png'
+import { LOGIN_MODAL } from '../../../constants/masterData'
+import Utils from '../../../utils'
+import ModalsFactory from './ModalsFactory'
 
-const { Content } = Layout
+const { Content, Header } = Layout
+const { Text } = Typography
 
-const PaymentLayout = ({ children }) => {
+const PaymentLayout = ({ children, title }) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const isAuth = useSelector(isAuthentication)
     const userData = useSelector(userDataSelector)
     const itemsCart = useSelector(itemsCartSelector)
-    const [breadcrumbs, setBreadCumbs] = useState([]);
-    const { contentClass } = useMemo(() => {
-        const { layoutConfig = {} } =
-            Object.values(sitePathConfig).find(
-                site => site.path === history.location.pathname
-            ) || {}
-        return layoutConfig
-    }, [history.location.pathname])
-
-    const onLogout = () => {
-        dispatch(actions.logout({
-            onCompleted: () => {
-                window.location.href = window.location.origin
-            }
-        }))
-    }
+    const [breadcrumbs, setBreadCumbs] = useState([])
+    const [showModal, setShowModal] = useState(false)
+    const [idHash, setIdHash] = useState()
+    const shortName = (userData.customerFullName || "Khách").split(' ').pop()
+    const avatar = Utils.getFileUrl(userData?.customerAvatarPath)
 
     const onChangeBreadcrumb = (breadcrumbs) => {
-        setBreadCumbs({ breadcrumbs });
+        setBreadCumbs(breadcrumbs);
     }
 
-    useEffect(() => {
-        if (history.action === 'PUSH') {
-            window.scrollTo(0, 0)
-        }
-    }, [history.location.pathname])
-
     return (
-        <Layout className="master-layout">
-            <div style={{
-                background: 'white'
-            }}>
-                <div style={{'border-bottom': '1px solid #d9d9d9'}}>
-                    <div className='helloheader'>
-                        <div className='toplefttext'>Chào mừng đến với thế giới linh kiện điện tử...</div>
-                        <div>Mở cửa: 7h30 - 12h, 13h30 - 19h</div>             
-                    </div>
-                </div>
-                <AppHeader
-                onLogout={onLogout}
-                isAuth={isAuth}
-                shortName={
-                    (userData.customerFullName || "Khách").split(' ').pop()
-                }
-                avatar={Utils.getFileUrl(userData?.customerAvatarPath)}
-                itemsCart={itemsCart || []}
-            />
-            </div>
-            
-            <NavigationBar></NavigationBar>
-            <Banner />
-            <div  style={{background: '#F5F5F5'}}>
-                <Layout className='containtersider'>
-                    <NavSider>              
-                    </NavSider>
-                    <Layout>
-                                    <Content className="app-content" id="app-content">
-                                        <div className="content-wrapper">
-                                            {React.cloneElement(children, {
-                                                // changeUserData: this.onChangeUserData,
-                                                currentUser: userData,
-                                                changeBreadcrumb: onChangeBreadcrumb,
-                                                // showFullScreenLoading,
-                                                // hideFullScreenLoading
-                                            })}
-                                            
-                                        </div>
-                                    </Content>
-                        </Layout>
+        <Layout className="payment-layout">
+            <Header className="header">
+                <Layout className="left-header">
+                    <h2 className="page-title">
+                        {title}
+                    </h2>
+                    <Breadcrumb className="app-breadcrumb" separator=">">
+                        <Breadcrumb.Item>
+                            <Link to="/">Trang chủ</Link>
+                        </Breadcrumb.Item>
+                        {
+                            breadcrumbs
+                            ?
+                            breadcrumbs.map(breadcrumb =>
+                                <Breadcrumb.Item key={breadcrumb.name}>
+                                    {
+                                        breadcrumb.path
+                                        ?
+                                            <Link className="routing" to={breadcrumb.path}>{breadcrumb.name}</Link>
+                                        :
+                                            breadcrumb.name
+                                    }
+                                </Breadcrumb.Item>
+                            )
+                            :
+                            null
+                        }
+                    </Breadcrumb>
                 </Layout>
-            </div>
+                <img className="logo" src={logo}/>
+                {
+                    isAuth ? (
+                        <div>
+                            <span style={{
+                                marginRight: "0.5em"
+                            }}>Xin chào, {shortName}</span>
+                            <Avatar src={avatar} size="large"/>
+                        </div>
+                    ) : (
+                        <Layout className="right-header" onClick={() => setShowModal(LOGIN_MODAL)}>
+                            <UserOutlined />
+                            <Text>Đăng nhập để theo dõi <br /> thông tin đơn hàng</Text>
+                        </Layout>
+                    )
+                }
+            </Header>
+            <Layout className="content">
+                <Content className="content-wrapper">
+                    {
+                        React.cloneElement(children, {
+                            changeBreadcrumb: onChangeBreadcrumb,
+                        })
+                    }
+                </Content>
+            </Layout>
             <AppFooter />
+            <ModalsFactory
+            showModal={showModal}
+            idHash={idHash}
+            setIdHash={setIdHash}
+            setShowModal={setShowModal}
+            />
         </Layout>
     )
 }

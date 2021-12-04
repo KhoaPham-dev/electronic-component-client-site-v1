@@ -48,17 +48,17 @@ const ProductListPage = () => {
       return indexItemsCart;
     }
 
-    const handleClickAddToCart = (id) => {
+    const handleClickAddToCart = (product) => {
       const index = itemsCart.findIndex((item) => {
-        return item.id === id
+        return item.id === product.id
       })
 
       if(index === -1)
       {
         const newItemsCart = JSON.parse(JSON.stringify(itemsCart));
         newItemsCart.push({
-          id,
-          quantity: 1
+          ...product,
+          quantity: 1,
         })
 
         setItemsCart(newItemsCart);
@@ -183,7 +183,7 @@ const ProductListPage = () => {
                           />
                         </Card>
                           { AvailableItem(item.id) === -1 ? 
-                            <div className="button-add-to-cart" onClick={() => {handleClickAddToCart(item.id)}}>
+                            <div className="button-add-to-cart" onClick={() => {handleClickAddToCart(item)}}>
                               <div>Thêm vào giỏ hàng</div>
                             </div>
                           :

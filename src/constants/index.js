@@ -47,3 +47,6 @@ export const CurrentcyPositions = {
 }
 
 export { AppConstants, StorageKeys, LayoutConfigs, UploadFileTypes }
+
+export const CASH_ON_DELIVERY_PAYMENT_KIND = 1
+export const CASH_ONLINE_PAYMENT_KIND = 2

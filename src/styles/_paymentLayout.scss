@@ -1,0 +1,55 @@
+.payment-layout {
+    max-width: $primaryMaxWidthPage;
+    margin: 0 auto;
+    background-color: #fff;
+    .ant-layout-header.header {
+        height: fit-content;
+        padding: 0;
+        color: #000;
+        line-height: 1;
+        display: flex;
+        background-color: transparent;
+        padding: 16px;
+        justify-content: space-between;
+        position: relative;
+        .left-header {
+            background-color: transparent;
+        }
+        .right-header {
+            background-color: transparent;
+            flex: unset;
+            flex-shrink: 0;
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+            &, .ant-typography {
+                transition: all 0.25s;
+            }
+            .ant-typography {
+                margin-left: 0.25em;
+            }
+            .anticon {
+                font-size: 24px;
+            }
+        }
+        .right-header:hover {
+            &, .ant-typography {
+                color: #18a0fb;
+            }
+        }
+        img {
+            position: absolute;
+            height: 84px;
+            width: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .content {
+        background-color: transparent;
+    }
+    .ant-layout-footer {
+        background-color: transparent;
+    }
+}

@@ -1,0 +1,196 @@
+.make-orders-page {
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    max-height: 141vh;
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .make-order-form {
+        flex: 1;
+        padding: 0px 16px;
+        legend {
+            color: #000;
+        }
+        h2 {
+            text-align: center;
+        }
+        input, .ant-select-selector {
+            height: 40px !important;
+        }
+        .ant-select-selection-placeholder, .ant-select-selection-item {
+            line-height: 40px !important;
+        }
+        .custom-fieldset {
+            border-radius: 16px;
+        }
+        .policy {
+            color: #18a0fb;
+        }
+        .section {
+            padding: 16px 0 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .section.last {
+            border: none;
+            .btn-submit {
+                width: 280px;
+                height: 54px;
+                font-weight: 600;
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+        }
+        .payment-method {
+            padding: 0 1em;
+            .ant-radio-group {
+                width: 100%;
+            }
+            .icon {
+                width: 46px !important;
+                margin-bottom: -8px;
+            }
+            .ant-form-item {
+                margin-bottom: 0;
+            }
+            .ant-row {
+                padding: 12px 1em;
+            }
+            .ant-col {
+                padding: 0 !important;
+                font-size: 1rem;
+            }
+            .first-row {
+                border-bottom: 1px solid #f0f0f0;
+            }
+        }
+    }
+    .sidebar {
+        h2 {
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 24px;
+        }
+        flex-shrink: 0;
+        width: 35%;
+        min-width: 350px;
+        padding: 16px;
+        border-left: 1px solid #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        .list {
+            flex: 1;
+            overflow-y: auto;
+            .items {
+                padding: 0 8px;
+                .item {
+                    padding: 8px;
+                    padding-left: 8px;
+                    position: relative;
+                    border-bottom: 1px solid #f0f0f0;
+                    transition: all 0.5s;
+                    &:first-child {
+                        margin-top: 4px;
+                    }
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                    .item-content {
+                        display: flex;
+                        position: relative;
+                        .col-1 {
+                            flex: 1;
+                            .title {
+                                font-weight: 600;
+                                margin-bottom: 8px;
+                            }
+                        }
+                        .col-2 {
+                            width: fit-content;
+                            flex-shrink: 0;
+                            margin-left: 16px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-end;
+                            justify-content: flex-start;
+                            .price, .discount-price {
+                                color: #000;
+                                font-weight: 600;
+                                margin-bottom: 8px;
+                            }
+                            .discount-price {
+                                margin-bottom: 0;
+                            }
+                            .price.has-discount {
+                                font-weight: 400;
+                                font-style: italic;
+                                text-decoration: line-through;
+                                color: #8e8e8e;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                    .note-content {
+                        width: 100%;
+                        margin-top: 0;
+                        font-style: italic;
+                        word-break: break-word;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        .bottom {
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 4px;
+            padding-bottom: 0;
+            .calculate-total {
+                display: flex;
+                justify-content: space-between;
+                
+            }
+            .calculate-total {
+                display: flex;
+                justify-content: space-between;
+                padding: 0px 16px;
+            }
+            .calculate-total.product {
+                padding-top: 8px;
+                padding-bottom: 4px;
+            }
+            .calculate-total.sale-off-price {
+                padding-bottom: 4px;
+            }
+            .calculate-total.product, .calculate-total.vat, .calculate-total.discount {
+                .title, .total {
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+            }
+            .calculate-total.vat {
+                padding-bottom: 8px !important;
+            }
+            .calculate-total.product-vat {
+                padding: 8px 16px;
+                border-top: 1px solid #f0f0f0;
+                .title, .total {
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+            }
+            .payment {
+                display: block;
+                width: calc(100% - 32px);
+                margin: auto auto 16px auto;
+                min-width: 100px;
+                height: 38px;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+        }
+    }
+}
