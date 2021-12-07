@@ -317,8 +317,14 @@
                 margin-top: 0px;
                 margin-right: 0px;
                 margin-left: 0px;
-                width: 225px;
                 height: 225px;
+                max-width: 225px;
+                width: 100%;
+
+                img {
+                    height: auto;
+                    width: 100%;
+                }
             }
 
             .ant-list-grid .ant-col > .ant-list-item {
@@ -347,20 +353,23 @@
             }
 
             .button-add-to-cart {
+                background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);
+            }
+            .button-add-to-cart {
                 margin: 0;
                 padding: 0;
-                color: #2196F3;
+                color: #fff;
                 list-style: none;
-                background: #fff;
-                border: 1px solid #2196F3;
+                transition: 0.5s;
+                background-size: 200% auto;
                 text-align: center;
+                justify-content: center;
                 padding: 15px 10px;
             }
 
             .button-add-to-cart:hover {
                 cursor: pointer;
-                transition: box-shadow 0.3s, border-color 0.3s;
-                background: #2196F3;
+                background-position: right center; 
             }
 
             .button-add-to-cart:hover div {

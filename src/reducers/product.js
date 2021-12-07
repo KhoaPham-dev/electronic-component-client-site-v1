@@ -6,13 +6,14 @@ const {
     GET_CATEGORY_TYPE_PRODUCTS,
     GET_PRODUCT_LIST_CLIENT,
     GET_PRODUCT_AUTO_COMPLETE,
+    GET_PRODUCT_BYID_CLIENT
 } = actionTypes;
 
 const initialState = { 
     productCategoryType: [],
     productData: [],
     tbproductLoading: false,
-    productSearchList: []
+    productSearchList: [],
 };
 
 const reducer = createReducer({
@@ -48,7 +49,7 @@ const reducer = createReducer({
             ...state,
             productSearchList,
         }
-    },
+    }
 }, initialState)
 
 export default {

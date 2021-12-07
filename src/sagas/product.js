@@ -11,6 +11,7 @@ const {
     GET_CATEGORY_TYPE_PRODUCTS,
     GET_PRODUCT_LIST_CLIENT,
     GET_PRODUCT_AUTO_COMPLETE,
+    GET_PRODUCT_BYID_CLIENT
 } = actionTypes;
 
 
@@ -62,6 +63,22 @@ function* getProductListClient({ payload: { params, onCompleted } }) {
     }
 }
 
+function* getProductByIdClient({payload: {params, onCompleted, onError}}) {
+
+    try {
+        const apiParams = {
+            ...apiConfig.product.getProductByIdClient,
+            path: `${apiConfig.product.getProductByIdClient.path}/${params.id}`
+        }
+        const result = yield call(sendRequest, apiParams);
+        handleApiResponse(result, onCompleted, onError);
+    }
+    catch(error) {
+        console.log(error);
+    }
+
+}
+
 function* getProductAutoComplete({ payload: { params } }) {
     const apiParams = apiConfig.product.getProductClientList;
     try {
@@ -83,6 +100,7 @@ const sagas = [
     takeLatest(defineActionLoading(GET_CATEGORY_TYPE_PRODUCTS), getCategoryTypeProducts),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT), getProductListClient),
     takeLatest(GET_PRODUCT_AUTO_COMPLETE, getProductAutoComplete),
+    takeLatest(GET_PRODUCT_BYID_CLIENT, getProductByIdClient)
 ]
 
 export default sagas;

@@ -101,6 +101,10 @@ const Utils = {
         }
         return '';
     },
+    replaceUrlHelper(object, fromUrl, toUrl)
+    {
+        return object.split(fromUrl).join(toUrl)
+    }
 }
 
 export default Utils

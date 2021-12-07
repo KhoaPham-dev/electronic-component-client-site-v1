@@ -1,0 +1,91 @@
+
+.product_info {
+
+    .product_image {
+
+        text-align: center;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    .product_name h3 {
+        font-size: 24px;
+        margin: 5px 0 0 0;
+        color: #777;
+    }
+    .product_price span {
+        font-size: 35px;
+        font-weight: bold;
+        color: #2790f2;
+    }
+    .product_shortdescription {
+        padding: 10px 0;
+        font-size: 20px;
+    }
+    .product_quantity {
+        padding: 5px 5px;
+        background: #fff;
+        font-size: 20px;
+
+        .inline-buttons {
+            display: inline-block;
+
+            .ant-btn {
+                max-width: 40px;
+                max-height: 40px;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: stretch;
+                justify-content: center;
+                line-height: 1.25;
+            }
+        }
+    }
+    .product_addtocart {
+        background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);
+    }
+    .product_addtocart {
+        margin: 0;
+        padding: 0;
+        color: #fff;
+        list-style: none;
+        transition: 0.5s;
+        background-size: 200% auto;
+        text-align: center;
+        justify-content: center;
+        padding: 10px 10px;
+        width: 50%;
+        font-size: 20px;
+    }
+    .product_addtocart:hover {
+        cursor: pointer;
+        background-position: right center; 
+    }
+    .product_addtocart:hover div {
+        color: #fff;
+    }
+}
+
+
+.btn-grad {background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%)}
+.btn-grad {
+   margin: 10px;
+   padding: 15px 45px;
+   text-align: center;
+   text-transform: uppercase;
+   transition: 0.5s;
+   background-size: 200% auto;
+   color: white;            
+   box-shadow: 0 0 20px #eee;
+   border-radius: 10px;
+   display: block;
+ }
+
+ .btn-grad:hover {
+   background-position: right center; /* change the direction of the change here */
+   color: #fff;
+   text-decoration: none;
+ }

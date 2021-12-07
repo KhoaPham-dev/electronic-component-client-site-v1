@@ -8,7 +8,8 @@ import {AppConstants} from '../../constants/index';
 import noimage from '../../assets/images/noimage.png';
 import Utils from '../../utils';
 import {DEFAULT_PAGE_SIZE} from '../../constants';
-
+import ModalsFactory from "../../components/common/appLayout/ModalsFactory";
+import { PRODUCT_DETAIL_MODAL } from "../../constants/masterData";
 
 const { Meta } = Card;
 const { confirm } = Modal
@@ -22,6 +23,9 @@ const ProductListPage = () => {
     const dispatch = useDispatch();
 
     const pagination = { pageSize: DEFAULT_PAGE_SIZE }
+    const [showModal, setShowModal] = useState(-1)
+    const [idHash, setIdHash] = useState()
+    const [productID, setproductID] = useState(null);
 
     const handleDeleteItem = (index) => {
       confirm({
@@ -174,7 +178,10 @@ const ProductListPage = () => {
                         style={{border: '1px solid #d9d9d'}}
                         hoverable
                         cover={<img alt="example" src= {item.productImage ? `${AppConstants.contentRootUrl}${item.productImage}` : noimage} />}
-                        onClick={() => {console.log('Card clicked!')}}
+                        onClick={() => {
+                          setproductID(item.id)
+                          setShowModal(PRODUCT_DETAIL_MODAL)
+                        }}
                         >
                           <Meta
                             style={{alignItems: 'center'}}
@@ -213,6 +220,13 @@ const ProductListPage = () => {
                 )}
               />
             }
+            <ModalsFactory
+            showModal={showModal}
+            idHash={idHash}
+            setShowModal={setShowModal}
+            setIdHash={setIdHash}
+            productId={productID}
+            />
         </Spin>
     )
 }

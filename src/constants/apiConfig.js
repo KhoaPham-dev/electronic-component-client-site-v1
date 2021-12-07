@@ -83,6 +83,11 @@ const apiConfig = {
             path: 'v1/product/client-list',
             method: 'GET',
             headers: baseHeader
+        },
+        getProductByIdClient: {
+            path: 'v1/product/client-get',
+            method: 'GET',
+            headers: baseHeader
         }
     },
     address:  {
