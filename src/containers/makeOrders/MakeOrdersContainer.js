@@ -46,6 +46,7 @@ function MakeOrdersContainer({
     const handleSubmit = (formValues) => {
         setIsFormLoading(true)
         dispatch(actions.createOrders({
+            isAuth,
             params: {
                 ordersAddress: `${formValues.address}, ${getProvinceNameById(PROVINCE_KIND_COMMUNE, formValues.communeId)}, ${getProvinceNameById(PROVINCE_KIND_DISTRICT, formValues.districtId)}, ${getProvinceNameById(PROVINCE_KIND_PROVINCE, formValues.provinceId)}`,
                 paymentMethod: formValues.paymentMethod,
