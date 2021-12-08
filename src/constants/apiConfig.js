@@ -118,6 +118,11 @@ const apiConfig = {
             method: 'POST',
             headers: baseHeader
         },
+        unAuthCreate: {
+            path: 'v1/orders/un-auth-create-orders',
+            method: 'POST',
+            headers: baseHeader
+        },
         getById: {
             path: 'v1/orders/client-get-orders',
             method: 'GET',

@@ -73,8 +73,8 @@ function* getOrders({ payload: { params, onCompleted, onError, onDone } }) {
     }
 }
 
-function* createOrders({ payload: { params, onCompleted, onError } }) {
-    const apiParams = apiConfig.orders.create;
+function* createOrders({ payload: { params, onCompleted, onError, isAuth } }) {
+    const apiParams = isAuth ? apiConfig.orders.create : apiConfig.orders.unAuthCreate;
 
     try {
         const { success, responseData } = yield call (sendRequest, apiParams, params);
