@@ -49,7 +49,7 @@ const RootRoute = () => {
                             title="Đặt hàng"
                             {...props}
                         />
-                        <PublicRoute component={NotFound} />
+                        <PublicRoute component={NotFound}/>
                     </Switch>
                 )}
             />
