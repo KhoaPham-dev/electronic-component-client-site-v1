@@ -1,5 +1,6 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
+import MasterLayout from '../components/common/appLayout/MasterLayout'
 import { sitePathConfig } from '../constants/sitePathConfig'
 
 const PublicRoute = ({
@@ -14,11 +15,11 @@ const PublicRoute = ({
         <Route
         path={path}
         exact={exact}
-        render={props => (
+        render={props => LayoutComponent ? (
             <LayoutComponent {...rest}>
                 <Component {...rest} />
             </LayoutComponent>
-            )
+            ) : <Component {...rest} />
         }
         {...rest}
         />
