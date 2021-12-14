@@ -138,6 +138,18 @@ const apiConfig = {
             method: 'PUT',
             headers: baseHeader
         },
+    },
+    news: {
+        getNewsListClient: {
+            path: '/v1/news/client-list-news',
+            method: 'GET',
+            headers: baseHeader
+        },
+        getNewsByIdClient: {
+            path: '/v1/news/client-news-detail',
+            method: 'GET',
+            headers: baseHeader
+        }
     }
 }
 

@@ -8,8 +8,10 @@ import NotFound from '../components/common/NotFound'
 import Forbidden from '../containers/Forbidden'
 import MasterLayout from '../components/common/appLayout/MasterLayout'
 import ProductListPage from '../containers/productList/ProductListPage'
+import NewsContainer from '../containers/news/NewsContainer'
 import MakeOrdersContainer from '../containers/makeOrders/MakeOrdersContainer'
 import PaymentLayout from '../components/common/appLayout/PaymentLayout'
+import NewsDetail from '../containers/news/NewsDetail'
 
 const RootRoute = () => {
     const {
@@ -17,6 +19,7 @@ const RootRoute = () => {
         homePage,
         aboutUs,
         news,
+        newsDetail,
         product,
         makeOrders,
     } = sitePathConfig
@@ -32,6 +35,7 @@ const RootRoute = () => {
                             path={homePage.path}
                             component={ProductListPage}
                             layoutComponent={MasterLayout}
+                            isNews={false}
                             {...props}
                         />
                         <PublicRoute
@@ -39,7 +43,24 @@ const RootRoute = () => {
                             path={product.path}
                             component={ProductListPage}
                             layoutComponent={MasterLayout}
+                            isNews={false}
                             {...props}
+                        />
+                        <PublicRoute
+                            exact
+                            path={news.path}
+                            component={NewsContainer}
+                            layoutComponent={MasterLayout}
+                            isNews={true}
+                            {...props}
+                        />
+                        <PublicRoute
+                            exact
+                            path={newsDetail.path}
+                            component={NewsDetail}
+                            layoutComponent={MasterLayout}
+                            isNews={true}
+                            {...props} 
                         />
                         <PublicRoute
                             exact

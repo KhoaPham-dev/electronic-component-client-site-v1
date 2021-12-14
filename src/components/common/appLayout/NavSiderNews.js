@@ -13,16 +13,14 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 
-class NavSider extends Component {
+class NavSiderNews extends Component {
     constructor(props) {
         super(props)
         this.state = {
             loadingMenuItem: null,
-            breadcrumbs: [],
         }
-        this.breadcrumbs = [];
         this.pagination = { pageSize: DEFAULT_PAGE_SIZE };
-        this.getCategoryTypeProducts();
+        this.getCategoryTypeNews();
     }
 
     handleLoadingMenuItem = (menuPath) => {
@@ -37,10 +35,10 @@ class NavSider extends Component {
             getDataList({ params });
       }
 
-    getCategoryTypeProducts() {
-        const {getCategoryTypeProducts} = this.props;
-        const params = {kind: categoryKinds.CATEGORY_KIND_PRODUCT};
-        getCategoryTypeProducts({params});
+    getCategoryTypeNews() {
+        const {getCategoryTypeNews} = this.props;
+        const params = {kind: categoryKinds.CATEGORY_KIND_NEWS};
+        getCategoryTypeNews({params});
       }
 
     onChangeBreadcrumb(breadcrumbs) {
@@ -48,23 +46,21 @@ class NavSider extends Component {
     }
 
     render() {
-        const { onToggleNavSide, currentPathname, navSidercollapsed, userData, categoryList, loading } = this.props;
+        const { onToggleNavSide, currentPathname, navSidercollapsed, userData, categoryList, loading, changeBreadcrumb } = this.props;
         const {
             loadingMenuItem,
             breadcrumbs
         } = this.state;
 
-        console.log(breadcrumbs);
-
-        let CategoryList = [];
+        let CategoryList_News = [];
 
         if(!loading)
         {
-            const productCategoryList = categoryList.data || [];
+            const newsCategoryList = categoryList.data || [];
 
-            CategoryList = [...productCategoryList];
+            CategoryList_News = [...newsCategoryList];
 
-            CategoryList = CategoryList.map((el) => {
+            CategoryList_News = CategoryList_News.map((el) => {
             return {
                 label: el.categoryName,
                 value: el.id
@@ -95,11 +91,11 @@ class NavSider extends Component {
                                     this.getList()
                                 }}
                                 >
-                                <Link to={`/productList`}>
-                                    <span><BarsOutlined/> Tất cả sản phẩm</span>
+                                <Link to={`/news`}>
+                                    <span><BarsOutlined/> Tất cả tin tức</span>
                                 </Link>
                             </Menu.Item>
-                        {!loading && CategoryList.map((navMenuItem, idx) =>
+                        {!loading && CategoryList_News.map((navMenuItem, idx) =>
                             
                             <Menu.Item
                                 className="custom-nav-item"
@@ -109,7 +105,7 @@ class NavSider extends Component {
                                     this.getList(navMenuItem.value)
                                 }}
                                 >
-                                <Link to={`/productList?categoryId=${navMenuItem.value}`}>
+                                <Link to={`/news?categoryId=${navMenuItem.value}`}>
                                     <span><CaretRightOutlined/> {`${navMenuItem.label}`}</span>
                                 </Link>
                             </Menu.Item>
@@ -123,14 +119,14 @@ class NavSider extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    loading: state.product.tbproductLoading,
-    dataList: state.product.productData || {},
-    categoryList: state.product.productCategoryType || {}
+    loading: state.news.tbnewsLoading,
+    dataList: state.news.newsData || {},
+    categoryList: state.news.newsCategoryType || {}
   });
   
   const mapDispatchToProps = (dispatch) => ({
-    getDataList: (payload) => dispatch(actions.getProductListClient(payload)),
-    getCategoryTypeProducts: (payload) => dispatch(actions.getCategoryTypeProducts(payload)),
+    getDataList: (payload) => dispatch(actions.getNewsListClient(payload)),
+    getCategoryTypeNews: (payload) => dispatch(actions.getCategoryTypeNews(payload)),
   });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavSider);
+export default connect(mapStateToProps, mapDispatchToProps)(NavSiderNews);

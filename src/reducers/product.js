@@ -5,8 +5,7 @@ const { createReducer, defineActionSuccess, defineActionLoading, defineActionFai
 const {
     GET_CATEGORY_TYPE_PRODUCTS,
     GET_PRODUCT_LIST_CLIENT,
-    GET_PRODUCT_AUTO_COMPLETE,
-    GET_PRODUCT_BYID_CLIENT
+    GET_PRODUCT_AUTO_COMPLETE
 } = actionTypes;
 
 const initialState = { 

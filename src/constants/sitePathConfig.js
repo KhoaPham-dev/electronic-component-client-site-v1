@@ -9,6 +9,10 @@ export const sitePathConfig = {
         path: '/news',
         title: 'Tin tức',
     },
+    newsDetail: {
+        path: '/newsDetail',
+        title: 'Thông tin chi tiết'
+    },
     forbidden: {
         path: '/forbidden',
         title: 'Forbidden',

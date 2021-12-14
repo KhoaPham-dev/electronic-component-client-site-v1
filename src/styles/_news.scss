@@ -1,0 +1,28 @@
+.news_container {
+
+
+    .news_container_title {
+
+        margin-bottom: 14px;
+
+        a {
+            font-size: 22px;
+            color: #333;
+        }
+        a:hover {
+            color: #2196F3
+        }
+    }
+    .ant-list-vertical .ant-list-item-meta-title {
+        margin-bottom: 12px;
+        color: #959595;
+        font-size: 16px;
+        font-style: italic;
+        line-height: 24px;
+
+        
+    }
+    h4 {
+        font-weight: normal;
+    }
+}

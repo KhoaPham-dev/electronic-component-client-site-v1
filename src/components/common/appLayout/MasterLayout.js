@@ -11,13 +11,15 @@ import AppHeader from './AppHeader'
 import NavigationBar from './NavigationBar'
 import Banner from './Banner'
 import NavSider from './NavSider'
+import NavSiderNews from './NavSiderNews'
 import { Link } from 'react-router-dom';
 import { itemsCartSelector } from '../../../selectors/cart'
+import BreadcurmbCustom from './BreadcrumbCustom'
 
 const { Content } = Layout
 const { confirm } = Modal
 
-const MasterLayout = ({ children, history }) => {
+const MasterLayout = ({ children, history, isNews }) => {
     const dispatch = useDispatch()
     const isAuth = useSelector(isAuthentication)
     const userData = useSelector(userDataSelector)
@@ -52,8 +54,8 @@ const MasterLayout = ({ children, history }) => {
         });
     }
 
-    const onChangeBreadcrumb = (breadcrumbs) => {
-        setBreadCumbs({ breadcrumbs });
+    const onChangeBreadcrumb = (breadcrumbsparam) => {
+        setBreadCumbs(breadcrumbsparam);
     }
 
     useEffect(() => {
@@ -85,11 +87,14 @@ const MasterLayout = ({ children, history }) => {
             </div>
             
             <NavigationBar></NavigationBar>
-            <Banner />
+            {!isNews && <Banner />}
             <div  style={{background: '#F5F5F5'}}>
                 <Layout className='containtersider'>
-                    <NavSider>              
-                    </NavSider>
+                    <BreadcurmbCustom breadcrumbs={breadcrumbs} changeBreadcrumb = {onChangeBreadcrumb} />
+                </Layout>
+                <Layout className='containtersider'>
+                    { !isNews && <NavSider breadcrumbs={breadcrumbs} changeBreadcrumb = {onChangeBreadcrumb}/>}
+                    { isNews && <NavSiderNews breadcrumbs={breadcrumbs} changeBreadcrumb = {onChangeBreadcrumb} />}
                     <Layout>
                                     <Content className="app-content" id="app-content">
                                         <div className="content-wrapper">
@@ -97,6 +102,7 @@ const MasterLayout = ({ children, history }) => {
                                                 // changeUserData: this.onChangeUserData,
                                                 currentUser: userData,
                                                 changeBreadcrumb: onChangeBreadcrumb,
+                                                breadcrumbs: breadcrumbs
                                                 // showFullScreenLoading,
                                                 // hideFullScreenLoading
                                             })}
