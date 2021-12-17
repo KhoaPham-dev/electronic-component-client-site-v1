@@ -10,6 +10,7 @@ import { addressDataSelector } from '../../selectors/address'
 import { itemsCartSelector } from '../../selectors/cart'
 import { provinceSelector } from '../../selectors/province'
 import { showErrorMessage, showSuccessMessage } from '../../services/notifyService'
+import { CASH_ON_DELIVERY_PAYMENT_KIND, CASH_ONLINE_PAYMENT_KIND } from '../../constants'
 
 function MakeOrdersContainer({
     changeBreadcrumb,
@@ -28,6 +29,7 @@ function MakeOrdersContainer({
     const [isFormLoading, setIsFormLoading] = useState(false)
     const [isOrdersCreated, setIsOrdersCreated] = useState(false)
     const [selectedItemsResult, setSelectedItemsResult] = useState()
+    const [currentPaymentType, setCurrentPaymentType] = useState(CASH_ON_DELIVERY_PAYMENT_KIND)
 
     const fetchAddressList = () => {
         dispatch(actions.getAddressList({}))
@@ -173,6 +175,8 @@ function MakeOrdersContainer({
         isAuth={isAuth}
         isFormLoading={isFormLoading}
         isOrdersCreated={isOrdersCreated}
+        currentPaymentType={currentPaymentType}
+        handleChangeCurrentPaymentType={setCurrentPaymentType}
         setIsAllRequiredFieldsValidated={handleChangeIsAllRequiredFieldsValidated}
         handleSubmit={handleSubmit}
         handleChangeAddress={handleChangeAddress}

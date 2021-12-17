@@ -9,6 +9,7 @@ import {ReactComponent as CodSVG} from '../../assets/images/cod.svg';
 import {ReactComponent as CardSVG} from '../../assets/images/card.svg';
 import { PROVINCE_KIND_COMMUNE, PROVINCE_KIND_DISTRICT, PROVINCE_KIND_PROVINCE } from '../../constants/masterData'
 import Utils from '../../utils'
+import PayPal from './PayPal'
 
 function MakeOrderPage({
     addressOptions,
@@ -28,8 +29,11 @@ function MakeOrderPage({
     isFormLoading,
     isOrdersCreated,
     handleBack,
+    currentPaymentType,
+    handleChangeCurrentPaymentType,
 }) {
 
+    const submitable = !(!isAllRequiredFieldsValidated || isFormLoading || isOrdersCreated)
     const totalPrice = useMemo(() => {
         return selectedItems.reduce((acc, cur) => {
             return acc + (cur.quantity * (cur.productPrice - cur.productPrice * ((cur.saleoff || 0) / 100)))
@@ -47,7 +51,7 @@ function MakeOrderPage({
             onFinish={handleSubmit}
             className="make-order-form container-xl"
             initialValues={{
-                paymentMethod: CASH_ONLINE_PAYMENT_KIND,
+                paymentMethod: CASH_ON_DELIVERY_PAYMENT_KIND,
             }}
             onChange={() => {
                 setIsAllRequiredFieldsValidated()
@@ -151,6 +155,7 @@ function MakeOrderPage({
                                     alignItems: 'center'
                                 }}
                                 onClick={() => {
+                                    handleChangeCurrentPaymentType(CASH_ON_DELIVERY_PAYMENT_KIND)
                                     formRef.current.setFieldsValue({'paymentMethod': CASH_ON_DELIVERY_PAYMENT_KIND})
                                 }}
                                 >
@@ -172,6 +177,7 @@ function MakeOrderPage({
                                     alignItems: 'center'
                                 }}
                                 onClick={() => {
+                                    handleChangeCurrentPaymentType(CASH_ONLINE_PAYMENT_KIND)
                                     formRef.current.setFieldsValue({'paymentMethod': CASH_ONLINE_PAYMENT_KIND})
                                 }}
                                 >
@@ -192,9 +198,24 @@ function MakeOrderPage({
                     {
                         !isOrdersCreated ? (
                             <>
-                                <Button disabled={!isAllRequiredFieldsValidated || isFormLoading || isOrdersCreated} className="btn-submit" size="large" htmlType="submit" type="primary">
-                                    Đặt hàng
-                                </Button>
+                                {
+                                    currentPaymentType === CASH_ONLINE_PAYMENT_KIND ? (
+                                        <div style={{
+                                            pointerEvents: submitable ? 'all' : 'none',
+                                            filter: submitable ? 'none' : 'opacity(0.5)',
+                                        }}>
+                                            <PayPal
+                                            value={finalPrice}
+                                            formRef={formRef}
+                                            submitable={submitable}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <Button disabled={!submitable} className="btn-submit" size="large" htmlType="submit" type="primary">
+                                            Đặt hàng
+                                        </Button>
+                                    )
+                                }
                                 <div>Bằng việc nhấn vào nút "ĐẶT HÀNG", nghĩa là bạn đã đồng ý với các <span className="policy">Điều khoản và điều kiện</span> bảo vệ dữ liệu của chúng tôi</div>
                             </>
                         ) : (<>
