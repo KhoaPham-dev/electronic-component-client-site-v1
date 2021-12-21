@@ -1,7 +1,7 @@
 import { Layout, Breadcrumb, Modal } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { actions } from '../../../actions/account'
+import { actions } from '../../../actions'
 import sitePathConfig from '../../../constants/sitePathConfig'
 import { isAuthentication, userDataSelector } from '../../../selectors/account'
 import { clsx } from '../../../utils/helper'
@@ -15,6 +15,7 @@ import NavSiderNews from './NavSiderNews'
 import { Link } from 'react-router-dom';
 import { itemsCartSelector } from '../../../selectors/cart'
 import BreadcurmbCustom from './BreadcrumbCustom'
+import {settingsListSelector, tbsettingsListLoadingSelector} from '../../../selectors/settings';
 
 const { Content } = Layout
 const { confirm } = Modal
@@ -24,7 +25,16 @@ const MasterLayout = ({ children, history, isNews }) => {
     const isAuth = useSelector(isAuthentication)
     const userData = useSelector(userDataSelector)
     const itemsCart = useSelector(itemsCartSelector)
+    const settingsList = useSelector(settingsListSelector)
     const [breadcrumbs, setBreadCumbs] = useState([]);
+    const [settingsObjectList, setsettingsObjectList] = 
+    useState({
+        Hotline: '(028) 64700104',
+        LogoClient: '/AVATAR/AVATAR_sbzKpK0cAR.',
+        WelcomeText: "Chào mừng đến với thế giới linh kiện điện tử...",
+        OpeningTime: '7h30 - 12h, 13h30 - 19h',
+        Footer: '© Copyright 2021. All rights reserved by ...'
+    })
     const { contentClass } = useMemo(() => {
         const { layoutConfig = {} } =
             Object.values(sitePathConfig).find(
@@ -62,7 +72,39 @@ const MasterLayout = ({ children, history, isNews }) => {
         if (history.action === 'PUSH') {
             window.scrollTo(0, 0)
         }
+        
     }, [history.location.pathname])
+
+    useEffect(() => {
+        const page = 0;
+        dispatch(actions.getSettingsListClient(
+            {
+                params: {
+                    page: page,
+                    size: 20,
+                }
+        }))
+    }, [])
+
+    useEffect(() => {
+        if(typeof settingsList.data === 'undefined')
+        {
+            console.log(undefined);
+        }
+        else 
+        {
+            console.log(settingsList.data);
+            const settingsObject = settingsList.data.reduce((obj, cur) => {
+                return {
+                    ...obj,
+                    [cur.key]: cur.value
+                }
+            }, {})
+            console.log(settingsObject);
+            setsettingsObjectList(settingsObject);
+
+        }
+    }, [settingsList])
 
     return (
         <Layout className="master-layout">
@@ -71,8 +113,8 @@ const MasterLayout = ({ children, history, isNews }) => {
             }}>
                 <div style={{'border-bottom': '1px solid #d9d9d9'}}>
                     <div className='helloheader'>
-                        <div className='toplefttext'>Chào mừng đến với thế giới linh kiện điện tử...</div>
-                        <div>Mở cửa: 7h30 - 12h, 13h30 - 19h</div>             
+                        <div className='toplefttext'>{settingsObjectList.WelcomeText}</div>
+                        <div>{`Mở cửa: ${settingsObjectList.OpeningTime}`}</div>             
                     </div>
                 </div>
                 <AppHeader
@@ -83,10 +125,11 @@ const MasterLayout = ({ children, history, isNews }) => {
                 }
                 avatar={Utils.getFileUrl(userData?.customerAvatarPath)}
                 itemsCart={itemsCart || []}
+                logo={settingsObjectList.LogoClient}
             />
             </div>
             
-            <NavigationBar></NavigationBar>
+            <NavigationBar hotline = {settingsObjectList.Hotline}></NavigationBar>
             {!isNews && <Banner />}
             <div  style={{background: '#F5F5F5'}}>
                 <Layout className='containtersider'>
@@ -112,7 +155,7 @@ const MasterLayout = ({ children, history, isNews }) => {
                         </Layout>
                 </Layout>
             </div>
-            <AppFooter />
+            <AppFooter footerContent = {settingsObjectList.Footer} />
         </Layout>
     )
 }

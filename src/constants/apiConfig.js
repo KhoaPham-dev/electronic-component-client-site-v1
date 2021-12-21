@@ -150,6 +150,13 @@ const apiConfig = {
             method: 'GET',
             headers: baseHeader
         }
+    },
+    settings: {
+        getSettingsListClient: {
+            path: '/v1/settings/client-list',
+            method: 'GET',
+            headers: baseHeader
+        }
     }
 }
 

@@ -26,6 +26,7 @@ import {
     ORDERS_LIST_MODAL,
 } from '../../../constants/masterData'
 import ModalsFactory from './ModalsFactory'
+import { AppConstants } from '../../../constants'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -33,7 +34,7 @@ const { SubMenu } = Menu
 
 
 
-const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart }) => {
+const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart, logo }) => {
     const location = useLocation()
     const [showModal, setShowModal] = useState(-1)
     const [idHash, setIdHash] = useState()
@@ -41,7 +42,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart }) => {
     return (
         <Header className="app-header">
             <div className="logo">
-                <img src={logo} alt=''/>
+                <img src={logo ? `${AppConstants.contentRootUrl}${logo}` : null} alt=''/>
             </div>
             <div class="app-menu">
                 <SearchBar />

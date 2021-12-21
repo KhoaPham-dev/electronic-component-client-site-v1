@@ -22,7 +22,7 @@ const menus = [
     },
 ]
 
-const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
+const NavigationBar = ({ isAuth, onLogout, shortName, avatar, hotline }) => {
     const location = useLocation()
 
     return (
@@ -97,7 +97,7 @@ const NavigationBar = ({ isAuth, onLogout, shortName, avatar }) => {
                         </Menu.Item>
                     </Menu>
                 )} */}
-                <div style={{'font-size': 'medium', color: 'white'}}><PhoneOutlined/> Hotline: (028) 64700104</div>
+                <div style={{'font-size': 'medium', color: 'white'}}><PhoneOutlined/>{`Hotline: ${hotline}`}</div>
             </Header>
         </div>
     )

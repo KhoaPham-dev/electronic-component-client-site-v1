@@ -7,6 +7,7 @@ import province from './province';
 import address from './address';
 import orders from './orders';
 import news from './news';
+import settings from './settings';
 
 const rootReducer = combineReducers({
     appCommon: appCommon.reducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     province: province.reducer,
     address: address.reducer,
     orders: orders.reducer,
-    news: news.reducer
+    news: news.reducer,
+    settings: settings.reducer
 })
 
 export default rootReducer

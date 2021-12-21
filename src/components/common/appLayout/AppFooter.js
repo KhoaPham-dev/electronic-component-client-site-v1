@@ -7,7 +7,7 @@ import { sitePathConfig } from '../../../constants/sitePathConfig'
 const { Footer } = Layout
 const { Text, Title } = Typography
 
-const AppFooter = () => {
+const AppFooter = ({footerContent}) => {
     return (
         <Footer className="app-footer">
             {/* <Row gutter={[8, 24]}>
@@ -61,7 +61,7 @@ const AppFooter = () => {
             </Space> */}
             <div className="text-center">
                 <Text type="secondary">
-                    © Copyright 2021. All rights reserved by ...
+                    {footerContent}
                 </Text>
             </div>
         </Footer>
