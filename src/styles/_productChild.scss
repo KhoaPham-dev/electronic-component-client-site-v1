@@ -1,0 +1,85 @@
+.container-productchild {
+
+    .container_row {
+
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        .productchild_image {
+            text-align: center;
+            img {
+                max-width: 150px;
+                height: 150px;
+            }
+        }
+
+        .productchild_name h3 {
+            margin: 5px 0 0 0;
+            color: #777;
+        }
+
+        .productchild_price {
+            margin-top: 10px;
+        }
+
+        .productchild_price span {        
+            font-weight: bold;
+            font-size: 20px;
+            color: #2790f2;
+        }
+    
+    
+        .productchild_addtocart_container {
+            display: flex;
+            justify-content: center;
+    
+    
+            .productchild_addtocart {
+                background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);
+            }
+        
+            .productchild_addtocart {
+                margin-top: 25px;
+                padding: 0;
+                color: #fff;
+                list-style: none;
+                transition: 0.5s;
+                background-size: 200% auto;
+                text-align: center;
+                justify-content: center;
+                padding: 10px 10px;
+                width: 50%;
+            }
+            .productchild_addtocart:hover {
+                cursor: pointer;
+                background-position: right center; 
+            }
+            .productchild_addtocart:hover div {
+                color: #fff;
+            }
+    
+        }
+
+        .container-plus-minus-buttons_row {
+            text-align: center;
+            padding: 10px 10px;
+            background: #fff;
+
+            .inline-buttons_row {
+                display: inline-block;
+
+                .ant-btn {
+                    max-width: 32px;
+                    max-height: 32px;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: stretch;
+                    justify-content: center;
+                }
+            }
+
+            
+        }
+    }
+    
+}

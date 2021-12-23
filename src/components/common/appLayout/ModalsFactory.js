@@ -17,16 +17,25 @@ import {
     REGISTER_MODAL,
     REQUEST_RECOVERY_MODAL,
     ORDERS_LIST_MODAL,
-    PRODUCT_DETAIL_MODAL
+    PRODUCT_DETAIL_MODAL,
+    PRODUCT_CHILD_MODAL
 } from '../../../constants/masterData'
 import OrdersListContainer from '../../../containers/orders/OrdersListContainer'
+import ProductChildContainer from '../../../containers/productList/ProductChildContainer'
 
 function ModalsFactory({
     idHash,
     showModal,
     setShowModal,
     setIdHash,
-    productId
+    productId,
+    productName,
+    timetoCancel,
+    handleClickAddToCart,
+    AvailableItem,
+    minusItem,
+    addItem,
+    handleDeleteItem
 }) {
     return ({
         [CART_MODAL]: <CartContainer
@@ -54,10 +63,21 @@ function ModalsFactory({
         />,
         [ORDERS_LIST_MODAL]: <OrdersListContainer
         setShow={setShowModal}
+        timetoCancel={timetoCancel}
         />,
         [PRODUCT_DETAIL_MODAL]: <ProductDetailConatiner 
         setShow={setShowModal}
         productId={productId}
+        />,
+        [PRODUCT_CHILD_MODAL]: <ProductChildContainer 
+        setShow={setShowModal}
+        productId={productId}
+        productName={productName}
+        handleClickAddToCart={handleClickAddToCart}
+        AvailableItem={AvailableItem}
+        minusItem={minusItem}
+        addItem={addItem}
+        handleDeleteItem={handleDeleteItem}
         />
     })[showModal] ?? null
 }

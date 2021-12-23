@@ -5,6 +5,11 @@ export const productListSelector = createSelector(
     product => product.productData
 )
 
+export const productChildListSelector = createSelector(
+    [state => state.product],
+    product => product.productDataChild
+)
+
 export const categoryListSelector = createSelector(
     [state => state.product],
     product => product.productCategoryType

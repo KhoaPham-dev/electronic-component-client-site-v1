@@ -14,9 +14,10 @@ function OrdersDetailContainer({
     setShowDetailModal,
     handleGetOrdersDetail,
     fetchMyOrdersList,
+    timetoCancel
 }) {
     const dispatch = useDispatch()
-    const ordersLimitCancelTime = 2
+    const ordersLimitCancelTime = parseInt(timetoCancel);
     const timeInXHoursAgo = moment().subtract(Number(ordersLimitCancelTime), 'hour')
     const createdDate = moment(convertUtcToTimezone(dataDetail.createdDate, 'DD/MM/YYYY HH:mm:ss'), 'DD/MM/YYYY HH:mm:ss')
     const isCancel = timeInXHoursAgo.isBefore(createdDate, 'second') && dataDetail.ordersState === OrdersStates[0].value

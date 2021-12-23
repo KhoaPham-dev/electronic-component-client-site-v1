@@ -84,6 +84,11 @@ const apiConfig = {
             method: 'GET',
             headers: baseHeader
         },
+        getProductClientListChild: {
+            path: 'v1/product/client-list',
+            method: 'GET',
+            headers: baseHeader
+        },
         getProductByIdClient: {
             path: 'v1/product/client-get',
             method: 'GET',

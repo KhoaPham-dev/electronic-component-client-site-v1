@@ -5,12 +5,14 @@ const { createReducer, defineActionSuccess, defineActionLoading, defineActionFai
 const {
     GET_CATEGORY_TYPE_PRODUCTS,
     GET_PRODUCT_LIST_CLIENT,
+    GET_PRODUCT_LIST_CLIENT_CHILD,
     GET_PRODUCT_AUTO_COMPLETE
 } = actionTypes;
 
 const initialState = { 
     productCategoryType: [],
     productData: [],
+    productDataChild: [],
     tbproductLoading: false,
     productSearchList: [],
 };
@@ -27,6 +29,19 @@ const reducer = createReducer({
         return {
             ...state,
             productData,
+            tbproductLoading: false
+        }
+    },
+    [defineActionLoading(GET_PRODUCT_LIST_CLIENT_CHILD)]: (state) => {
+        return {
+            ...state,
+            tbproductLoading: true
+        }
+    },
+    [defineActionSuccess(GET_PRODUCT_LIST_CLIENT_CHILD)]: (state, { productDataChild }) => {
+        return {
+            ...state,
+            productDataChild,
             tbproductLoading: false
         }
     },

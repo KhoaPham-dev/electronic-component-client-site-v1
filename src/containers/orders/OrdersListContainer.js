@@ -9,6 +9,7 @@ import OrdersDetailContainer from './OrdersDetailContainer'
 
 function OrdersListContainer({
     setShow,
+    timetoCancel
 }) {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -95,6 +96,7 @@ function OrdersListContainer({
                 setShowDetailModal={setShowDetailModal}
                 handleGetOrdersDetail={handleGetOrdersDetail}
                 fetchMyOrdersList={fetchMyOrdersList}
+                timetoCancel={timetoCancel}
                 />
             )
         }

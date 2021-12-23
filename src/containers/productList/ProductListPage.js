@@ -9,7 +9,7 @@ import noimage from '../../assets/images/noimage.png';
 import Utils from '../../utils';
 import {DEFAULT_PAGE_SIZE} from '../../constants';
 import ModalsFactory from "../../components/common/appLayout/ModalsFactory";
-import { PRODUCT_DETAIL_MODAL } from "../../constants/masterData";
+import { PRODUCT_DETAIL_MODAL, PRODUCT_CHILD_MODAL } from "../../constants/masterData";
 
 const { Meta } = Card;
 const { confirm } = Modal
@@ -26,6 +26,7 @@ const ProductListPage = () => {
     const [showModal, setShowModal] = useState(-1)
     const [idHash, setIdHash] = useState()
     const [productID, setproductID] = useState(null);
+    const [productName, setproductName] = useState('');
 
     const handleDeleteItem = (index) => {
       confirm({
@@ -50,6 +51,60 @@ const ProductListPage = () => {
       })
 
       return indexItemsCart;
+    }
+
+    const AvailableItemChild = (id) => {
+      const indexItemsCartChild = itemsCart.findIndex((item) => {
+        return item.parentId === id;
+      })
+
+      return indexItemsCartChild;
+    }
+
+    const checkCart = (item) => {
+      if (item.hasChild)
+      {
+        if (AvailableItemChild(item.id) === -1)
+        {
+          return true
+        }
+        else 
+        {
+          return false
+        }
+      }
+      else {
+        if (AvailableItem(item.id) === -1)
+        {
+          return true
+        }
+        else 
+        {
+          return false
+        }
+      }
+    }
+
+    const checkQuantity = (item) => {
+      let quantity = 0;
+      if (item.hasChild)
+      {
+        let ChildItemCarts = itemsCart.filter((el) => {
+          return el.parentId === item.id
+        })
+
+        for (let i = 0 ; i < ChildItemCarts.length; i++)
+        {
+          quantity = quantity + ChildItemCarts[i].quantity
+        }
+
+        return quantity;
+      }
+      else 
+      {
+        quantity = itemsCart[AvailableItem(item.id)].quantity
+        return quantity;
+      }
     }
 
     const handleClickAddToCart = (product) => {
@@ -189,30 +244,60 @@ const ProductListPage = () => {
                             description={`${Utils.formatNumber(item.productPrice)} Đ`}
                           />
                         </Card>
-                          { AvailableItem(item.id) === -1 ? 
-                            <div className="button-add-to-cart" onClick={() => {handleClickAddToCart(item)}}>
+                          { checkCart(item) ? 
+                            <div className="button-add-to-cart" onClick={
+                              () => {
+                                if(item.hasChild)
+                                {
+                                  setproductID(item.id)
+                                  setproductName(item.productName)
+                                  setShowModal(PRODUCT_CHILD_MODAL)
+                                }
+                                else {
+                                  handleClickAddToCart(item)
+                                }
+                                }}>
                               <div>Thêm vào giỏ hàng</div>
                             </div>
                           :
                             <div className="container-plus-minus-buttons">
                               <div className="inline-buttons">
                                 <Button size="large" onClick={() => {
-                                  if(itemsCart[AvailableItem(item.id)].quantity > 1)
+                                  if(item.hasChild)
                                   {
-                                    minusItem(item.id)
+                                    setproductID(item.id)
+                                    setproductName(item.productName)
+                                    setShowModal(PRODUCT_CHILD_MODAL)
                                   }
-                                  else {
-                                    handleDeleteItem(item.id);
-                                  }
-                                  
+                                  else 
+                                  {
+                                    if(itemsCart[AvailableItem(item.id)].quantity > 1)
+                                    {
+                                      minusItem(item.id)
+                                    }
+                                    else {
+                                      handleDeleteItem(item.id);
+                                    }
+                                  }                                  
                                 }
                                   }>-</Button>
                               </div>
                               <div className="inline-buttons" style={{padding: '0 15px'}}>
-                                <div style={{'font-weight': 'bold', color: '#2196F3'}}>{itemsCart[AvailableItem(item.id)].quantity}</div>
+                                <div style={{fontWeight: 'bold', color: '#2196F3'}}>{checkQuantity(item)}</div>
                               </div>
                               <div className="inline-buttons">
-                                <Button size="large" onClick={() => {addItem(item.id)}}>+</Button>
+                                <Button size="large" onClick={() => {
+                                  if(item.hasChild)
+                                  {
+                                    setproductID(item.id)
+                                    setproductName(item.productName)
+                                    setShowModal(PRODUCT_CHILD_MODAL)
+                                  }
+                                  else 
+                                  {
+                                    addItem(item.id)
+                                  }
+                                  }}>+</Button>
                               </div>
                             </div>
                           }
@@ -226,6 +311,12 @@ const ProductListPage = () => {
             setShowModal={setShowModal}
             setIdHash={setIdHash}
             productId={productID}
+            productName={productName}
+            handleClickAddToCart={handleClickAddToCart}
+            AvailableItem={AvailableItem}
+            minusItem={minusItem}
+            addItem={addItem}
+            handleDeleteItem={handleDeleteItem}
             />
         </Spin>
     )

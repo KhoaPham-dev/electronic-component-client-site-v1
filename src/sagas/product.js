@@ -10,6 +10,7 @@ const { defineActionLoading, defineActionSuccess, defineActionFailed } = reduxUt
 const {
     GET_CATEGORY_TYPE_PRODUCTS,
     GET_PRODUCT_LIST_CLIENT,
+    GET_PRODUCT_LIST_CLIENT_CHILD,
     GET_PRODUCT_AUTO_COMPLETE,
     GET_PRODUCT_BYID_CLIENT
 } = actionTypes;
@@ -39,13 +40,14 @@ function* getCategoryTypeProducts({payload: {params}}) {
 function* getProductListClient({ payload: { params, onCompleted } }) {
     const apiParams = apiConfig.product.getProductClientList;
     const searchParams = { page: params.page, size: params.size };
+    
     if(params.name) {
         searchParams.name = params.name
     }
+
     if(params.categoryId) {
         searchParams.categoryId = params.categoryId
     }
-
 
     try {
         const { success, responseData } = yield call(sendRequest, apiParams, searchParams);
@@ -60,6 +62,39 @@ function* getProductListClient({ payload: { params, onCompleted } }) {
     catch(error) {
         console.log(error);
         yield put({ type: defineActionFailed(GET_PRODUCT_LIST_CLIENT) });
+    }
+}
+
+function* getProductListClientChild({ payload: { params, onCompleted } }) {
+    const apiParams = apiConfig.product.getProductClientListChild;
+    const searchParams = { page: params.page, size: params.size };
+    
+    if(params.name) {
+        searchParams.name = params.name
+    }
+
+    if(params.categoryId) {
+        searchParams.categoryId = params.categoryId
+    }
+
+    if(params.parentId) {
+        searchParams.parentId = params.parentId
+    }
+
+
+    try {
+        const { success, responseData } = yield call(sendRequest, apiParams, searchParams);
+        if(success && responseData.result) {
+            yield put({
+                type: defineActionSuccess(GET_PRODUCT_LIST_CLIENT_CHILD),
+                productDataChild: responseData.data,
+            });
+            onCompleted && onCompleted()
+        }
+    }
+    catch(error) {
+        console.log(error);
+        yield put({ type: defineActionFailed(GET_PRODUCT_LIST_CLIENT_CHILD) });
     }
 }
 
@@ -99,6 +134,7 @@ function* getProductAutoComplete({ payload: { params } }) {
 const sagas = [
     takeLatest(defineActionLoading(GET_CATEGORY_TYPE_PRODUCTS), getCategoryTypeProducts),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT), getProductListClient),
+    takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT_CHILD), getProductListClientChild),
     takeLatest(GET_PRODUCT_AUTO_COMPLETE, getProductAutoComplete),
     takeLatest(GET_PRODUCT_BYID_CLIENT, getProductByIdClient)
 ]

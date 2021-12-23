@@ -33,7 +33,8 @@ const MasterLayout = ({ children, history, isNews }) => {
         LogoClient: '/AVATAR/AVATAR_sbzKpK0cAR.',
         WelcomeText: "Chào mừng đến với thế giới linh kiện điện tử...",
         OpeningTime: '7h30 - 12h, 13h30 - 19h',
-        Footer: '© Copyright 2021. All rights reserved by ...'
+        Footer: '© Copyright 2021. All rights reserved by ...',
+        timetocancel: '6'
     })
     const { contentClass } = useMemo(() => {
         const { layoutConfig = {} } =
@@ -126,6 +127,7 @@ const MasterLayout = ({ children, history, isNews }) => {
                 avatar={Utils.getFileUrl(userData?.customerAvatarPath)}
                 itemsCart={itemsCart || []}
                 logo={settingsObjectList.LogoClient}
+                timetoCancel={settingsObjectList.timetocancel}
             />
             </div>
             

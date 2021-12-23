@@ -34,7 +34,7 @@ const { SubMenu } = Menu
 
 
 
-const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart, logo }) => {
+const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart, logo, timetoCancel }) => {
     const location = useLocation()
     const [showModal, setShowModal] = useState(-1)
     const [idHash, setIdHash] = useState()
@@ -109,6 +109,7 @@ const AppHeader = ({ isAuth, onLogout, shortName, avatar, itemsCart, logo }) => 
             idHash={idHash}
             setShowModal={setShowModal}
             setIdHash={setIdHash}
+            timetoCancel={timetoCancel}
             />
         </Header>
     )
