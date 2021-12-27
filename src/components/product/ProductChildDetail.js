@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BasicModal from '../common/modal/BasicModal';
-import {Row, Col, Spin, Button, List} from 'antd';
+import {Row, Col, Spin, Button, List, Modal} from 'antd';
 import { DEFAULT_PAGE_SIZE } from '../../constants';
 import { actions } from '../../actions';
 import { productListSelector, productChildListSelector, tbproductListLoadingSelector } from "../../selectors/product";
@@ -9,8 +9,9 @@ import { AppConstants } from '../../constants';
 import noimage from '../../assets/images/noimage.png'
 import Utils from '../../utils';
 import { itemsCartSelector } from '../../selectors/cart';
+const { confirm } = Modal
 
-const ProductChild = ({setShow, productId, productName, handleClickAddToCart,AvailableItem, minusItem, addItem, handleDeleteItem}) => {
+const ProductChildDetail = ({setShow, productId, productName, prepareUpdateCartChild, setprepareUpdateCartChild, quantityInCart, setQuantityInCart}) => {
 
     const productListChild = useSelector(productChildListSelector)
     const isLoading = useSelector(tbproductListLoadingSelector);
@@ -18,6 +19,108 @@ const ProductChild = ({setShow, productId, productName, handleClickAddToCart,Ava
     const dispatch = useDispatch();
     const pagination = { pageSize: DEFAULT_PAGE_SIZE }
 
+
+    const handleDeleteItem = (index) => {
+        confirm({
+            title: 'Xóa',
+            content: "Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?",
+            okText: "Có",
+            okType: 'danger',
+            cancelText: "Không",
+            centered: true,
+            onOk: () => {
+                minusItem(index)
+            },
+            onCancel() {
+              // console.log('Cancel');
+            },
+        });
+    }
+
+    const AvailableItem = (id) => {
+        const indexItemsCart = itemsCart.findIndex((item) => {
+          return item.id === id;
+        })
+  
+        return indexItemsCart;
+      }
+    
+    const AvailableItemChild = (id) => {
+        const indexItemsCartChild = itemsCart.findIndex((item) => {
+          return item.parentId === id;
+        })
+  
+        return indexItemsCartChild;
+      }
+
+    const checkCart = (id) => {
+          if (AvailableItem(id) === -1)
+          {
+            return true
+          }
+          else 
+          {
+            return false
+          }
+      }
+
+    const handleClickAddToCart = (product) => {
+        const index = itemsCart.findIndex((item) => {
+          return item.id === product.id
+        })
+  
+        if(index === -1)
+        {
+          const newItemsCart = JSON.parse(JSON.stringify(itemsCart));
+          newItemsCart.push({
+            ...product,
+            quantity: 1,
+          })
+  
+          setItemsCart(newItemsCart);
+        }
+      }
+  
+        const addItem = (index) => {
+          let newItemsCart = JSON.parse(JSON.stringify(itemsCart));
+  
+          newItemsCart = newItemsCart.map(el =>
+            el.id !== index ? el : {...el, quantity: el.quantity + 1}
+          )
+          setItemsCart(newItemsCart);
+          setQuantityInCart(quantityInCart + 1)
+      }
+  
+    const minusItem = (index) => {
+          let newItemsCart = JSON.parse(JSON.stringify(itemsCart));
+  
+          for (let i =0; i < newItemsCart.length; i++)
+          {
+            if(newItemsCart[i].id === index)
+            {
+              if(newItemsCart[i].quantity > 1)
+              {
+                newItemsCart[i] = {...newItemsCart[i], quantity: newItemsCart[i].quantity -1}
+                setItemsCart(newItemsCart);
+                setQuantityInCart(quantityInCart - 1);
+                break;
+              }
+              else 
+              {
+                newItemsCart = newItemsCart.filter(el => el !== newItemsCart[i]);
+                setItemsCart(newItemsCart);
+                setQuantityInCart(quantityInCart - 1)
+                break;
+              }
+            }
+          }
+      }
+  
+    const setItemsCart = (newItemsCart) => {
+        dispatch(actions.setItemsCart({
+            itemsCart: newItemsCart
+        }))
+    }
 
     useEffect(() => {
         const page = pagination.current ? pagination.current - 1 : 0;
@@ -37,7 +140,7 @@ const ProductChild = ({setShow, productId, productName, handleClickAddToCart,Ava
     return (
         <BasicModal
         visible={true}
-        title = "Danh sách sản phẩm con"
+        title = "Danh sách sản phẩm con chi tiết"
         width = {550}
         onCancel={() => {
             setShow(false)
@@ -69,6 +172,7 @@ const ProductChild = ({setShow, productId, productName, handleClickAddToCart,Ava
                                                 <div className='productchild_addtocart' onClick={() => {
                                                     let productChildToCart = {...el, productName: `${productName}  ${el.productName}`}
                                                     handleClickAddToCart(productChildToCart);
+                                                    setQuantityInCart(quantityInCart + 1);
                                                 }}>
                                                     <div>Thêm vào giỏ hàng</div>
                                                 </div>
@@ -107,4 +211,4 @@ const ProductChild = ({setShow, productId, productName, handleClickAddToCart,Ava
     )
 }
 
-export default ProductChild
+export default ProductChildDetail

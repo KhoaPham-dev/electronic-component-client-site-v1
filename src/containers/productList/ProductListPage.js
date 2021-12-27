@@ -27,6 +27,7 @@ const ProductListPage = () => {
     const [idHash, setIdHash] = useState()
     const [productID, setproductID] = useState(null);
     const [productName, setproductName] = useState('');
+    const [HasChild, setHasChild] = useState(false);
 
     const handleDeleteItem = (index) => {
       confirm({
@@ -234,8 +235,21 @@ const ProductListPage = () => {
                         hoverable
                         cover={<img alt="example" src= {item.productImage ? `${AppConstants.contentRootUrl}${item.productImage}` : noimage} />}
                         onClick={() => {
-                          setproductID(item.id)
-                          setShowModal(PRODUCT_DETAIL_MODAL)
+                          if(item.hasChild)
+                          {
+                            setHasChild(true);
+                            setproductID(item.id)
+                            setproductName(item.productName)
+                            setShowModal(PRODUCT_DETAIL_MODAL)
+                          }
+                          else 
+                          {
+                            setHasChild(false);
+                            setproductID(item.id)
+                            setproductName(item.productName)
+                            setShowModal(PRODUCT_DETAIL_MODAL)
+                          }
+                          
                         }}
                         >
                           <Meta
@@ -317,6 +331,7 @@ const ProductListPage = () => {
             minusItem={minusItem}
             addItem={addItem}
             handleDeleteItem={handleDeleteItem}
+            HasChild={HasChild}
             />
         </Spin>
     )

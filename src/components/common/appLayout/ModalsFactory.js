@@ -18,10 +18,12 @@ import {
     REQUEST_RECOVERY_MODAL,
     ORDERS_LIST_MODAL,
     PRODUCT_DETAIL_MODAL,
-    PRODUCT_CHILD_MODAL
+    PRODUCT_CHILD_MODAL,
+    PRODUCT_CHILD_MODAL_DETAIL
 } from '../../../constants/masterData'
 import OrdersListContainer from '../../../containers/orders/OrdersListContainer'
 import ProductChildContainer from '../../../containers/productList/ProductChildContainer'
+import ProductChildContainerDetail from '../../../containers/productList/ProductChildContainerDetail'
 
 function ModalsFactory({
     idHash,
@@ -35,7 +37,12 @@ function ModalsFactory({
     AvailableItem,
     minusItem,
     addItem,
-    handleDeleteItem
+    handleDeleteItem,
+    HasChild,
+    prepareUpdateCartChild,
+    setprepareUpdateCartChild,
+    quantityInCart,
+    setQuantityInCart
 }) {
     return ({
         [CART_MODAL]: <CartContainer
@@ -68,6 +75,8 @@ function ModalsFactory({
         [PRODUCT_DETAIL_MODAL]: <ProductDetailConatiner 
         setShow={setShowModal}
         productId={productId}
+        productName={productName}
+        HasChild={HasChild}
         />,
         [PRODUCT_CHILD_MODAL]: <ProductChildContainer 
         setShow={setShowModal}
@@ -78,6 +87,15 @@ function ModalsFactory({
         minusItem={minusItem}
         addItem={addItem}
         handleDeleteItem={handleDeleteItem}
+        />,
+        [PRODUCT_CHILD_MODAL_DETAIL]: <ProductChildContainerDetail 
+        setShow={setShowModal}
+        productId={productId}
+        productName={productName}
+        prepareUpdateCartChild={prepareUpdateCartChild}
+        setprepareUpdateCartChild={setprepareUpdateCartChild}
+        quantityInCart={quantityInCart}
+        setQuantityInCart={setQuantityInCart}
         />
     })[showModal] ?? null
 }
