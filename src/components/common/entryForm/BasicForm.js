@@ -21,6 +21,7 @@ class BasicForm extends Component {
 
     handleSubmit(formValues) { 
         const { onSubmit } = this.props;
+        console.log(this.props)
         onSubmit({
             ...formValues,
             ...this.otherData

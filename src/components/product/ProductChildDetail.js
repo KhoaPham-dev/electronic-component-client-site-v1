@@ -11,7 +11,7 @@ import Utils from '../../utils';
 import { itemsCartSelector } from '../../selectors/cart';
 const { confirm } = Modal
 
-const ProductChildDetail = ({setShow, productId, productName, prepareUpdateCartChild, setprepareUpdateCartChild, quantityInCart, setQuantityInCart}) => {
+const ProductChildDetail = ({setShow, productId, productName, productIDSuggestion, productNameSuggestion, prepareUpdateCartChild, setprepareUpdateCartChild, quantityInCart, setQuantityInCart}) => {
 
     const productListChild = useSelector(productChildListSelector)
     const isLoading = useSelector(tbproductListLoadingSelector);
@@ -127,7 +127,7 @@ const ProductChildDetail = ({setShow, productId, productName, prepareUpdateCartC
         dispatch(actions.getProductListClientChild(
             {
                 params: {
-                    parentId: productId,
+                    parentId: productId || productIDSuggestion,
                 }
             }
         ))
@@ -162,7 +162,7 @@ const ProductChildDetail = ({setShow, productId, productName, prepareUpdateCartC
                                         </Col>
                                         <Col span={14}>
                                             <div className='productchild_name'>
-                                                <h3>{`${productName}  ${el.productName}`}</h3>
+                                                <h3>{`${productName || productNameSuggestion}  ${el.productName}`}</h3>
                                             </div>
                                             <div className='productchild_price'>
                                                 <span>{`${Utils.formatMoney(el.productPrice)}`}</span>
@@ -170,7 +170,7 @@ const ProductChildDetail = ({setShow, productId, productName, prepareUpdateCartC
                                             {AvailableItem(el.id) === -1 ? 
                                             <div className='productchild_addtocart_container'>
                                                 <div className='productchild_addtocart' onClick={() => {
-                                                    let productChildToCart = {...el, productName: `${productName}  ${el.productName}`}
+                                                    let productChildToCart = {...el, productName: `${productName || productNameSuggestion}  ${el.productName}`}
                                                     handleClickAddToCart(productChildToCart);
                                                     setQuantityInCart(quantityInCart + 1);
                                                 }}>

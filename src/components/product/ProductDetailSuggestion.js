@@ -1,42 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Spin, Button, Divider, Modal, List, Card } from "antd";
+import { Col, Row, Spin, Button, Divider, Modal } from "antd";
 import { actions } from "../../actions";
 
 import BasicModal from "../common/modal/BasicModal";
 import { useDispatch, useSelector } from "react-redux";
 import { itemsCartSelector } from "../../selectors/cart";
-import {
-  productListSelectorSuggesstion,
-  tbproductListLoadingSelectorSuggestion,
-} from "../../selectors/product";
 import Utils from "../../utils";
 import { AppConstants } from "../../constants";
 import noimage from "../../assets/images/noimage.png";
 import ModalsFactory from "../common/appLayout/ModalsFactory";
-import { DEFAULT_PAGE_SIZE } from "../../constants";
 import {
   PRODUCT_DETAIL_MODAL,
   PRODUCT_CHILD_MODAL,
   PRODUCT_CHILD_MODAL_DETAIL,
-  PRODUCT_DETAIL_MODAL_SUGGESTION,
 } from "../../constants/masterData";
-const { Meta } = Card;
 const { confirm } = Modal;
 
-const ProductDetail = ({
-  setShow,
-  productId,
-  categoryID,
-  productName,
-  HasChild,
-}) => {
-  const pagination = { pageSize: DEFAULT_PAGE_SIZE };
+const ProductDetailSuggestion = ({ setShow, productIDSuggestion, productNameSuggestion, HasChildSuggestion }) => {
   const dispatch = useDispatch();
   const itemsCart = useSelector(itemsCartSelector);
-  const productListSuggestion = useSelector(productListSelectorSuggesstion);
-  const isLoadingProductListSuggestion = useSelector(
-    tbproductListLoadingSelectorSuggestion
-  );
   const [dataDetail, setdataDetail] = useState({});
   const [isLoading, setisLoading] = useState(true);
   const [quantityNotinCart, setQuantityNotinCart] = useState(1);
@@ -44,22 +26,19 @@ const ProductDetail = ({
   const [showModal, setShowModal] = useState(-1);
   const [idHash, setIdHash] = useState();
   const [prepareUpdateCartChild, setprepareUpdateCartChild] = useState([]);
-  const [productIDSuggestion, setproductIDSuggestion] = useState(null);
-  const [productNameSuggestion, setproductNameSuggestion] = useState("");
-  const [HasChildSuggestion, setHasChildSuggestion] = useState(false);
 
   useEffect(() => {
-    const params = { id: productId };
+    const params = { id: productIDSuggestion };
     dispatch(
       actions.getProudctByIdClient({
         params,
         onCompleted: ({ data }) => {
           setdataDetail(data);
-          if (!checkNotInCart(productId)) {
-            if (HasChild) {
+          if (!checkCart(productIDSuggestion)) {
+            if (HasChildSuggestion) {
               let quantity = 0;
               let ChildItemCarts = itemsCart.filter((el) => {
-                return el.parentId === productId;
+                return el.parentId === productIDSuggestion;
               });
 
               for (let i = 0; i < ChildItemCarts.length; i++) {
@@ -67,8 +46,8 @@ const ProductDetail = ({
               }
               setQuantityInCart(quantity);
             } else {
-              if (AvailableItem(productId) !== -1) {
-                setQuantityInCart(itemsCart[AvailableItem(productId)].quantity);
+              if (AvailableItem(productIDSuggestion) !== -1) {
+                setQuantityInCart(itemsCart[AvailableItem(productIDSuggestion)].quantity);
               }
             }
           }
@@ -77,16 +56,6 @@ const ProductDetail = ({
         },
         onError: (err) => {
           console.log(err);
-        },
-      })
-    );
-
-    dispatch(
-      actions.getProductListClientSuggestion({
-        params: {
-          categoryId: categoryID,
-          page: 0,
-          size: pagination.pageSize,
         },
       })
     );
@@ -108,8 +77,8 @@ const ProductDetail = ({
     return indexItemsCartChild;
   };
 
-  const checkNotInCart = (id) => {
-    if (HasChild) {
+  const checkCart = (id) => {
+    if (HasChildSuggestion) {
       if (AvailableItemChild(id) === -1) {
         return true;
       } else {
@@ -125,7 +94,7 @@ const ProductDetail = ({
   };
 
   const disableButton = (id) => {
-    if (!checkNotInCart(id)) {
+    if (!checkCart(id)) {
       if (quantityInCart === 0) {
         return true;
       } else {
@@ -143,8 +112,8 @@ const ProductDetail = ({
   const handleClickAddToCart = (dataDetail) => {
     let newItemsCart = JSON.parse(JSON.stringify(itemsCart));
 
-    if (checkNotInCart(productId)) {
-      if (HasChild) {
+    if (checkCart(productIDSuggestion)) {
+      if (HasChildSuggestion) {
       } else {
         newItemsCart.push({
           categoryId: dataDetail.categoryId,
@@ -155,10 +124,10 @@ const ProductDetail = ({
         });
       }
     } else {
-      if (HasChild) {
+      if (HasChildSuggestion) {
       } else {
         newItemsCart = newItemsCart.map((el) => {
-          if (el.id !== productId) {
+          if (el.id !== productIDSuggestion) {
             return el;
           } else {
             return {
@@ -168,10 +137,10 @@ const ProductDetail = ({
           }
         });
 
-        if (newItemsCart[AvailableItem(productId)].quantity === 0) {
+        if (newItemsCart[AvailableItem(productIDSuggestion)].quantity === 0) {
           console.log("runned when quantity reach to 0");
           newItemsCart = newItemsCart.filter((el) => {
-            return el.id !== productId;
+            return el.id !== productIDSuggestion;
           });
         }
       }
@@ -198,14 +167,14 @@ const ProductDetail = ({
   };
 
   const addItem = (id) => {
-    if (!checkNotInCart(id)) {
-      if (HasChild) {
+    if (!checkCart(id)) {
+      if (HasChildSuggestion) {
         setShowModal(PRODUCT_CHILD_MODAL_DETAIL);
       } else {
         setQuantityInCart(quantityInCart + 1);
       }
     } else {
-      if (HasChild) {
+      if (HasChildSuggestion) {
         setShowModal(PRODUCT_CHILD_MODAL_DETAIL);
       } else {
         setQuantityNotinCart(quantityNotinCart + 1);
@@ -214,14 +183,14 @@ const ProductDetail = ({
   };
 
   const minusItem = (id) => {
-    if (!checkNotInCart(id)) {
-      if (HasChild) {
+    if (!checkCart(id)) {
+      if (HasChildSuggestion) {
         setShowModal(PRODUCT_CHILD_MODAL_DETAIL);
       } else {
         setQuantityInCart(quantityInCart - 1);
       }
     } else {
-      if (HasChild) {
+      if (HasChildSuggestion) {
         setShowModal(PRODUCT_CHILD_MODAL_DETAIL);
       } else {
         setQuantityNotinCart(quantityNotinCart - 1);
@@ -237,43 +206,13 @@ const ProductDetail = ({
     );
   };
 
-  const getRandomlySuggestedProducts = (arr, numberOfSuggestions) => {
-    const removeDuplicateSuggestedElement = arr.filter((el) => {
-      return el.id !== productId;
-    });
-
-    const shuffledArray = [...removeDuplicateSuggestedElement].sort(
-      () => 0.5 - Math.random()
-    );
-
-    return shuffledArray.slice(0, numberOfSuggestions);
-  };
-
-  const checkQuantity = (item) => {
-    let quantity = 0;
-    if (item.hasChild) {
-      let ChildItemCarts = itemsCart.filter((el) => {
-        return el.parentId === item.id;
-      });
-
-      for (let i = 0; i < ChildItemCarts.length; i++) {
-        quantity = quantity + ChildItemCarts[i].quantity;
-      }
-
-      return quantity;
-    } else {
-      quantity = itemsCart[AvailableItem(item.id)].quantity;
-      return quantity;
-    }
-  };
-
-  const { data = [] } = productListSuggestion || {};
+  
 
   return (
     <BasicModal
       visible={true}
-      title={`Thông tin chi tiết sản phẩm - ${productName}`}
-      width={1200}
+      title={`Thông tin chi tiết sản phẩm đề xuất - ${productNameSuggestion}`}
+      width={1000}
       onCancel={() => {
         setShow(false);
       }}
@@ -324,9 +263,9 @@ const ProductDetail = ({
                   <div className="inline-buttons">
                     <Button
                       size="large"
-                      disabled={disableButton(productId)}
+                      disabled={disableButton(productIDSuggestion)}
                       onClick={() => {
-                        minusItem(productId);
+                        minusItem(productIDSuggestion);
                       }}
                     >
                       -
@@ -334,7 +273,7 @@ const ProductDetail = ({
                   </div>
                   <div className="inline-buttons" style={{ padding: "0 15px" }}>
                     <div style={{ "font-weight": "bold", color: "#2196F3" }}>
-                      {!checkNotInCart(productId)
+                      {!checkCart(productIDSuggestion)
                         ? quantityInCart
                         : quantityNotinCart}
                     </div>
@@ -343,7 +282,7 @@ const ProductDetail = ({
                     <Button
                       size="large"
                       onClick={() => {
-                        addItem(productId);
+                        addItem(productIDSuggestion);
                       }}
                     >
                       +
@@ -353,15 +292,15 @@ const ProductDetail = ({
                 <div
                   className="product_addtocart"
                   onClick={() => {
-                    if (checkNotInCart(productId)) {
-                      if (HasChild) {
+                    if (checkCart(productIDSuggestion)) {
+                      if (HasChildSuggestion) {
                         setShowModal(PRODUCT_CHILD_MODAL_DETAIL);
                       } else {
                         handleClickAddToCart(dataDetail);
                         setShow(false);
                       }
                     } else {
-                      if (HasChild) {
+                      if (HasChildSuggestion) {
                         setShow(false);
                       } else {
                         if (quantityInCart > 0) {
@@ -374,7 +313,7 @@ const ProductDetail = ({
                     }
                   }}
                 >
-                  {!checkNotInCart(productId) ? (
+                  {!checkCart(productIDSuggestion) ? (
                     <div>Cập nhật giỏ hàng</div>
                   ) : (
                     <div>Thêm vào giỏ hàng</div>
@@ -401,79 +340,13 @@ const ProductDetail = ({
             ></div>
           </div>
         </div>
-        <div className="suggesstion__container">
-          <Divider orientation="left">Sản phẩm đề xuất</Divider>
-          <Spin
-            size="large"
-            wrapperClassName="full-screen-loading"
-            spinning={isLoadingProductListSuggestion}
-          >
-            {
-              <List
-                grid={{
-                  gutter: 16,
-                  column: 4,
-                  xs: 1,
-                  sm: 2,
-                  md: 3,
-                  lg: 4,
-                  xxl: 3,
-                }}
-                dataSource={getRandomlySuggestedProducts(data, 4) || []}
-                pagination={false}
-                renderItem={(item) => (
-                  <List.Item>
-                    <Card
-                      style={{ border: "1px solid #d9d9d" }}
-                      hoverable
-                      cover={
-                        <img
-                          alt="example"
-                          src={
-                            item.productImage
-                              ? `${AppConstants.contentRootUrl}${item.productImage}`
-                              : noimage
-                          }
-                        />
-                      }
-                      onClick={() => {
-                        if (item.hasChild) {
-                          setHasChildSuggestion(true);
-                          setproductIDSuggestion(item.id);
-                          setproductNameSuggestion(item.productName);
-                          setShowModal(PRODUCT_DETAIL_MODAL_SUGGESTION);
-                        } else {
-                          setHasChildSuggestion(false);
-                          setproductIDSuggestion(item.id);
-                          setproductNameSuggestion(item.productName);
-                          setShowModal(PRODUCT_DETAIL_MODAL_SUGGESTION);
-                        }
-                      }}
-                    >
-                      <Meta
-                        style={{ alignItems: "center" }}
-                        title={item.productName}
-                        description={`${Utils.formatNumber(
-                          item.productPrice
-                        )} Đ`}
-                      />
-                    </Card>
-                  </List.Item>
-                )}
-              />
-            }
-          </Spin>
-        </div>
         <ModalsFactory
           showModal={showModal}
           idHash={idHash}
           setShowModal={setShowModal}
           setIdHash={setIdHash}
-          productId={productId}
-          productName={productName}
           productIDSuggestion={productIDSuggestion}
           productNameSuggestion={productNameSuggestion}
-          HasChildSuggestion={HasChildSuggestion}
           prepareUpdateCartChild={prepareUpdateCartChild}
           setprepareUpdateCartChild={setprepareUpdateCartChild}
           quantityInCart={quantityInCart}
@@ -484,4 +357,4 @@ const ProductDetail = ({
   );
 };
 
-export default ProductDetail;
+export default ProductDetailSuggestion;
