@@ -8,6 +8,7 @@ import RecoveryPasswordContainer from '../../../containers/account/RecoveryPassw
 import AddressContainer from '../../../containers/address/AddressContainer'
 import CartContainer from '../../../containers/cart/CartContainer'
 import ProductDetailConatiner from '../../../containers/productList/ProductDetailContainer'
+import ProductDetailConatinerSuggestion from '../../../containers/productList/ProductDetailConatainerSuggestion'
 import {
     ADDRESS_MODAL,
     CART_MODAL,
@@ -19,7 +20,8 @@ import {
     ORDERS_LIST_MODAL,
     PRODUCT_DETAIL_MODAL,
     PRODUCT_CHILD_MODAL,
-    PRODUCT_CHILD_MODAL_DETAIL
+    PRODUCT_CHILD_MODAL_DETAIL,
+    PRODUCT_DETAIL_MODAL_SUGGESTION
 } from '../../../constants/masterData'
 import OrdersListContainer from '../../../containers/orders/OrdersListContainer'
 import ProductChildContainer from '../../../containers/productList/ProductChildContainer'
@@ -31,6 +33,7 @@ function ModalsFactory({
     setShowModal,
     setIdHash,
     productId,
+    categoryID,
     productName,
     timetoCancel,
     handleClickAddToCart,
@@ -42,7 +45,10 @@ function ModalsFactory({
     prepareUpdateCartChild,
     setprepareUpdateCartChild,
     quantityInCart,
-    setQuantityInCart
+    setQuantityInCart,
+    productIDSuggestion,
+    productNameSuggestion,
+    HasChildSuggestion
 }) {
     return ({
         [CART_MODAL]: <CartContainer
@@ -75,6 +81,7 @@ function ModalsFactory({
         [PRODUCT_DETAIL_MODAL]: <ProductDetailConatiner 
         setShow={setShowModal}
         productId={productId}
+        categoryID={categoryID}
         productName={productName}
         HasChild={HasChild}
         />,
@@ -92,11 +99,19 @@ function ModalsFactory({
         setShow={setShowModal}
         productId={productId}
         productName={productName}
+        productIDSuggestion={productIDSuggestion}
+        productNameSuggestion={productNameSuggestion}
         prepareUpdateCartChild={prepareUpdateCartChild}
         setprepareUpdateCartChild={setprepareUpdateCartChild}
         quantityInCart={quantityInCart}
         setQuantityInCart={setQuantityInCart}
-        />
+        />,
+        [PRODUCT_DETAIL_MODAL_SUGGESTION]: <ProductDetailConatinerSuggestion 
+        setShow={setShowModal}
+        productIDSuggestion={productIDSuggestion}
+        productNameSuggestion={productNameSuggestion}
+        HasChildSuggestion={HasChildSuggestion}
+        />,
     })[showModal] ?? null
 }
 

@@ -10,9 +10,10 @@ const { defineActionLoading, defineActionSuccess, defineActionFailed } = reduxUt
 const {
     GET_CATEGORY_TYPE_PRODUCTS,
     GET_PRODUCT_LIST_CLIENT,
+    GET_PRODUCT_LIST_CLIENT_SUGGESTION,
     GET_PRODUCT_LIST_CLIENT_CHILD,
     GET_PRODUCT_AUTO_COMPLETE,
-    GET_PRODUCT_BYID_CLIENT
+    GET_PRODUCT_BYID_CLIENT,
 } = actionTypes;
 
 
@@ -49,6 +50,14 @@ function* getProductListClient({ payload: { params, onCompleted } }) {
         searchParams.categoryId = params.categoryId
     }
 
+    if(params.newFilterValue1) {
+        searchParams.price1 = params.newFilterValue1
+    }
+
+    if(params.newFilterValue2) {
+        searchParams.price2 = params.newFilterValue2
+    }
+
     try {
         const { success, responseData } = yield call(sendRequest, apiParams, searchParams);
         if(success && responseData.result) {
@@ -62,6 +71,34 @@ function* getProductListClient({ payload: { params, onCompleted } }) {
     catch(error) {
         console.log(error);
         yield put({ type: defineActionFailed(GET_PRODUCT_LIST_CLIENT) });
+    }
+}
+
+function* getProductListClientSuggestion({ payload: { params, onCompleted } }) {
+    const apiParams = apiConfig.product.getProductClientList;
+    const searchParams = { page: params.page, size: params.size };
+    
+    if(params.name) {
+        searchParams.name = params.name
+    }
+
+    if(params.categoryId) {
+        searchParams.categoryId = params.categoryId
+    }
+
+    try {
+        const { success, responseData } = yield call(sendRequest, apiParams, searchParams);
+        if(success && responseData.result) {
+            yield put({
+                type: defineActionSuccess(GET_PRODUCT_LIST_CLIENT_SUGGESTION),
+                productDataSuggestion: responseData.data,
+            });
+            onCompleted && onCompleted()
+        }
+    }
+    catch(error) {
+        console.log(error);
+        yield put({ type: defineActionFailed(GET_PRODUCT_LIST_CLIENT_SUGGESTION) });
     }
 }
 
@@ -134,6 +171,7 @@ function* getProductAutoComplete({ payload: { params } }) {
 const sagas = [
     takeLatest(defineActionLoading(GET_CATEGORY_TYPE_PRODUCTS), getCategoryTypeProducts),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT), getProductListClient),
+    takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT_SUGGESTION), getProductListClientSuggestion),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT_CHILD), getProductListClientChild),
     takeLatest(GET_PRODUCT_AUTO_COMPLETE, getProductAutoComplete),
     takeLatest(GET_PRODUCT_BYID_CLIENT, getProductByIdClient)

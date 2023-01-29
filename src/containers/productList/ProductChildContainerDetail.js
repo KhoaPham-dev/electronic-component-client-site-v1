@@ -2,7 +2,7 @@ import React from 'react';
 
 import ProductChildDetail from '../../components/product/ProductChildDetail';
 
-const ProductChildContainerDetail = ({setShow, productId, productName, prepareUpdateCartChild, setprepareUpdateCartChild, quantityInCart, setQuantityInCart}) => {
+const ProductChildContainerDetail = ({setShow, productId, productName, productIDSuggestion, productNameSuggestion, prepareUpdateCartChild, setprepareUpdateCartChild, quantityInCart, setQuantityInCart}) => {
 
 
 
@@ -11,6 +11,8 @@ const ProductChildContainerDetail = ({setShow, productId, productName, prepareUp
         setShow={setShow}
         productId={productId}
         productName={productName}
+        productIDSuggestion={productIDSuggestion}
+        productNameSuggestion={productNameSuggestion}
         prepareUpdateCartChild={prepareUpdateCartChild}
         setprepareUpdateCartChild={setprepareUpdateCartChild}
         quantityInCart={quantityInCart}
