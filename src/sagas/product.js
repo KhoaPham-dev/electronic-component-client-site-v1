@@ -14,6 +14,7 @@ const {
     GET_PRODUCT_LIST_CLIENT_CHILD,
     GET_PRODUCT_AUTO_COMPLETE,
     GET_PRODUCT_BYID_CLIENT,
+    GET_BEST_SELLING_PRODUCTS_BY_SIZE
 } = actionTypes;
 
 
@@ -167,12 +168,31 @@ function* getProductAutoComplete({ payload: { params } }) {
     }
 }
 
+function* getBestSellingProductsBySize({payload: {params, onError}}) {
+    const apiParams = apiConfig.product.getBestSellingProductsBySize;
+    const searchParams = { size: params.size };
+
+    try {
+        const { success, responseData } = yield call(sendRequest, apiParams, searchParams);
+        if (success && responseData.result) {
+            yield put({
+                type: defineActionSuccess(GET_BEST_SELLING_PRODUCTS_BY_SIZE),
+                productsBestSelling: responseData.data.data
+            });
+        }
+    }
+    catch(error) {
+        onError();
+    }
+}
+
 
 const sagas = [
     takeLatest(defineActionLoading(GET_CATEGORY_TYPE_PRODUCTS), getCategoryTypeProducts),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT), getProductListClient),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT_SUGGESTION), getProductListClientSuggestion),
     takeLatest(defineActionLoading(GET_PRODUCT_LIST_CLIENT_CHILD), getProductListClientChild),
+    takeLatest(defineActionLoading(GET_BEST_SELLING_PRODUCTS_BY_SIZE), getBestSellingProductsBySize),
     takeLatest(GET_PRODUCT_AUTO_COMPLETE, getProductAutoComplete),
     takeLatest(GET_PRODUCT_BYID_CLIENT, getProductByIdClient)
 ]

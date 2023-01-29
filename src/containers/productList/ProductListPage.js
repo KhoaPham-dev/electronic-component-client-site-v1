@@ -4,11 +4,13 @@ import {
   productListSelector,
   tbproductListLoadingSelector,
   newFilterValue1Selector,
-  newFilterValue2Selector
+  newFilterValue2Selector,
+  tbproductBestSellingLoading,
+  productsBestSellingSelector,
 } from "../../selectors/product";
 import { itemsCartSelector } from "../../selectors/cart";
 import { actions } from "../../actions";
-import { List, Card, Spin, Button, Modal } from "antd";
+import { List, Card, Spin, Button, Modal, Divider } from "antd";
 import { AppConstants } from "../../constants/index";
 import noimage from "../../assets/images/noimage.png";
 import Utils from "../../utils";
@@ -24,7 +26,9 @@ const { confirm } = Modal;
 
 const ProductListPage = () => {
   const productList = useSelector(productListSelector);
+  const productBestSellingList = useSelector(productsBestSellingSelector);
   const isLoading = useSelector(tbproductListLoadingSelector);
+  const isLoadingProductsBestSelling = useSelector(tbproductBestSellingLoading);
   const itemsCart = useSelector(itemsCartSelector);
   const newFilterValue1 = useSelector(newFilterValue1Selector);
   const newFilterValue2 = useSelector(newFilterValue2Selector);
@@ -172,16 +176,22 @@ const ProductListPage = () => {
           page: page,
           size: pagination.pageSize,
           newFilterValue1,
-          newFilterValue2
+          newFilterValue2,
+        },
+      })
+    );
+    dispatch(
+      actions.getBestSellingProductBySize({
+        params: {
+          size: 5,
         },
       })
     );
   }, []);
 
   const { data = [] } = productList || {};
+  console.log(productBestSellingList);
   pagination.total = productList.totalElements;
-  console.log(pagination.total);
-  console.log(data);
 
   function areEquals(a, b) {
     var keys1 = Object.keys(a);
@@ -227,7 +237,7 @@ const ProductListPage = () => {
                     page: page - 1,
                     size: pagination.pageSize,
                     newFilterValue1,
-                    newFilterValue2
+                    newFilterValue2,
                   },
                 })
               );
@@ -337,6 +347,123 @@ const ProductListPage = () => {
           )}
         />
       }
+      <Divider orientation="left">
+        Danh sách sản phẩm bán chạy nhất shop
+      </Divider>
+      {/* For best selling products list */}
+      <List
+        loading={isLoadingProductsBestSelling}
+        grid={{
+          gutter: 16,
+          column: 4,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xxl: 3,
+        }}
+        dataSource={productBestSellingList || []}
+        pagination={false}
+        renderItem={(item) => (
+          <List.Item>
+            <Card
+              style={{ border: "1px solid #d9d9d" }}
+              hoverable
+              cover={
+                <img
+                  alt="example"
+                  src={
+                    item.productImage
+                      ? `${AppConstants.contentRootUrl}${item.productImage}`
+                      : noimage
+                  }
+                />
+              }
+              onClick={() => {
+                if (item.hasChild) {
+                  setHasChild(true);
+                  setproductID(item.id);
+                  setcategoryID(item.categoryId);
+                  setproductName(item.productName);
+                  setShowModal(PRODUCT_DETAIL_MODAL);
+                } else {
+                  setHasChild(false);
+                  setproductID(item.id);
+                  setcategoryID(item.categoryId);
+                  setproductName(item.productName);
+                  setShowModal(PRODUCT_DETAIL_MODAL);
+                }
+              }}
+            >
+              <Meta
+                style={{ alignItems: "center" }}
+                title={item.productName}
+                description={`${Utils.formatNumber(item.productPrice)} Đ`}
+              />
+            </Card>
+            {checkCart(item) ? (
+              <div
+                className="button-add-to-cart"
+                onClick={() => {
+                  if (item.hasChild) {
+                    setproductID(item.id);
+                    setproductName(item.productName);
+                    setShowModal(PRODUCT_CHILD_MODAL);
+                  } else {
+                    handleClickAddToCart(item);
+                  }
+                }}
+              >
+                <div>Thêm vào giỏ hàng</div>
+              </div>
+            ) : (
+              <div className="container-plus-minus-buttons">
+                <div className="inline-buttons">
+                  <Button
+                    size="large"
+                    onClick={() => {
+                      if (item.hasChild) {
+                        setproductID(item.id);
+                        setproductName(item.productName);
+                        setShowModal(PRODUCT_CHILD_MODAL);
+                      } else {
+                        if (itemsCart[AvailableItem(item.id)].quantity > 1) {
+                          minusItem(item.id);
+                        } else {
+                          handleDeleteItem(item.id);
+                        }
+                      }
+                    }}
+                  >
+                    -
+                  </Button>
+                </div>
+                <div className="inline-buttons" style={{ padding: "0 15px" }}>
+                  <div style={{ fontWeight: "bold", color: "#2196F3" }}>
+                    {checkQuantity(item)}
+                  </div>
+                </div>
+                <div className="inline-buttons">
+                  <Button
+                    size="large"
+                    onClick={() => {
+                      if (item.hasChild) {
+                        setproductID(item.id);
+                        setproductName(item.productName);
+                        setShowModal(PRODUCT_CHILD_MODAL);
+                      } else {
+                        addItem(item.id);
+                      }
+                    }}
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
+            )}
+          </List.Item>
+        )}
+      />
       <ModalsFactory
         showModal={showModal}
         idHash={idHash}
