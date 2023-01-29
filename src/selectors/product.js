@@ -30,9 +30,19 @@ export const tbproductListLoadingSelectorSuggestion = createSelector(
     product => product.tbproductSuggestionLoading
 )
 
+export const tbproductBestSellingLoading = createSelector(
+    [state => state.product],
+    product => product.tbproductBestSellingLoading
+)
+
 export const productSearchListSelector = createSelector(
     [state => state.product],
     product => product.productSearchList
+)
+
+export const productsBestSellingSelector = createSelector(
+    [state => state.product],
+    product => product.productsBestSelling
 )
 
 export const newFilterValue1Selector = createSelector(

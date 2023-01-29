@@ -12,6 +12,7 @@ export const actionTypes = {
     GET_CATEGORY_TYPE_PRODUCTS: defineAction('GET_CATEGORY_TYPE_PRODUCTS'),
     GET_PRODUCT_AUTO_COMPLETE: defineAction('GET_PRODUCT_AUTO_COMPLETE'),
     GET_PRODUCT_BYID_CLIENT: defineAction('GET_PRODUCT_BYID_CLIENT'),
+    GET_BEST_SELLING_PRODUCTS_BY_SIZE: defineAction('GET_BEST_SELLING_PRODUCTS_BY_SIZE'),
     GET_PRODUCT_FILTER_PRICE1: defineAction('GET_PRODUCT_FILTER_PRICE1'),
     GET_PRODUCT_FILTER_PRICE2: defineAction('GET_PRODUCT_FILTER_PRICE2')
 }
@@ -23,6 +24,7 @@ export const actions = {
     getCategoryTypeProducts: createActionWithLoading(actionTypes.GET_CATEGORY_TYPE_PRODUCTS),
     getProductAutoComplete: createAction(actionTypes.GET_PRODUCT_AUTO_COMPLETE),
     getProudctByIdClient: createAction(actionTypes.GET_PRODUCT_BYID_CLIENT),
+    getBestSellingProductBySize: createActionWithLoading(actionTypes.GET_BEST_SELLING_PRODUCTS_BY_SIZE),
     getProductFilterPrice1: createAction(actionTypes.GET_PRODUCT_FILTER_PRICE1),
     getProductFilterPrice2: createAction(actionTypes.GET_PRODUCT_FILTER_PRICE2)
 }

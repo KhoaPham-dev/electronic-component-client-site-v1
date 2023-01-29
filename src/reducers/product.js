@@ -9,6 +9,7 @@ const {
     GET_PRODUCT_LIST_CLIENT_SUGGESTION,
     GET_PRODUCT_LIST_CLIENT_CHILD,
     GET_PRODUCT_AUTO_COMPLETE,
+    GET_BEST_SELLING_PRODUCTS_BY_SIZE,
     GET_PRODUCT_FILTER_PRICE1,
     GET_PRODUCT_FILTER_PRICE2
 } = actionTypes;
@@ -20,7 +21,9 @@ const initialState = {
     productDataChild: [],
     tbproductLoading: false,
     tbproductSuggestionLoading: false,
+    tbproductBestSellingLoading: false,
     productSearchList: [],
+    productsBestSelling: [],
     newFilterValue1: 10000,
     newFilterValue2: 55000
 };
@@ -108,6 +111,19 @@ const reducer = createReducer({
         return {
             ...state,
             productSearchList,
+        }
+    },
+    [defineActionLoading(GET_BEST_SELLING_PRODUCTS_BY_SIZE)]: (state) => {
+        return {
+            ...state,
+            tbproductBestSellingLoading: true
+        }
+    },
+    [defineActionSuccess(GET_BEST_SELLING_PRODUCTS_BY_SIZE)]: (state, { productsBestSelling }) => {
+        return {
+            ...state,
+            tbproductBestSellingLoading: false,
+            productsBestSelling
         }
     }
 }, initialState)
